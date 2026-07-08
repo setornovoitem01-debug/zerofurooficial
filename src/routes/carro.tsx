@@ -426,12 +426,15 @@ function CarroPage() {
                     key={`${kit.key}-${active}`}
                     src={kit.images[active].url}
                     alt={kit.titulo}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-full h-full object-contain animate-in fade-in duration-300"
                   />
                 </div>
                 <button
                   type="button"
-                  onClick={() => setActive((active - 1 + kit.images.length) % kit.images.length)}
+                  onClick={() => setActive((a) => (a - 1 + kit.images.length) % kit.images.length)}
                   aria-label="Imagem anterior"
                   className="absolute left-2 md:-left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
                 >
@@ -439,7 +442,7 @@ function CarroPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setActive((active + 1) % kit.images.length)}
+                  onClick={() => setActive((a) => (a + 1) % kit.images.length)}
                   aria-label="Próxima imagem"
                   className="absolute right-2 md:-right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
                 >
