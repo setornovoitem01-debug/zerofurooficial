@@ -332,6 +332,11 @@ function CarroPage() {
   const [active, setActive] = useState(0);
   const kit = aro ? kits[aro] : null;
 
+  // Pré-carrega todas as imagens do kit selecionado — troca de slide vira instantânea.
+  const kitUrls = useMemo(() => (kit ? kit.images.map((i) => i.url) : []), [kit]);
+  useImagePreload(kitUrls);
+
+
   const selectAro = (k: AroKey) => {
     setAro(k);
     setActive(0);
