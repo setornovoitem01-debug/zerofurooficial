@@ -12,14 +12,30 @@ const KEY = "zerofuro:cart";
 
 const listeners = new Set<() => void>();
 
+// Cache do snapshot para manter identidade de referência estável entre renders.
+// Sem isso, useSyncExternalStore vê um objeto novo a cada leitura (JSON.parse)
+// e entra em loop infinito de re-render.
+let cachedRaw: string | null = null;
+let cachedItem: CartItem | null = null;
+let cacheInitialized = false;
+
 function read(): CartItem | null {
   if (typeof window === "undefined") return null;
+  let raw: string | null = null;
   try {
-    const raw = window.sessionStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as CartItem) : null;
+    raw = window.sessionStorage.getItem(KEY);
   } catch {
-    return null;
+    raw = null;
   }
+  if (cacheInitialized && raw === cachedRaw) return cachedItem;
+  cachedRaw = raw;
+  cacheInitialized = true;
+  try {
+    cachedItem = raw ? (JSON.parse(raw) as CartItem) : null;
+  } catch {
+    cachedItem = null;
+  }
+  return cachedItem;
 }
 
 function write(item: CartItem | null) {
@@ -30,6 +46,8 @@ function write(item: CartItem | null) {
   } catch {
     /* ignore */
   }
+  // Invalida o cache para a próxima leitura reflitir o valor gravado.
+  cacheInitialized = false;
   listeners.forEach((l) => l());
 }
 
@@ -41,13 +59,17 @@ export function clearCart() {
   write(null);
 }
 
+const getServerSnapshot = () => null;
+
 export function useCart(): CartItem | null {
   return useSyncExternalStore(
     (l) => {
       listeners.add(l);
-      return () => listeners.delete(l);
+      return () => {
+        listeners.delete(l);
+      };
     },
     read,
-    () => null,
+    getServerSnapshot,
   );
 }
