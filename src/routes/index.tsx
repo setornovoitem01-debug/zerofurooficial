@@ -174,7 +174,7 @@ function Landing() {
               R$ {oldPrice.toFixed(2).replace(".", ",")}
             </div>
             <div className="flex items-baseline gap-3">
-              <div className="text-4xl md:text-5xl font-light tracking-tight">
+              <div className="text-4xl md:text-5xl font-light tracking-tight text-emerald-600">
                 R$ <span className="font-medium">{price.toFixed(2).replace(".", ",")}</span>
               </div>
               <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
@@ -193,7 +193,7 @@ function Landing() {
           <div className="mt-6">
             <button
               type="button"
-              className="w-full h-12 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition"
+              className="w-full h-12 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[15px] transition shadow-md shadow-emerald-600/20"
             >
               Comprar agora
             </button>
@@ -326,6 +326,14 @@ function Landing() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={200}>
+            <div className="mt-12 text-center">
+              <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[15px] transition shadow-lg shadow-emerald-600/20">
+                Quero garantir o meu
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -387,6 +395,25 @@ function Landing() {
             </div>
           </Reveal>
         </div>
+      </section>
+
+      {/* CTA antes das especificações */}
+      <section className="max-w-6xl mx-auto px-4 pb-14 md:pb-20">
+        <Reveal>
+          <div className="rounded-2xl bg-[color:var(--color-ink)] text-white px-6 py-10 md:px-12 md:py-14 text-center">
+            <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
+              Leve o seu com <span className="text-emerald-400">72% de desconto</span>
+            </h3>
+            <p className="mt-3 text-white/70 max-w-xl mx-auto">
+              Estoque limitado. Aproveite o preço promocional enquanto durar.
+            </p>
+            <div className="mt-6">
+              <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[15px] transition shadow-lg shadow-emerald-600/30">
+                Comprar agora por R$ 55,90
+              </a>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* Specs */}
