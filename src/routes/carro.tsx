@@ -349,7 +349,7 @@ function CarroPage() {
   return (
     <div className="min-h-screen bg-white text-[color:var(--color-ink)] font-sans antialiased overflow-x-hidden">
       {/* Header */}
-      <header className="border-b border-[color:var(--color-line)] sticky top-0 bg-white/95 backdrop-blur z-40">
+      <header className="border-b border-[color:var(--color-line)] sticky top-0 bg-white z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-center px-4 py-3.5">
           <Link to="/" preload="viewport" aria-label="Ir para a página inicial">
             <img src={logo.url} alt="Zero Furo" className="h-8 sm:h-10" />
