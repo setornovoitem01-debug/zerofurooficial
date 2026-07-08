@@ -32,6 +32,22 @@ import p7 from "@/assets/produto-7.png.asset.json";
 import p8 from "@/assets/produto-8.png.asset.json";
 
 export const Route = createFileRoute("/compressor")({
+  head: () => ({
+    meta: [
+      { title: "Compressor de Ar Portátil 3 em 1 — Zero Furo" },
+      {
+        name: "description",
+        content:
+          "Compressor de Ar Portátil Zero Furo 3 em 1: enche pneus em minutos, Power Bank e Lanterna LED. Cabe no porta-luvas.",
+      },
+      { property: "og:title", content: "Compressor de Ar Portátil 3 em 1 — Zero Furo" },
+      {
+        property: "og:description",
+        content:
+          "Enche pneus em minutos, carrega o celular e ilumina o caminho. Tudo num único aparelho.",
+      },
+    ],
+  }),
   component: Landing,
 });
 

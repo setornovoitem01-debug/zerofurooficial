@@ -8,15 +8,12 @@ import { useEffect } from "react";
 export function useImagePreload(urls: string[]) {
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const imgs = urls.map((url) => {
+    // Dispara os downloads em paralelo; o browser cacheia por URL.
+    // Não guardamos referências — o cache HTTP faz o trabalho.
+    for (const url of urls) {
       const img = new Image();
       img.decoding = "async";
       img.src = url;
-      return img;
-    });
-    return () => {
-      // Solta as referências para o GC.
-      imgs.length = 0;
-    };
+    }
   }, [urls]);
 }
