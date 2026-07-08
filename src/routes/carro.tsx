@@ -562,7 +562,7 @@ function CarroPage() {
               {kit.images.map((img, i) => (
                 <Reveal key={i} delay={i * 60}>
                   <div className="group aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-4 md:p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <img src={img.url} alt={`${kit.titulo} - imagem ${i + 1}`} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                    <img src={img.url} alt={`${kit.titulo} - imagem ${i + 1}`} loading="lazy" decoding="async" className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
                   </div>
                 </Reveal>
               ))}
