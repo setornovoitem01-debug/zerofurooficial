@@ -757,7 +757,15 @@ function TrustFooter() {
   );
 }
 
-function ResumoPedido({ item }: { item: { name: string; image: string; price: number; oldPrice?: number } }) {
+function ResumoPedido({
+  item,
+  shipping,
+  total,
+}: {
+  item: { name: string; image: string; price: number; oldPrice?: number };
+  shipping: ShippingOption | null;
+  total: number;
+}) {
   return (
     <aside className="bg-white rounded-xl border border-[color:var(--color-line)] p-5 h-fit lg:sticky lg:top-24">
       <h3 className="text-sm font-semibold uppercase tracking-wider text-[color:var(--color-ink-soft)]">
@@ -779,8 +787,21 @@ function ResumoPedido({ item }: { item: { name: string; image: string; price: nu
           <dd>{brl(item.price)}</dd>
         </div>
         <div className="flex justify-between">
-          <dt className="text-[color:var(--color-ink-soft)]">Frete</dt>
-          <dd className="text-emerald-700 font-medium">Grátis</dd>
+          <dt className="text-[color:var(--color-ink-soft)]">
+            Frete
+            {shipping && (
+              <span className="block text-[11px] text-[color:var(--color-ink-soft)]/80">
+                {shipping.label} · {shipping.eta}
+              </span>
+            )}
+          </dt>
+          <dd className={shipping && shipping.price === 0 ? "text-emerald-700 font-medium" : ""}>
+            {!shipping
+              ? "—"
+              : shipping.price === 0
+              ? "Grátis"
+              : brl(shipping.price)}
+          </dd>
         </div>
         {item.oldPrice && item.oldPrice > item.price && (
           <div className="flex justify-between text-xs text-[color:var(--color-ink-soft)]">
@@ -794,7 +815,7 @@ function ResumoPedido({ item }: { item: { name: string; image: string; price: nu
 
       <div className="mt-4 pt-4 border-t border-[color:var(--color-line)] flex justify-between items-baseline">
         <span className="text-sm font-semibold">Total</span>
-        <span className="text-2xl font-semibold text-emerald-700">{brl(item.price)}</span>
+        <span className="text-2xl font-semibold text-emerald-700">{brl(total)}</span>
       </div>
 
       <div className="mt-3 text-[11px] text-[color:var(--color-ink-soft)] flex items-center gap-1.5">
