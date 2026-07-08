@@ -8,6 +8,7 @@ import {
   Check,
   Star,
   ChevronRight,
+  ChevronLeft,
   Zap,
   Battery,
   Flashlight,
@@ -96,45 +97,24 @@ function Landing() {
 
       {/* Hero de apresentação */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-surface)] to-white">
-        <div className="max-w-7xl mx-auto px-4 py-12 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+        <div className="max-w-3xl mx-auto px-4 py-14 md:py-24 text-center">
           <Reveal>
-            <div>
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
-                <Zap className="h-3.5 w-3.5" /> Lançamento • 3 em 1
-              </span>
-              <h1 className="mt-5 text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
-                Nunca mais fique <span className="text-[color:var(--color-brand)]">na mão</span> com pneu vazio.
-              </h1>
-              <p className="mt-5 text-lg text-[color:var(--color-ink-soft)] leading-relaxed max-w-xl">
-                Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#comprar" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition shadow-lg shadow-[color:var(--color-brand)]/20">
-                  Quero o meu agora
-                </a>
-                <a href="#descricao" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
-                  Ver detalhes
-                </a>
-              </div>
-              <div className="mt-6 flex items-center gap-4 text-sm text-[color:var(--color-ink-soft)]">
-                <div className="flex text-[color:var(--color-brand)]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" />
-                  ))}
-                </div>
-                <span>4.9 • +12.437 clientes satisfeitos</span>
-              </div>
-            </div>
-          </Reveal>
-          <Reveal delay={150}>
-            <div className="relative">
-              <div className="absolute inset-0 bg-[color:var(--color-brand)]/10 blur-3xl rounded-full" />
-              <div className="relative aspect-square rounded-2xl bg-white border border-[color:var(--color-line)] p-8 md:p-12 shadow-xl">
-                <img src={p1.url} alt="Compressor de Ar Portátil 3 em 1 Zero Furo" className="w-full h-full object-contain" />
-                <span className="absolute top-4 left-4 bg-[color:var(--color-brand)] text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                  -50% HOJE
-                </span>
-              </div>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
+              <Zap className="h-3.5 w-3.5" /> Lançamento • 3 em 1
+            </span>
+            <h1 className="mt-6 text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
+              Nunca mais fique <span className="text-[color:var(--color-brand)]">na mão</span> com pneu vazio.
+            </h1>
+            <p className="mt-5 text-lg text-[color:var(--color-ink-soft)] leading-relaxed max-w-xl mx-auto">
+              Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3 justify-center">
+              <a href="#comprar" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition shadow-lg shadow-[color:var(--color-brand)]/20">
+                Quero o meu agora
+              </a>
+              <a href="#descricao" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
+                Ver detalhes
+              </a>
             </div>
           </Reveal>
         </div>
@@ -154,27 +134,8 @@ function Landing() {
       {/* Product area */}
       <section className="max-w-7xl mx-auto px-4 pb-10 md:pb-16 grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-10">
         {/* Gallery */}
-        <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-4 min-w-0 w-full">
-          {/* Thumbs */}
-          <div className="flex md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-visible md:max-h-[520px] md:pr-1 justify-center md:justify-start scrollbar-thin px-1 -mx-1">
-            {images.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                className={`shrink-0 h-16 w-16 md:h-20 md:w-20 rounded-lg border-2 overflow-hidden bg-[color:var(--color-surface)] transition-all ${
-                  active === i
-                    ? "border-[color:var(--color-ink)]"
-                    : "border-[color:var(--color-line)] hover:border-[color:var(--color-ink-soft)]"
-                }`}
-                aria-label={`Ver imagem ${i + 1}`}
-              >
-                <img src={img.url} alt="" className="w-full h-full object-contain p-1" />
-              </button>
-            ))}
-          </div>
-
-          {/* Main image */}
-          <div className="relative w-full md:flex-1 min-w-0">
+        <div className="min-w-0 w-full">
+          <div className="relative w-full max-w-lg mx-auto">
             <div className="aspect-square rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] overflow-hidden flex items-center justify-center p-6 md:p-10">
               <img
                 key={active}
@@ -183,18 +144,42 @@ function Landing() {
                 className="w-full h-full object-contain animate-in fade-in duration-300"
               />
             </div>
-            <span className="absolute top-3 left-3 bg-[color:var(--color-brand)] text-white text-[11px] font-bold px-2.5 py-1 rounded">
-              -50%
-            </span>
+            <button
+              type="button"
+              onClick={() => setActive((active - 1 + images.length) % images.length)}
+              aria-label="Imagem anterior"
+              className="absolute left-2 md:-left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setActive((active + 1) % images.length)}
+              aria-label="Próxima imagem"
+              className="absolute right-2 md:-right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                aria-label={`Ver imagem ${i + 1}`}
+                className={`h-2 rounded-full transition-all ${
+                  active === i
+                    ? "w-6 bg-[color:var(--color-ink)]"
+                    : "w-2 bg-[color:var(--color-line)] hover:bg-[color:var(--color-ink-soft)]"
+                }`}
+              />
+            ))}
           </div>
         </div>
 
         {/* Buy panel */}
         <div id="comprar" className="lg:sticky lg:top-24 self-start scroll-mt-24">
-          <div className="text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
-            Novo • Mais vendido
-          </div>
-          <h1 className="mt-2 text-2xl md:text-[28px] font-semibold leading-tight tracking-tight">
+          <h1 className="text-2xl md:text-[28px] font-semibold leading-tight tracking-tight">
             Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED
           </h1>
 
