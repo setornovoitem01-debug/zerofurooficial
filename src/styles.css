@@ -14,12 +14,21 @@ html {
   background-color: #047857;
   color: #ffffff;
   transition: background-color 200ms ease, transform 200ms ease;
-  animation: cta-pulse 2s ease-out infinite;
 }
-.cta-green:hover {
+.cta-green:hover,
+.cta-green:focus-visible {
   background-color: #065f46;
   transform: translateY(-1px);
-  animation: cta-pulse 1s ease-out infinite;
+  animation: cta-pulse 1.2s ease-out infinite;
+}
+.cta-green:active {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cta-green:hover,
+  .cta-green:focus-visible { animation: none; transform: none; }
 }
 
 @source "../src";
