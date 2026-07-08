@@ -127,12 +127,15 @@ function Landing() {
                 key={active}
                 src={images[active].url}
                 alt="Compressor de Ar Portátil 3 em 1 Zero Furo"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
                 className="w-full h-full object-contain animate-in fade-in duration-300"
               />
             </div>
             <button
               type="button"
-              onClick={() => setActive((active - 1 + images.length) % images.length)}
+              onClick={() => setActive((a) => (a - 1 + images.length) % images.length)}
               aria-label="Imagem anterior"
               className="absolute left-2 md:-left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
             >
@@ -140,7 +143,7 @@ function Landing() {
             </button>
             <button
               type="button"
-              onClick={() => setActive((active + 1) % images.length)}
+              onClick={() => setActive((a) => (a + 1) % images.length)}
               aria-label="Próxima imagem"
               className="absolute right-2 md:-right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
             >
@@ -260,7 +263,7 @@ function Landing() {
           {images.map((img, i) => (
             <Reveal key={i} delay={i * 60}>
               <div className="group aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-4 md:p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                <img src={img.url} alt={`Compressor Zero Furo - imagem ${i + 1}`} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                <img src={img.url} alt={`Compressor Zero Furo - imagem ${i + 1}`} loading="lazy" decoding="async" className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
               </div>
             </Reveal>
           ))}
@@ -342,7 +345,7 @@ function Landing() {
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <Reveal>
             <div className="aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-8">
-              <img src={p3.url} alt="Detalhe do compressor" className="w-full h-full object-contain" />
+              <img src={p3.url} alt="Detalhe do compressor" loading="lazy" decoding="async" className="w-full h-full object-contain" />
             </div>
           </Reveal>
           <Reveal delay={120}>
@@ -364,7 +367,7 @@ function Landing() {
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <Reveal className="md:order-2">
             <div className="aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-8">
-              <img src={p4.url} alt="Display digital e LED" className="w-full h-full object-contain" />
+              <img src={p4.url} alt="Display digital e LED" loading="lazy" decoding="async" className="w-full h-full object-contain" />
             </div>
           </Reveal>
           <Reveal delay={120} className="md:order-1">
