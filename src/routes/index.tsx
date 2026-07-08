@@ -56,7 +56,6 @@ type Categoria = {
 
 const categorias: Categoria[] = [
   { nome: "Selante Zero Furo Para Seu Carro", Icon: Car, to: "/carro" },
-  { nome: "Selante Zero Furo Para Sua Moto", Icon: Bike, to: "/" },
   { nome: "Compressor de Ar Portátil 3 em 1", Icon: Wrench, to: "/compressor" },
 ];
 
