@@ -241,7 +241,9 @@ function CarrinhoPage() {
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-6 md:py-10">
-        <Stepper step={step} />
+        <div className="mx-auto w-full max-w-xl">
+          <Stepper step={step} />
+        </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
           <div className="bg-white rounded-xl border border-[color:var(--color-line)] p-5 md:p-8">
@@ -317,7 +319,7 @@ function Stepper({ step }: { step: Step }) {
     { n: 3, label: "Pagamento", Icon: QrCode },
   ] as const;
   return (
-    <ol className="flex items-center gap-2 md:gap-4">
+    <ol className="flex items-center justify-center gap-2 md:gap-4">
       {steps.map((s, i) => {
         const done = step > s.n;
         const active = step === s.n;
