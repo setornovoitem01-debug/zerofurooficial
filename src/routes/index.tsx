@@ -8,6 +8,7 @@ import {
   Check,
   Star,
   ChevronRight,
+  ChevronLeft,
   Zap,
   Battery,
   Flashlight,
