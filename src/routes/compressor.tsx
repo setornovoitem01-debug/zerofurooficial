@@ -146,9 +146,9 @@ function Landing() {
               Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 justify-center">
-                <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+                <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                   Quero o meu agora
-                </a>
+                </button>
                 <a href="#descricao" className="inline-flex items-center justify-center h-12 px-8 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
                   Ver detalhes
                 </a>
@@ -236,6 +236,7 @@ function Landing() {
           <div className="mt-6">
             <button
               type="button"
+              onClick={handleBuy}
               className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
             >
               Comprar agora
@@ -309,9 +310,9 @@ function Landing() {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+          <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
             Comprar agora
-          </a>
+          </button>
         </div>
       </section>
 
@@ -372,9 +373,9 @@ function Landing() {
 
           <Reveal delay={200}>
             <div className="mt-12 text-center">
-              <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+              <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                 Quero garantir o meu
-              </a>
+              </button>
             </div>
           </Reveal>
         </div>
@@ -451,9 +452,9 @@ function Landing() {
               Estoque limitado. Aproveite o preço promocional enquanto durar.
             </p>
             <div className="mt-6">
-              <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+              <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                 Comprar agora por R$ 55,90
-              </a>
+              </button>
             </div>
           </div>
         </Reveal>
