@@ -541,12 +541,28 @@ function Landing() {
             ))}
           </div>
 
-          <div className="mt-10 pt-6 border-t border-[color:var(--color-line)]">
-            <p className="text-xs text-[color:var(--color-ink-soft)] leading-relaxed">
-              A loja Zero Furo é operada pela Social S.A. CNPJ: 28.511.223/0004-85 — Endereço:
-              Av. Caio Cotrim, 46, Galpão 01, 02 e 03 Setor CLI 2 — Itapevi - SP, CEP: 06696-060
-              — 2026 Copyright Zero Furo. Todos os direitos reservados.
-            </p>
+          <div className="mt-10 pt-8 border-t border-[color:var(--color-line)]">
+            <div className="grid gap-6 md:grid-cols-2 text-xs text-[color:var(--color-ink-soft)] leading-relaxed">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-ink)] mb-2">
+                  Razão social
+                </div>
+                <p>A loja Zero Furo é operada pela</p>
+                <p className="text-[color:var(--color-ink)] font-medium">Social S.A.</p>
+                <p className="mt-1">CNPJ: 28.511.223/0004-85</p>
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-ink)] mb-2">
+                  Endereço
+                </div>
+                <p>Av. Caio Cotrim, 46 — Galpão 01, 02 e 03</p>
+                <p>Setor CLI 2 — Itapevi/SP</p>
+                <p>CEP: 06696-060</p>
+              </div>
+            </div>
+            <div className="mt-8 pt-5 border-t border-[color:var(--color-line)] text-center text-[11px] text-[color:var(--color-ink-soft)]">
+              © 2026 Zero Furo. Todos os direitos reservados.
+            </div>
           </div>
         </div>
       </footer>
