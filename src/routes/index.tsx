@@ -106,12 +106,12 @@ function Landing() {
               Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 justify-center">
-              <a href="#comprar" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition shadow-lg shadow-[color:var(--color-brand)]/20">
-                Quero o meu agora
-              </a>
-              <a href="#descricao" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
-                Ver detalhes
-              </a>
+                <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition shadow-lg shadow-[color:var(--color-brand)]/20">
+                  Quero o meu agora
+                </a>
+                <a href="#descricao" className="inline-flex items-center justify-center h-12 px-8 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
+                  Ver detalhes
+                </a>
             </div>
           </Reveal>
         </div>
