@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CompressorRouteImport } from './routes/compressor'
+import { Route as CarroRouteImport } from './routes/carro'
 import { Route as IndexRouteImport } from './routes/index'
 
 const CompressorRoute = CompressorRouteImport.update({
   id: '/compressor',
   path: '/compressor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarroRoute = CarroRouteImport.update({
+  id: '/carro',
+  path: '/carro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/compressor'
+  fullPaths: '/' | '/carro' | '/compressor'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/compressor'
-  id: '__root__' | '/' | '/compressor'
+  to: '/' | '/carro' | '/compressor'
+  id: '__root__' | '/' | '/carro' | '/compressor'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CarroRoute: typeof CarroRoute
   CompressorRoute: typeof CompressorRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/compressor'
       fullPath: '/compressor'
       preLoaderRoute: typeof CompressorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carro': {
+      id: '/carro'
+      path: '/carro'
+      fullPath: '/carro'
+      preLoaderRoute: typeof CarroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CarroRoute: CarroRoute,
   CompressorRoute: CompressorRoute,
 }
 export const routeTree = rootRouteImport
