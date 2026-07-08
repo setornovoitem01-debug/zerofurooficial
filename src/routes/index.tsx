@@ -103,7 +103,7 @@ function Landing() {
               <div className="text-sm text-black/70">ou 12x de R$ 24,79 no cartão</div>
             </div>
             <a
-              href="#comprar"
+              href="#"
               className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-black text-white font-bold px-8 py-4 text-base hover:bg-[color:var(--color-brand)] transition-colors"
             >
               Quero o meu agora
