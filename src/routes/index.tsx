@@ -59,23 +59,13 @@ function Landing() {
 
   return (
     <div className="min-h-screen bg-white text-black font-sans antialiased">
-      {/* Top bar */}
-      <div className="bg-black text-white text-xs md:text-sm py-2 text-center px-4">
-        🚚 <span className="font-semibold">FRETE GRÁTIS</span> para todo o Brasil • Pagamento em até 12x
-      </div>
-
       {/* Header */}
       <header className="border-b border-black/10 sticky top-0 bg-white/95 backdrop-blur z-40">
-        <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-          <img src={logo.url} alt="Zero Furo" className="h-9 md:h-11" />
-          <a
-            href="#comprar"
-            className="hidden md:inline-flex items-center rounded-full bg-black text-white text-sm font-semibold px-5 py-2 hover:bg-[color:var(--color-brand)] transition-colors"
-          >
-            Comprar agora
-          </a>
+        <div className="max-w-6xl mx-auto flex items-center justify-center px-4 py-4">
+          <img src={logo.url} alt="Zero Furo" className="h-10 md:h-12" />
         </div>
       </header>
+
 
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-4 pt-8 md:pt-14 pb-10 md:pb-16 grid md:grid-cols-2 gap-10 items-center">
