@@ -319,34 +319,27 @@ function Stepper({ step }: { step: Step }) {
     { n: 3, label: "Pagamento", Icon: QrCode },
   ] as const;
   return (
-    <ol className="flex items-center justify-center gap-2 md:gap-4">
+    <ol className="flex items-center justify-center gap-3 md:gap-4">
       {steps.map((s, i) => {
         const done = step > s.n;
         const active = step === s.n;
         return (
-          <li key={s.n} className="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
-            <div className="flex items-center gap-2 md:gap-3 min-w-0">
-              <div
-                className={`h-8 w-8 rounded-full grid place-items-center text-xs font-semibold transition-colors ${
-                  done
-                    ? "bg-emerald-600 text-white"
-                    : active
-                    ? "bg-[color:var(--color-ink)] text-white"
-                    : "bg-white border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)]"
-                }`}
-              >
-                {done ? <Check className="h-4 w-4" /> : s.n}
-              </div>
-              <span
-                className={`hidden sm:inline text-sm truncate ${
-                  active ? "font-semibold text-[color:var(--color-ink)]" : "text-[color:var(--color-ink-soft)]"
-                }`}
-              >
-                {s.label}
-              </span>
+          <li key={s.n} className="flex items-center gap-3 md:gap-4">
+            <div
+              className={`h-9 w-9 rounded-full grid place-items-center text-sm font-semibold transition-colors ${
+                done
+                  ? "bg-emerald-600 text-white"
+                  : active
+                  ? "bg-[color:var(--color-ink)] text-white"
+                  : "bg-white border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)]"
+              }`}
+              aria-label={s.label}
+              title={s.label}
+            >
+              {done ? <Check className="h-4 w-4" /> : s.n}
             </div>
             {i < steps.length - 1 && (
-              <div className={`h-px flex-1 ${step > s.n ? "bg-emerald-600" : "bg-[color:var(--color-line)]"}`} />
+              <div className={`h-px w-10 md:w-16 ${step > s.n ? "bg-emerald-600" : "bg-[color:var(--color-line)]"}`} />
             )}
           </li>
         );
