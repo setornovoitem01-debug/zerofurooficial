@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useReveal } from "@/hooks/useReveal";
+import { useImagePreload } from "@/hooks/useImagePreload";
+import { useMemo } from "react";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import p1 from "@/assets/produto-1.png.asset.json";
@@ -82,6 +84,12 @@ function Landing() {
   const [active, setActive] = useState(0);
   const price = 55.9;
   const oldPrice = 199.9;
+
+  // Pré-carrega toda a galeria — trocar de slide fica instantâneo.
+  const galleryUrls = useMemo(() => images.map((i) => i.url), []);
+  useImagePreload(galleryUrls);
+
+
 
   return (
     <div className="min-h-screen bg-white text-[color:var(--color-ink)] font-sans antialiased overflow-x-hidden">

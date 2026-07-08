@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useReveal } from "@/hooks/useReveal";
+import { useImagePreload } from "@/hooks/useImagePreload";
+import { useMemo } from "react";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 
@@ -329,6 +331,11 @@ function CarroPage() {
   const [aro, setAro] = useState<AroKey | null>(null);
   const [active, setActive] = useState(0);
   const kit = aro ? kits[aro] : null;
+
+  // Pré-carrega todas as imagens do kit selecionado — troca de slide vira instantânea.
+  const kitUrls = useMemo(() => (kit ? kit.images.map((i) => i.url) : []), [kit]);
+  useImagePreload(kitUrls);
+
 
   const selectAro = (k: AroKey) => {
     setAro(k);
