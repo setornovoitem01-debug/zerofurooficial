@@ -326,6 +326,14 @@ function Landing() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={200}>
+            <div className="mt-12 text-center">
+              <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[15px] transition shadow-lg shadow-emerald-600/20">
+                Quero garantir o meu
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 
