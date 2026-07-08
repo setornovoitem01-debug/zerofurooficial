@@ -126,6 +126,39 @@ function CarrinhoPage() {
     };
   }, [address.cep]);
 
+  // Cotação de frete: dispara quando o CEP tem 8 dígitos, simula loading e
+  // apresenta as opções disponíveis. Reseta a seleção sempre que o CEP muda.
+  useEffect(() => {
+    const cep = onlyDigits(address.cep);
+    if (cep.length !== 8) {
+      setShippingOptions([]);
+      setShippingLoading(false);
+      setShippingId(null);
+      return;
+    }
+    let cancelled = false;
+    setShippingLoading(true);
+    setShippingOptions([]);
+    setShippingId(null);
+    const t = window.setTimeout(() => {
+      if (cancelled) return;
+      setShippingOptions(SHIPPING_OPTIONS);
+      setShippingId(SHIPPING_OPTIONS[0].id);
+      setShippingLoading(false);
+    }, 900);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
+  }, [address.cep]);
+
+  const shipping = useMemo(
+    () => shippingOptions.find((o) => o.id === shippingId) ?? null,
+    [shippingOptions, shippingId],
+  );
+  const shippingPrice = shipping?.price ?? 0;
+  const total = cart ? cart.price + shippingPrice : 0;
+
   const pixCode = useMemo(() => {
     if (!cart) return "";
     const ref = Math.random().toString(36).slice(2, 10).toUpperCase();
@@ -177,6 +210,7 @@ function CarrinhoPage() {
     if (!address.bairro.trim()) e.bairro = "Informe o bairro.";
     if (!address.cidade.trim()) e.cidade = "Informe a cidade.";
     if (!address.uf.trim()) e.uf = "UF.";
+    if (!shippingId) e.shipping = "Selecione uma opção de frete.";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
