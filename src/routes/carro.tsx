@@ -559,9 +559,6 @@ function CarroPage() {
           </div>
         </div>
       </footer>
-
-      {/* Wrench import kept to avoid unused warning in case of future use */}
-      <span className="hidden"><Wrench className="h-0 w-0" /></span>
     </div>
   );
 }
