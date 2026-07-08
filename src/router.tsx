@@ -9,6 +9,10 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
+    // Baixa o chunk da rota assim que o usuário passa o mouse / foca no link,
+    // eliminando o delay percebido no clique entre home ↔ /carro ↔ /compressor.
+    defaultPreload: "intent",
+    defaultPreloadDelay: 50,
     defaultPreloadStaleTime: 0,
   });
 
