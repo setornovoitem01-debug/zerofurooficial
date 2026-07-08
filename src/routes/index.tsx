@@ -114,9 +114,9 @@ function Landing() {
       {/* Product area */}
       <section className="max-w-7xl mx-auto px-4 pb-10 md:pb-16 grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-10">
         {/* Gallery */}
-        <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-4">
+        <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-4 min-w-0 w-full">
           {/* Thumbs */}
-          <div className="flex md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-visible md:max-h-[520px] md:pr-1">
+          <div className="flex md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-visible md:max-h-[520px] md:pr-1 justify-center md:justify-start scrollbar-thin px-1 -mx-1">
             {images.map((img, i) => (
               <button
                 key={i}
@@ -134,7 +134,7 @@ function Landing() {
           </div>
 
           {/* Main image */}
-          <div className="flex-1 relative">
+          <div className="relative w-full md:flex-1 min-w-0">
             <div className="aspect-square rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] overflow-hidden flex items-center justify-center p-6 md:p-10">
               <img
                 key={active}
