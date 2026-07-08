@@ -471,11 +471,45 @@ function CarroPage() {
                 {kit.descricao.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
-                <p className="text-xs italic text-[color:var(--color-ink-soft)]/80">
-                  * Descrição e imagens completas serão atualizadas em breve.
-                </p>
               </div>
             </Reveal>
+
+            {kit.sections && (
+              <div className="mt-14 space-y-12 max-w-3xl mx-auto">
+                {kit.sections.map((s, i) => (
+                  <Reveal key={s.title} delay={i * 80}>
+                    <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
+                      {s.title}
+                    </h3>
+                    {s.paragraphs && (
+                      <div className="mt-4 space-y-3 text-[color:var(--color-ink-soft)] text-[15px] leading-relaxed">
+                        {s.paragraphs.map((p, j) => (
+                          <p key={j}>{p}</p>
+                        ))}
+                      </div>
+                    )}
+                    {s.bullets && (
+                      <ul className="mt-4 space-y-2.5">
+                        {s.bullets.map((b) => (
+                          <li key={b} className="flex items-start gap-2.5 text-[15px] text-[color:var(--color-ink-soft)] leading-relaxed">
+                            <Check className="h-4 w-4 mt-1 text-[color:var(--color-brand)] shrink-0" />
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Reveal>
+                ))}
+              </div>
+            )}
+
+            {kit.dica && (
+              <Reveal delay={200}>
+                <div className="mt-12 max-w-3xl mx-auto rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-line)] px-6 py-5 text-sm text-[color:var(--color-ink-soft)] leading-relaxed">
+                  {kit.dica}
+                </div>
+              </Reveal>
+            )}
           </section>
 
           {/* CTA antes das especificações */}
@@ -483,7 +517,7 @@ function CarroPage() {
             <Reveal>
               <div className="rounded-2xl bg-[color:var(--color-ink)] text-white px-6 py-10 md:px-12 md:py-14 text-center">
                 <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
-                  Leve o seu com <span className="text-emerald-400">50% de desconto</span>
+                  Leve o seu com <span className="text-emerald-400">desconto especial</span>
                 </h3>
                 <p className="mt-3 text-white/70 max-w-xl mx-auto">
                   Estoque limitado. Aproveite o preço promocional enquanto durar.
@@ -502,15 +536,15 @@ function CarroPage() {
             <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-10">
               <Reveal>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-semibold tracking-tight">Especificações</h3>
+                  <h3 className="text-xl md:text-2xl font-semibold tracking-tight">Ficha técnica</h3>
                   <dl className="mt-5 divide-y divide-[color:var(--color-line)] bg-white rounded-xl border border-[color:var(--color-line)]">
-                    {[
+                    {(kit.specs ?? [
                       ["Indicação de aro", `Aros ${kit.key}`],
                       ["Aplicação", "Preventiva e corretiva"],
                       ["Compatibilidade", "Pneus sem câmara"],
                       ["Validade", "24 meses"],
-                    ].map(([k, v]) => (
-                      <div key={k} className="flex justify-between px-4 py-3 text-sm">
+                    ]).map(([k, v]) => (
+                      <div key={k} className="flex justify-between gap-4 px-4 py-3 text-sm">
                         <dt className="text-[color:var(--color-ink-soft)]">{k}</dt>
                         <dd className="font-medium text-right">{v}</dd>
                       </div>
@@ -523,17 +557,31 @@ function CarroPage() {
                 <div>
                   <h3 className="text-xl md:text-2xl font-semibold tracking-tight">O kit inclui</h3>
                   <ul className="mt-5 bg-white rounded-xl border border-[color:var(--color-line)] divide-y divide-[color:var(--color-line)]">
-                    {[
+                    {(kit.inclui ?? [
                       "Selante Zero Furo (quantidade ideal para o aro selecionado)",
                       "Bico aplicador",
                       "Manual de instrução",
-                    ].map((t) => (
+                    ]).map((t) => (
                       <li key={t} className="flex items-center gap-3 px-4 py-3 text-sm">
                         <Check className="h-4 w-4 text-[color:var(--color-brand)] shrink-0" />
                         <span>{t}</span>
                       </li>
                     ))}
                   </ul>
+
+                  {kit.composicao && (
+                    <>
+                      <h3 className="mt-8 text-xl md:text-2xl font-semibold tracking-tight">Composição</h3>
+                      <ul className="mt-5 bg-white rounded-xl border border-[color:var(--color-line)] divide-y divide-[color:var(--color-line)]">
+                        {kit.composicao.map((t) => (
+                          <li key={t} className="flex items-center gap-3 px-4 py-3 text-sm">
+                            <Droplets className="h-4 w-4 text-[color:var(--color-brand)] shrink-0" />
+                            <span>{t}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
               </Reveal>
             </div>
