@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { setCartItem } from "@/lib/cart";
 import {
   ShieldCheck,
   Truck,
@@ -331,10 +332,24 @@ function CarroPage() {
   const [aro, setAro] = useState<AroKey | null>(null);
   const [active, setActive] = useState(0);
   const kit = aro ? kits[aro] : null;
+  const navigate = useNavigate();
 
   // Pré-carrega todas as imagens do kit selecionado — troca de slide vira instantânea.
   const kitUrls = useMemo(() => (kit ? kit.images.map((i) => i.url) : []), [kit]);
   useImagePreload(kitUrls);
+
+  const handleBuy = () => {
+    if (!kit) return;
+    setCartItem({
+      id: `carro-${kit.key}`,
+      name: kit.titulo,
+      image: kit.images[0].url,
+      price: kit.price,
+      oldPrice: kit.oldPrice,
+    });
+    navigate({ to: "/carrinho" });
+  };
+
 
 
   const selectAro = (k: AroKey) => {
@@ -504,6 +519,7 @@ function CarroPage() {
               <div className="mt-6">
                 <button
                   type="button"
+                  onClick={handleBuy}
                   className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
                 >
                   Comprar agora
@@ -577,9 +593,9 @@ function CarroPage() {
               ))}
             </div>
             <div className="mt-10 text-center">
-              <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+              <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                 Comprar agora
-              </a>
+              </button>
             </div>
           </section>
 
@@ -649,9 +665,9 @@ function CarroPage() {
                   Estoque limitado. Aproveite o preço promocional enquanto durar.
                 </p>
                 <div className="mt-6">
-                  <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+                  <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                     Comprar agora por R$ {kit.price.toFixed(2).replace(".", ",")}
-                  </a>
+                  </button>
                 </div>
               </div>
             </Reveal>
