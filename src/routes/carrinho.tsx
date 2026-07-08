@@ -241,7 +241,7 @@ function CarrinhoPage() {
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-6 md:py-10">
-        <div className="mx-auto w-full max-w-xl">
+        <div className="flex justify-center">
           <Stepper step={step} />
         </div>
 
@@ -319,34 +319,27 @@ function Stepper({ step }: { step: Step }) {
     { n: 3, label: "Pagamento", Icon: QrCode },
   ] as const;
   return (
-    <ol className="flex items-center justify-center gap-2 md:gap-4">
+    <ol className="flex items-center justify-center gap-3 md:gap-4">
       {steps.map((s, i) => {
         const done = step > s.n;
         const active = step === s.n;
         return (
-          <li key={s.n} className="flex items-center gap-2 md:gap-4 flex-1 min-w-0">
-            <div className="flex items-center gap-2 md:gap-3 min-w-0">
-              <div
-                className={`h-8 w-8 rounded-full grid place-items-center text-xs font-semibold transition-colors ${
-                  done
-                    ? "bg-emerald-600 text-white"
-                    : active
-                    ? "bg-[color:var(--color-ink)] text-white"
-                    : "bg-white border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)]"
-                }`}
-              >
-                {done ? <Check className="h-4 w-4" /> : s.n}
-              </div>
-              <span
-                className={`hidden sm:inline text-sm truncate ${
-                  active ? "font-semibold text-[color:var(--color-ink)]" : "text-[color:var(--color-ink-soft)]"
-                }`}
-              >
-                {s.label}
-              </span>
+          <li key={s.n} className="flex items-center gap-3 md:gap-4">
+            <div
+              className={`h-9 w-9 rounded-full grid place-items-center text-sm font-semibold transition-colors ${
+                done
+                  ? "bg-emerald-600 text-white"
+                  : active
+                  ? "bg-[color:var(--color-ink)] text-white"
+                  : "bg-white border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)]"
+              }`}
+              aria-label={s.label}
+              title={s.label}
+            >
+              {done ? <Check className="h-4 w-4" /> : s.n}
             </div>
             {i < steps.length - 1 && (
-              <div className={`h-px flex-1 ${step > s.n ? "bg-emerald-600" : "bg-[color:var(--color-line)]"}`} />
+              <div className={`h-px w-10 md:w-16 ${step > s.n ? "bg-emerald-600" : "bg-[color:var(--color-line)]"}`} />
             )}
           </li>
         );
@@ -614,60 +607,89 @@ function StepPagamento({
   onBack: () => void;
   onFinish: () => void;
 }) {
+  const [generated, setGenerated] = useState(false);
   return (
     <div>
-      <h2 className="text-xl md:text-2xl font-semibold tracking-tight">Pagamento via PIX</h2>
+      <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-semibold">
+        <QrCode className="h-3.5 w-3.5" /> Pagamento via PIX
+      </div>
+      <h2 className="mt-3 text-xl md:text-2xl font-semibold tracking-tight">Pagamento via PIX</h2>
       <p className="mt-1 text-sm text-[color:var(--color-ink-soft)]">
-        Aponte a câmera para o QR Code ou copie o código PIX no seu banco.
+        {generated
+          ? "Aponte a câmera para o QR Code ou copie o código PIX no seu banco."
+          : "Gere o seu QR Code para concluir o pagamento com aprovação imediata."}
       </p>
 
-      <div className="mt-6 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] p-5 md:p-6 grid gap-6 md:grid-cols-[auto_1fr] items-center">
-        <div className="bg-white p-3 rounded-lg border border-[color:var(--color-line)] mx-auto">
-          <img src={qrUrl} alt="QR Code PIX" width={200} height={200} className="block" />
+      <div className="mt-6 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] p-5 md:p-6">
+        <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--color-brand)]">
+          Total a pagar
         </div>
-        <div className="min-w-0">
-          <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--color-brand)]">
-            Total a pagar
+        <div className="mt-1 text-3xl font-semibold text-emerald-700">{brl(total)}</div>
+
+        {!generated ? (
+          <div className="mt-6 flex flex-col items-center text-center gap-3">
+            <div className="h-40 w-40 rounded-lg border border-dashed border-[color:var(--color-line)] bg-white grid place-items-center text-[color:var(--color-ink-soft)]">
+              <QrCode className="h-10 w-10 opacity-50" />
+            </div>
+            <button
+              type="button"
+              onClick={() => setGenerated(true)}
+              className="cta-green inline-flex items-center justify-center gap-2 h-12 px-8 rounded-md font-semibold text-[15px]"
+            >
+              <QrCode className="h-4 w-4" /> Gerar QR Code PIX
+            </button>
+            <p className="text-xs text-[color:var(--color-ink-soft)]">
+              Após gerar, você pode escanear ou copiar o código copia-e-cola.
+            </p>
           </div>
-          <div className="mt-1 text-3xl font-semibold text-emerald-700">{brl(total)}</div>
-          <ol className="mt-4 space-y-1.5 text-sm text-[color:var(--color-ink-soft)]">
-            <li>1. Abra o app do seu banco e escolha pagar com PIX.</li>
-            <li>2. Escaneie o QR Code ou cole o código copia-e-cola.</li>
-            <li>3. Confirme o pagamento — a confirmação é imediata.</li>
-          </ol>
-        </div>
+        ) : (
+          <>
+            <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] items-center">
+              <div className="bg-white p-3 rounded-lg border border-[color:var(--color-line)] mx-auto">
+                <img src={qrUrl} alt="QR Code PIX" width={200} height={200} className="block" />
+              </div>
+              <ol className="space-y-1.5 text-sm text-[color:var(--color-ink-soft)]">
+                <li>1. Abra o app do seu banco e escolha pagar com PIX.</li>
+                <li>2. Escaneie o QR Code ou cole o código copia-e-cola.</li>
+                <li>3. Confirme o pagamento — a confirmação é imediata.</li>
+              </ol>
+            </div>
+
+            <div className="mt-6">
+              <label className="text-xs font-semibold text-[color:var(--color-ink-soft)] uppercase tracking-wider">
+                Código PIX copia-e-cola
+              </label>
+              <div className="mt-1.5 flex gap-2">
+                <input
+                  readOnly
+                  value={pixCode}
+                  className="flex-1 h-11 px-3 rounded-md border border-[color:var(--color-line)] bg-white text-xs font-mono truncate"
+                />
+                <button
+                  type="button"
+                  onClick={onCopy}
+                  className="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-[color:var(--color-ink)] text-white text-sm font-semibold hover:opacity-90 transition"
+                >
+                  {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  {copied ? "Copiado" : "Copiar"}
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
-      <div className="mt-4">
-        <label className="text-xs font-semibold text-[color:var(--color-ink-soft)] uppercase tracking-wider">
-          Código PIX copia-e-cola
-        </label>
-        <div className="mt-1.5 flex gap-2">
-          <input
-            readOnly
-            value={pixCode}
-            className="flex-1 h-11 px-3 rounded-md border border-[color:var(--color-line)] bg-[color:var(--color-surface)] text-xs font-mono truncate"
-          />
+      {generated && (
+        <div className="mt-6">
           <button
             type="button"
-            onClick={onCopy}
-            className="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-[color:var(--color-ink)] text-white text-sm font-semibold hover:opacity-90 transition"
+            onClick={onFinish}
+            className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
           >
-            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-            {copied ? "Copiado" : "Copiar"}
+            Já paguei — finalizar pedido
           </button>
         </div>
-      </div>
-
-      <div className="mt-6">
-        <button
-          type="button"
-          onClick={onFinish}
-          className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
-        >
-          Já paguei — finalizar pedido
-        </button>
-      </div>
+      )}
 
       <div className="mt-3">
         <button
