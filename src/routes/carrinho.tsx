@@ -656,9 +656,9 @@ function StepPagamento({
             </div>
 
             <div className="mt-6">
-              <label className="text-xs font-semibold text-[color:var(--color-ink-soft)] uppercase tracking-wider">
+              <div className="text-xs font-semibold text-[color:var(--color-ink-soft)] uppercase tracking-wider">
                 Código PIX copia-e-cola
-              </label>
+              </div>
               <div className="mt-1.5 flex gap-2">
                 <input
                   readOnly
