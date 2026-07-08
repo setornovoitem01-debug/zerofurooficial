@@ -260,6 +260,10 @@ function CarrinhoPage() {
                 errors={errors}
                 cepLoading={cepLoading}
                 cepError={cepError}
+                shippingLoading={shippingLoading}
+                shippingOptions={shippingOptions}
+                shippingId={shippingId}
+                setShippingId={setShippingId}
                 onBack={() => setStep(1)}
                 onNext={goNext}
               />
@@ -268,7 +272,7 @@ function CarrinhoPage() {
               <StepPagamento
                 pixCode={pixCode}
                 qrUrl={qrUrl}
-                total={cart.price}
+                total={total}
                 copied={copied}
                 onCopy={copyPix}
                 onBack={() => setStep(2)}
@@ -280,7 +284,7 @@ function CarrinhoPage() {
             )}
           </div>
 
-          <ResumoPedido item={cart} />
+          <ResumoPedido item={cart} shipping={shipping} total={total} />
         </div>
       </div>
     </div>
