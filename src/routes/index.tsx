@@ -290,8 +290,36 @@ function Landing() {
         </div>
       </section>
 
+      {/* Galeria em grade */}
+      <section className="max-w-7xl mx-auto px-4 py-14 md:py-20">
+        <Reveal>
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+            <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
+              Veja de perto
+            </div>
+            <h2 className="mt-3 text-2xl md:text-4xl font-semibold tracking-tight">
+              Cada detalhe pensado para você
+            </h2>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+          {images.map((img, i) => (
+            <Reveal key={i} delay={i * 60}>
+              <div className="group aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-4 md:p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <img src={img.url} alt={`Compressor Zero Furo - imagem ${i + 1}`} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition">
+            Comprar agora com 50% OFF
+          </a>
+        </div>
+      </section>
+
       {/* Description */}
-      <section className="max-w-4xl mx-auto px-4 py-14 md:py-20">
+      <section id="descricao" className="max-w-4xl mx-auto px-4 py-14 md:py-20 scroll-mt-24">
         <Reveal>
           <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase text-center">
             Descrição do produto
