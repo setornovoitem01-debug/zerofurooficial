@@ -115,9 +115,9 @@ function Home() {
                 preload="viewport"
                 className="group flex flex-col items-center text-center"
               >
-                <div className="h-40 w-40 md:h-48 md:w-48 rounded-full border-[3px] border-[color:var(--color-brand)] grid place-items-center bg-white transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
+                <div className="h-40 w-40 md:h-48 md:w-48 rounded-full border-[3px] border-[color:var(--color-brand)] grid place-items-center bg-[color:var(--color-brand-soft)] transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:bg-white">
                   <Icon
-                    className="h-20 w-20 md:h-24 md:w-24 text-[color:var(--color-ink)]"
+                    className="h-20 w-20 md:h-24 md:w-24 text-[color:var(--color-brand)]"
                     strokeWidth={1.75}
                   />
                 </div>
@@ -125,7 +125,7 @@ function Home() {
                   <span className="text-sm md:text-base font-medium max-w-[200px]">
                     {nome}
                   </span>
-                  <span className="h-9 w-9 rounded bg-[color:var(--color-ink)] text-white grid place-items-center transition group-hover:bg-[color:var(--color-brand)]">
+                  <span className="h-9 w-9 rounded bg-[color:var(--color-brand)] text-white grid place-items-center transition group-hover:bg-[color:var(--color-ink)]">
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>
