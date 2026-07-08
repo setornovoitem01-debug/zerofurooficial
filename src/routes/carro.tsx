@@ -60,29 +60,88 @@ type Kit = {
   images: { url: string }[];
   descricao: string[];
   destaques: string[];
+  sections?: { title: string; paragraphs?: string[]; bullets?: string[] }[];
+  specs?: [string, string][];
+  inclui?: string[];
+  composicao?: string[];
+  dica?: string;
 };
 
-// Placeholder data — imagens principais e descrições reais serão enviadas depois.
 const kits: Record<AroKey, Kit> = {
   "13-15": {
     key: "13-15",
-    titulo: "Kit Selante Zero Furo — Aros 13, 14 e 15",
-    chamada: "Ideal para carros compactos",
+    titulo: "Selante Zero Furo 700 ml Carro - 4un",
+    chamada: "Blindagem essencial para aros 13, 14 e 15",
     subtitulo:
-      "Proteção completa contra furos para veículos com aros 13, 14 e 15.",
-    price: 89.9,
-    oldPrice: 179.9,
-    images: [p1, p2, p3, p4],
+      "Kit com 4 unidades de 700 mL — a medida exata para carros de passeio e compactos.",
+    price: 95.0,
+    oldPrice: 259.0,
+    images: [car1, car2, car3, car4, car5, car6],
     descricao: [
-      "Kit desenvolvido para carros compactos com aros de 13 a 15 polegadas.",
-      "Sela furos de até 6 mm em poucos segundos, sem precisar tirar a roda.",
+      "O Selante Zero Furo Carro 700 mL é a medida exata para quem busca proteção e economia para veículos de passeio e compactos.",
+      "Desenvolvido especificamente para pneus de aros 13, 14 e 15, esta embalagem oferece a quantidade ideal para uma blindagem preventiva eficiente, sem desperdícios.",
     ],
     destaques: [
       "Indicado para aros 13, 14 e 15",
-      "Sela furos de até 6 mm",
-      "Aplicação em menos de 5 minutos",
+      "Sela furos de até 6 mm na banda de rodagem",
+      "Fórmula à base de água, não tóxica",
       "Não danifica o pneu nem a roda",
     ],
+    sections: [
+      {
+        title: "Blindagem essencial para aros 13, 14 e 15",
+        paragraphs: [
+          "Atuando de forma instantânea, nossa fórmula com fibras sintéticas sela furos de até 6 mm na banda de rodagem no momento em que ocorrem.",
+          "Com a tecnologia Zero Furo, você elimina a necessidade de trocas perigosas de pneus no acostamento, mantendo a pressão estável e a segurança da sua família em primeiro lugar.",
+        ],
+      },
+      {
+        title: "Tecnologia brasileira a serviço da segurança",
+        paragraphs: [
+          "A Zero Furo nasceu com o propósito de transformar a experiência de dirigir no Brasil. Entendemos que os imprevistos nas vias — de buracos a objetos perfurantes — geram mais do que custos: geram riscos à vida e atrasos no dia a dia.",
+          "Com tecnologia 100% brasileira, unimos química de ponta e consciência ambiental. Hoje, a Zero Furo é referência nacional em blindagem de pneus, do uso urbano cotidiano até frotas comerciais.",
+        ],
+      },
+      {
+        title: "Principais características e benefícios",
+        bullets: [
+          "Sob medida para compactos e sedãs: volume otimizado para o melhor custo-benefício em pneus de Aro 13, 14 e 15.",
+          "Vedação instantânea contra objetos perfurantes de até 6 mm na banda de rodagem.",
+          "Segurança no dia a dia: evita paradas em locais perigosos ou desertos.",
+          "Preservação do pneu: ajuda a manter a temperatura e a pressão correta, prolongando a vida útil da borracha.",
+          "Sustentabilidade: fórmula à base de água, ecologicamente correta e não tóxica.",
+        ],
+      },
+      {
+        title: "Por que escolher a Zero Furo?",
+        paragraphs: [
+          "Não espere o pneu furar para agir. A Zero Furo é uma solução preventiva. Ao contrário de sprays de emergência que servem apenas para socorro, nossa blindagem já está lá antes do problema acontecer.",
+          "É tranquilidade garantida para o motorista urbano e para quem pega a estrada.",
+        ],
+      },
+    ],
+    specs: [
+      ["Marca", "Zero Furo Blindagem de Pneus"],
+      ["Volume", "700 mL (por pneu)"],
+      ["Indicação", "Aros 13, 14 e 15"],
+      ["Composição", "Selante à base de água com microfibras sintéticas"],
+      ["Aplicação", "Via válvula de ar ou interior do pneu"],
+      ["Eficiência", "Proteção preventiva enquanto líquido no pneu"],
+    ],
+    inclui: [
+      "4x Selante Zero Furo 700 mL",
+      "Bico aplicador",
+      "Manual de instrução",
+    ],
+    composicao: [
+      "Borracha Sintética",
+      "Borracha Natural",
+      "Resina",
+      "Regulador de pH",
+      "H₂O",
+    ],
+    dica:
+      "Dica Zero Furo: para carros com pneus de aro 13 a 15, o frasco de 700 mL é o seu melhor aliado em manutenção preventiva. Verifique sempre a dosagem correta para o seu modelo de pneu no QR Code do rótulo.",
   },
   "16-18": {
     key: "16-18",
