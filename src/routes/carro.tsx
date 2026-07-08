@@ -27,6 +27,13 @@ import p6 from "@/assets/produto-6.png.asset.json";
 import p7 from "@/assets/produto-7.png.asset.json";
 import p8 from "@/assets/produto-8.png.asset.json";
 
+import car1 from "@/assets/selante-carro-aro13-15-1.png.asset.json";
+import car2 from "@/assets/selante-carro-aro13-15-2.png.asset.json";
+import car3 from "@/assets/selante-carro-aro13-15-3.png.asset.json";
+import car4 from "@/assets/selante-carro-aro13-15-4.png.asset.json";
+import car5 from "@/assets/selante-carro-aro13-15-5.png.asset.json";
+import car6 from "@/assets/selante-carro-aro13-15-6.png.asset.json";
+
 export const Route = createFileRoute("/carro")({
   head: () => ({
     meta: [
