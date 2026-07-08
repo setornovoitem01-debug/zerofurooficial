@@ -79,7 +79,7 @@ function Home() {
           className="absolute inset-0 w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/20" />
-        <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-32 min-h-[520px] md:min-h-[600px] flex items-center">
+        <div className="relative max-w-7xl mx-auto px-6 py-14 md:py-20 min-h-[420px] md:min-h-[500px] flex items-center">
           <Reveal>
             <div className="max-w-lg">
               <h1 className="text-5xl md:text-7xl font-semibold tracking-tight leading-[1.02]">
@@ -100,14 +100,14 @@ function Home() {
       </section>
 
       {/* Categorias */}
-      <section id="categorias" className="max-w-6xl mx-auto px-4 py-16 md:py-24 scroll-mt-20">
+      <section id="categorias" className="max-w-6xl mx-auto px-4 py-10 md:py-16 scroll-mt-20">
         <Reveal>
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center">
             Categorias
           </h2>
         </Reveal>
 
-        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10">
+        <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
           {categorias.map(({ nome, Icon, to }, i) => (
             <Reveal key={nome} delay={i * 120}>
               <Link
@@ -137,12 +137,12 @@ function Home() {
 
       {/* Footer */}
       <footer className="border-t border-[color:var(--color-line)] bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
-          <div className="mb-10">
+        <div className="max-w-6xl mx-auto px-4 py-10 md:py-12">
+          <div className="mb-8">
             <img src={logo.url} alt="Zero Furo" className="h-9" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
             {[
               { title: "Atendimento", items: ["Central de Atendimento", "Minha Conta", "Troca Fácil"] },
               { title: "Informações úteis", items: ["Formas de Pagamento", "Prazos de Entrega", "Trocas e Devoluções", "Política de Privacidade", "FAQ"] },
