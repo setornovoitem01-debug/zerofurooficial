@@ -375,14 +375,57 @@ function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-black/10 py-10">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <img src={logo.url} alt="Zero Furo" className="h-9" />
-          <p className="text-sm text-black/60">
-            © {new Date().getFullYear()} Zero Furo. Todos os direitos reservados.
-          </p>
+      <footer className="border-t border-black/10 bg-white">
+        <div className="max-w-6xl mx-auto px-4 py-14">
+          <div className="mb-10">
+            <img src={logo.url} alt="Zero Furo" className="h-10" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+            <div>
+              <h4 className="text-base font-bold text-black border-b border-black/10 pb-3 mb-4">
+                Atendimento
+              </h4>
+              <ul className="space-y-3 text-sm text-black/70">
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Central de Atendimento</a></li>
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Minha Conta</a></li>
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Troca Fácil</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-base font-bold text-black border-b border-black/10 pb-3 mb-4">
+                Informações úteis
+              </h4>
+              <ul className="space-y-3 text-sm text-black/70">
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Formas de Pagamento</a></li>
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Prazos de Entrega</a></li>
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Trocas e Devoluções</a></li>
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Política de Privacidade</a></li>
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">FAQ</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-base font-bold text-black border-b border-black/10 pb-3 mb-4">
+                Institucional
+              </h4>
+              <ul className="space-y-3 text-sm text-black/70">
+                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Quem Somos</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-12 pt-6 border-t border-black/10">
+            <p className="text-xs md:text-sm text-black/60 leading-relaxed">
+              A loja Zero Furo é operada pela Social S.A. CNPJ: 28.511.223/0004-85 —
+              Endereço: Av. Caio Cotrim, 46, Galpão 01, 02 e 03 Setor CLI 2 — Itapevi - SP,
+              CEP: 06696-060 — 2026 Copyright Zero Furo. Todos os direitos reservados.
+            </p>
+          </div>
         </div>
       </footer>
+
     </div>
   );
 }
