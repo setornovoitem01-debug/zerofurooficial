@@ -266,7 +266,7 @@ function Landing() {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition">
+          <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
             Comprar agora com 50% OFF
           </a>
         </div>
