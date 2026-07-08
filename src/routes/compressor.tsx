@@ -367,7 +367,7 @@ function Landing() {
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <Reveal className="md:order-2">
             <div className="aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-8">
-              <img src={p4.url} alt="Display digital e LED" className="w-full h-full object-contain" />
+              <img src={p4.url} alt="Display digital e LED" loading="lazy" decoding="async" className="w-full h-full object-contain" />
             </div>
           </Reveal>
           <Reveal delay={120} className="md:order-1">
