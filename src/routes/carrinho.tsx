@@ -433,6 +433,10 @@ function StepEndereco({
   errors,
   cepLoading,
   cepError,
+  shippingLoading,
+  shippingOptions,
+  shippingId,
+  setShippingId,
   onBack,
   onNext,
 }: {
@@ -441,6 +445,10 @@ function StepEndereco({
   errors: Record<string, string>;
   cepLoading: boolean;
   cepError: string | null;
+  shippingLoading: boolean;
+  shippingOptions: ShippingOption[];
+  shippingId: string | null;
+  setShippingId: (id: string) => void;
   onBack: () => void;
   onNext: () => void;
 }) {
@@ -518,6 +526,65 @@ function StepEndereco({
           />
         </Field>
       </div>
+
+      {/* Cotação de frete */}
+      {onlyDigits(address.cep).length === 8 && !cepError && (
+        <div className="mt-8">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-[color:var(--color-ink-soft)] mb-3">
+            Escolha o frete
+          </h3>
+          {shippingLoading ? (
+            <div className="flex items-center gap-3 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-surface)] px-4 py-5 text-sm text-[color:var(--color-ink-soft)]">
+              <Loader2 className="h-4 w-4 animate-spin text-[color:var(--color-brand)]" />
+              Calculando opções de entrega para o seu CEP…
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {shippingOptions.map((opt) => {
+                const selected = shippingId === opt.id;
+                return (
+                  <label
+                    key={opt.id}
+                    className={`flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition ${
+                      selected
+                        ? "border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-600/15"
+                        : "border-[color:var(--color-line)] hover:border-[color:var(--color-ink-soft)]"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="shipping"
+                      value={opt.id}
+                      checked={selected}
+                      onChange={() => setShippingId(opt.id)}
+                      className="h-4 w-4 accent-emerald-600"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold text-[color:var(--color-ink)] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[color:var(--color-ink-soft)]" />
+                        {opt.label}
+                      </div>
+                      <div className="text-xs text-[color:var(--color-ink-soft)] mt-0.5">
+                        {opt.eta}
+                      </div>
+                    </div>
+                    <div className="text-sm font-semibold whitespace-nowrap">
+                      {opt.price === 0 ? (
+                        <span className="text-emerald-700">Grátis</span>
+                      ) : (
+                        <span>R$ {opt.price.toFixed(2).replace(".", ",")}</span>
+                      )}
+                    </div>
+                  </label>
+                );
+              })}
+              {errors.shipping && (
+                <div className="text-xs text-red-600">{errors.shipping}</div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <Actions leftLabel="Voltar" onLeft={onBack} rightLabel="Ir para o pagamento" onRight={onNext} />
       <TrustFooter />
