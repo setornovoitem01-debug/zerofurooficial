@@ -18,14 +18,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { useReveal } from "@/hooks/useReveal";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
-import p1 from "@/assets/produto-1.png.asset.json";
-import p2 from "@/assets/produto-2.png.asset.json";
-import p3 from "@/assets/produto-3.png.asset.json";
-import p4 from "@/assets/produto-4.png.asset.json";
-import p5 from "@/assets/produto-5.png.asset.json";
-import p6 from "@/assets/produto-6.png.asset.json";
-import p7 from "@/assets/produto-7.png.asset.json";
-import p8 from "@/assets/produto-8.png.asset.json";
 
 import car1 from "@/assets/selante-carro-aro13-15-1.png.asset.json";
 import car2 from "@/assets/selante-carro-aro13-15-2.png.asset.json";
