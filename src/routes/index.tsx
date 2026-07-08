@@ -229,7 +229,7 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { icon: Truck, t: "Frete grátis", s: "Para todo o Brasil" },
-            { icon: CreditCard, t: "12x sem juros", s: "Em todos os cartões" },
+            { icon: BadgeCheck, t: "Produto original", s: "Garantia de qualidade" },
             { icon: ShieldCheck, t: "Compra segura", s: "Site 100% protegido" },
             { icon: RefreshCcw, t: "7 dias de garantia", s: "Direito de arrependimento" },
           ].map((b, i) => (
