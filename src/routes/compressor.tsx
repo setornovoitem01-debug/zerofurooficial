@@ -29,7 +29,7 @@ import p6 from "@/assets/produto-6.png.asset.json";
 import p7 from "@/assets/produto-7.png.asset.json";
 import p8 from "@/assets/produto-8.png.asset.json";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/compressor")({
   component: Landing,
 });
 
