@@ -359,7 +359,7 @@ function CarroPage() {
 
       {/* Hero + seletor de aro */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-surface)] to-white">
-        <div className="max-w-4xl mx-auto px-4 py-14 md:py-20 text-center">
+        <div className="max-w-4xl mx-auto px-4 py-10 md:py-14 text-center">
           <Reveal>
             <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
               <Car className="h-3.5 w-3.5" /> Selante Zero Furo • Carro
@@ -556,9 +556,9 @@ function CarroPage() {
           </section>
 
           {/* Galeria em grade */}
-          <section className="max-w-7xl mx-auto px-4 py-14 md:py-20">
+          <section className="max-w-7xl mx-auto px-4 py-10 md:py-14">
             <Reveal>
-              <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+              <div className="text-center max-w-2xl mx-auto mb-8 md:mb-10">
                 <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
                   Veja de perto
                 </div>
@@ -584,7 +584,7 @@ function CarroPage() {
           </section>
 
           {/* Description */}
-          <section id="descricao" className="max-w-4xl mx-auto px-4 py-14 md:py-20 scroll-mt-24">
+          <section id="descricao" className="max-w-4xl mx-auto px-4 py-10 md:py-14 scroll-mt-24">
             <Reveal>
               <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase text-center">
                 Descrição do produto
@@ -639,7 +639,7 @@ function CarroPage() {
           </section>
 
           {/* CTA antes das especificações */}
-          <section className="max-w-6xl mx-auto px-4 pb-14 md:pb-20">
+          <section className="max-w-6xl mx-auto px-4 pb-10 md:pb-14">
             <Reveal>
               <div className="rounded-2xl bg-[color:var(--color-ink)] text-white px-6 py-10 md:px-12 md:py-14 text-center">
                 <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
@@ -658,7 +658,7 @@ function CarroPage() {
           </section>
 
           {/* Specs */}
-          <section className="border-t border-[color:var(--color-line)] py-14 md:py-20 bg-[color:var(--color-surface)]">
+          <section className="border-t border-[color:var(--color-line)] py-10 md:py-14 bg-[color:var(--color-surface)]">
             <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-10">
               <Reveal>
                 <div>
@@ -714,7 +714,7 @@ function CarroPage() {
           </section>
 
           {/* FAQ */}
-          <section className="max-w-3xl mx-auto px-4 py-14 md:py-20">
+          <section className="max-w-3xl mx-auto px-4 py-10 md:py-14">
             <Reveal>
               <h2 className="text-2xl md:text-4xl font-semibold tracking-tight text-center">
                 Perguntas frequentes
@@ -746,12 +746,12 @@ function CarroPage() {
 
       {/* Footer */}
       <footer className="border-t border-[color:var(--color-line)] bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-4 py-10 md:py-12">
           <div className="mb-10">
             <img src={logo.url} alt="Zero Furo" className="h-9" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
             {[
               { title: "Atendimento", items: ["Central de Atendimento", "Minha Conta", "Troca Fácil"] },
               { title: "Informações úteis", items: ["Formas de Pagamento", "Prazos de Entrega", "Trocas e Devoluções", "Política de Privacidade", "FAQ"] },
