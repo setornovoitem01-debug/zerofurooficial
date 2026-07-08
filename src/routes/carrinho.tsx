@@ -39,6 +39,14 @@ type Address = {
   uf: string;
 };
 
+type ShippingOption = { id: string; label: string; eta: string; price: number };
+
+const SHIPPING_OPTIONS: ShippingOption[] = [
+  { id: "gratis", label: "Frete Grátis — Transportadora", eta: "7 a 10 dias úteis", price: 0 },
+  { id: "sedex", label: "Correios Sedex", eta: "3 a 5 dias úteis", price: 25.68 },
+  { id: "sedex12", label: "Correios Sedex 12", eta: "12 a 24 horas úteis", price: 68.75 },
+];
+
 const brl = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
 
 const onlyDigits = (s: string) => s.replace(/\D+/g, "");
@@ -77,6 +85,9 @@ function CarrinhoPage() {
   const [cepError, setCepError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
+  const [shippingLoading, setShippingLoading] = useState(false);
+  const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
+  const [shippingId, setShippingId] = useState<string | null>(null);
 
   // Buscar CEP via ViaCEP
   useEffect(() => {
@@ -114,6 +125,39 @@ function CarrinhoPage() {
       cancelled = true;
     };
   }, [address.cep]);
+
+  // Cotação de frete: dispara quando o CEP tem 8 dígitos, simula loading e
+  // apresenta as opções disponíveis. Reseta a seleção sempre que o CEP muda.
+  useEffect(() => {
+    const cep = onlyDigits(address.cep);
+    if (cep.length !== 8) {
+      setShippingOptions([]);
+      setShippingLoading(false);
+      setShippingId(null);
+      return;
+    }
+    let cancelled = false;
+    setShippingLoading(true);
+    setShippingOptions([]);
+    setShippingId(null);
+    const t = window.setTimeout(() => {
+      if (cancelled) return;
+      setShippingOptions(SHIPPING_OPTIONS);
+      setShippingId(SHIPPING_OPTIONS[0].id);
+      setShippingLoading(false);
+    }, 900);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
+  }, [address.cep]);
+
+  const shipping = useMemo(
+    () => shippingOptions.find((o) => o.id === shippingId) ?? null,
+    [shippingOptions, shippingId],
+  );
+  const shippingPrice = shipping?.price ?? 0;
+  const total = cart ? cart.price + shippingPrice : 0;
 
   const pixCode = useMemo(() => {
     if (!cart) return "";
@@ -166,6 +210,7 @@ function CarrinhoPage() {
     if (!address.bairro.trim()) e.bairro = "Informe o bairro.";
     if (!address.cidade.trim()) e.cidade = "Informe a cidade.";
     if (!address.uf.trim()) e.uf = "UF.";
+    if (!shippingId) e.shipping = "Selecione uma opção de frete.";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -215,6 +260,10 @@ function CarrinhoPage() {
                 errors={errors}
                 cepLoading={cepLoading}
                 cepError={cepError}
+                shippingLoading={shippingLoading}
+                shippingOptions={shippingOptions}
+                shippingId={shippingId}
+                setShippingId={setShippingId}
                 onBack={() => setStep(1)}
                 onNext={goNext}
               />
@@ -223,7 +272,7 @@ function CarrinhoPage() {
               <StepPagamento
                 pixCode={pixCode}
                 qrUrl={qrUrl}
-                total={cart.price}
+                total={total}
                 copied={copied}
                 onCopy={copyPix}
                 onBack={() => setStep(2)}
@@ -235,7 +284,7 @@ function CarrinhoPage() {
             )}
           </div>
 
-          <ResumoPedido item={cart} />
+          <ResumoPedido item={cart} shipping={shipping} total={total} />
         </div>
       </div>
     </div>
@@ -384,6 +433,10 @@ function StepEndereco({
   errors,
   cepLoading,
   cepError,
+  shippingLoading,
+  shippingOptions,
+  shippingId,
+  setShippingId,
   onBack,
   onNext,
 }: {
@@ -392,6 +445,10 @@ function StepEndereco({
   errors: Record<string, string>;
   cepLoading: boolean;
   cepError: string | null;
+  shippingLoading: boolean;
+  shippingOptions: ShippingOption[];
+  shippingId: string | null;
+  setShippingId: (id: string) => void;
   onBack: () => void;
   onNext: () => void;
 }) {
@@ -469,6 +526,65 @@ function StepEndereco({
           />
         </Field>
       </div>
+
+      {/* Cotação de frete */}
+      {onlyDigits(address.cep).length === 8 && !cepError && (
+        <div className="mt-8">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-[color:var(--color-ink-soft)] mb-3">
+            Escolha o frete
+          </h3>
+          {shippingLoading ? (
+            <div className="flex items-center gap-3 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-surface)] px-4 py-5 text-sm text-[color:var(--color-ink-soft)]">
+              <Loader2 className="h-4 w-4 animate-spin text-[color:var(--color-brand)]" />
+              Calculando opções de entrega para o seu CEP…
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {shippingOptions.map((opt) => {
+                const selected = shippingId === opt.id;
+                return (
+                  <label
+                    key={opt.id}
+                    className={`flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition ${
+                      selected
+                        ? "border-emerald-600 bg-emerald-50/60 ring-2 ring-emerald-600/15"
+                        : "border-[color:var(--color-line)] hover:border-[color:var(--color-ink-soft)]"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="shipping"
+                      value={opt.id}
+                      checked={selected}
+                      onChange={() => setShippingId(opt.id)}
+                      className="h-4 w-4 accent-emerald-600"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold text-[color:var(--color-ink)] flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-[color:var(--color-ink-soft)]" />
+                        {opt.label}
+                      </div>
+                      <div className="text-xs text-[color:var(--color-ink-soft)] mt-0.5">
+                        {opt.eta}
+                      </div>
+                    </div>
+                    <div className="text-sm font-semibold whitespace-nowrap">
+                      {opt.price === 0 ? (
+                        <span className="text-emerald-700">Grátis</span>
+                      ) : (
+                        <span>R$ {opt.price.toFixed(2).replace(".", ",")}</span>
+                      )}
+                    </div>
+                  </label>
+                );
+              })}
+              {errors.shipping && (
+                <div className="text-xs text-red-600">{errors.shipping}</div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <Actions leftLabel="Voltar" onLeft={onBack} rightLabel="Ir para o pagamento" onRight={onNext} />
       <TrustFooter />
@@ -641,7 +757,15 @@ function TrustFooter() {
   );
 }
 
-function ResumoPedido({ item }: { item: { name: string; image: string; price: number; oldPrice?: number } }) {
+function ResumoPedido({
+  item,
+  shipping,
+  total,
+}: {
+  item: { name: string; image: string; price: number; oldPrice?: number };
+  shipping: ShippingOption | null;
+  total: number;
+}) {
   return (
     <aside className="bg-white rounded-xl border border-[color:var(--color-line)] p-5 h-fit lg:sticky lg:top-24">
       <h3 className="text-sm font-semibold uppercase tracking-wider text-[color:var(--color-ink-soft)]">
@@ -663,8 +787,21 @@ function ResumoPedido({ item }: { item: { name: string; image: string; price: nu
           <dd>{brl(item.price)}</dd>
         </div>
         <div className="flex justify-between">
-          <dt className="text-[color:var(--color-ink-soft)]">Frete</dt>
-          <dd className="text-emerald-700 font-medium">Grátis</dd>
+          <dt className="text-[color:var(--color-ink-soft)]">
+            Frete
+            {shipping && (
+              <span className="block text-[11px] text-[color:var(--color-ink-soft)]/80">
+                {shipping.label} · {shipping.eta}
+              </span>
+            )}
+          </dt>
+          <dd className={shipping && shipping.price === 0 ? "text-emerald-700 font-medium" : ""}>
+            {!shipping
+              ? "—"
+              : shipping.price === 0
+              ? "Grátis"
+              : brl(shipping.price)}
+          </dd>
         </div>
         {item.oldPrice && item.oldPrice > item.price && (
           <div className="flex justify-between text-xs text-[color:var(--color-ink-soft)]">
@@ -678,7 +815,7 @@ function ResumoPedido({ item }: { item: { name: string; image: string; price: nu
 
       <div className="mt-4 pt-4 border-t border-[color:var(--color-line)] flex justify-between items-baseline">
         <span className="text-sm font-semibold">Total</span>
-        <span className="text-2xl font-semibold text-emerald-700">{brl(item.price)}</span>
+        <span className="text-2xl font-semibold text-emerald-700">{brl(total)}</span>
       </div>
 
       <div className="mt-3 text-[11px] text-[color:var(--color-ink-soft)] flex items-center gap-1.5">
