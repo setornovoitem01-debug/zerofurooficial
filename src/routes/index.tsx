@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Car, Bike, Wrench } from "lucide-react";
+import { ArrowRight, Car, Wrench } from "lucide-react";
 import { useReveal } from "@/hooks/useReveal";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
@@ -56,7 +56,6 @@ type Categoria = {
 
 const categorias: Categoria[] = [
   { nome: "Selante Zero Furo Para Seu Carro", Icon: Car, to: "/carro" },
-  { nome: "Selante Zero Furo Para Sua Moto", Icon: Bike, to: "/" },
   { nome: "Compressor de Ar Portátil 3 em 1", Icon: Wrench, to: "/compressor" },
 ];
 
