@@ -57,7 +57,7 @@ const badges = [
 function Landing() {
   return (
 
-    <div className="min-h-screen bg-white text-black font-sans antialiased">
+    <div className="min-h-screen bg-white text-black font-sans antialiased overflow-x-hidden">
       {/* Header */}
       <header className="border-b border-black/10 sticky top-0 bg-white/95 backdrop-blur z-40">
         <div className="max-w-6xl mx-auto flex items-center justify-center px-4 py-4">
