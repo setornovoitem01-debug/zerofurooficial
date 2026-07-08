@@ -135,30 +135,56 @@ function Home() {
 
       {/* Footer */}
       <footer className="border-t border-[color:var(--color-line)] bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <div className="flex justify-center mb-8">
+        <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
+          <div className="mb-10">
             <img src={logo.url} alt="Zero Furo" className="h-9" />
           </div>
-          <div className="grid gap-6 md:grid-cols-2 text-xs text-[color:var(--color-ink-soft)] leading-relaxed max-w-3xl mx-auto">
-            <div>
-              <div className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-ink)] mb-2">
-                Razão social
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10">
+            {[
+              { title: "Atendimento", items: ["Central de Atendimento", "Minha Conta", "Troca Fácil"] },
+              { title: "Informações úteis", items: ["Formas de Pagamento", "Prazos de Entrega", "Trocas e Devoluções", "Política de Privacidade", "FAQ"] },
+              { title: "Institucional", items: ["Quem Somos"] },
+            ].map((col) => (
+              <div key={col.title}>
+                <h4 className="text-sm font-semibold border-b border-[color:var(--color-line)] pb-3 mb-4">
+                  {col.title}
+                </h4>
+                <ul className="space-y-2.5 text-sm text-[color:var(--color-ink-soft)]">
+                  {col.items.map((it) => (
+                    <li key={it}>
+                      <a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">
+                        {it}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <p>A loja Zero Furo é operada pela</p>
-              <p className="text-[color:var(--color-ink)] font-medium">Social S.A.</p>
-              <p className="mt-1">CNPJ: 28.511.223/0004-85</p>
-            </div>
-            <div>
-              <div className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-ink)] mb-2">
-                Endereço
-              </div>
-              <p>Av. Caio Cotrim, 46 — Galpão 01, 02 e 03</p>
-              <p>Setor CLI 2 — Itapevi/SP</p>
-              <p>CEP: 06696-060</p>
-            </div>
+            ))}
           </div>
-          <div className="mt-8 pt-5 border-t border-[color:var(--color-line)] text-center text-[11px] text-[color:var(--color-ink-soft)]">
-            © 2026 Zero Furo. Todos os direitos reservados.
+
+          <div className="mt-10 pt-8 border-t border-[color:var(--color-line)]">
+            <div className="grid gap-6 md:grid-cols-2 text-xs text-[color:var(--color-ink-soft)] leading-relaxed">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-ink)] mb-2">
+                  Razão social
+                </div>
+                <p>A loja Zero Furo é operada pela</p>
+                <p className="text-[color:var(--color-ink)] font-medium">Social S.A.</p>
+                <p className="mt-1">CNPJ: 28.511.223/0004-85</p>
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-ink)] mb-2">
+                  Endereço
+                </div>
+                <p>Av. Caio Cotrim, 46 — Galpão 01, 02 e 03</p>
+                <p>Setor CLI 2 — Itapevi/SP</p>
+                <p>CEP: 06696-060</p>
+              </div>
+            </div>
+            <div className="mt-8 pt-5 border-t border-[color:var(--color-line)] text-center text-[11px] text-[color:var(--color-ink-soft)]">
+              © 2026 Zero Furo. Todos os direitos reservados.
+            </div>
           </div>
         </div>
       </footer>
