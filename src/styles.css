@@ -1,4 +1,9 @@
 @import "tailwindcss" source(none);
+
+html {
+  scroll-behavior: smooth;
+}
+
 @source "../src";
 @import "tw-animate-css";
 
