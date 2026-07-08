@@ -319,7 +319,7 @@ function Stepper({ step }: { step: Step }) {
     { n: 3, label: "Pagamento", Icon: QrCode },
   ] as const;
   return (
-    <ol className="flex items-center gap-2 md:gap-4">
+    <ol className="flex items-center justify-center gap-2 md:gap-4">
       {steps.map((s, i) => {
         const done = step > s.n;
         const active = step === s.n;
