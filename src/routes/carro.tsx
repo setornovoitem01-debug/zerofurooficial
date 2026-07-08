@@ -34,6 +34,13 @@ import car4 from "@/assets/selante-carro-aro13-15-4.png.asset.json";
 import car5 from "@/assets/selante-carro-aro13-15-5.png.asset.json";
 import car6 from "@/assets/selante-carro-aro13-15-6.png.asset.json";
 
+import car16a from "@/assets/selante-carro-aro16-18-1.png.asset.json";
+import car16b from "@/assets/selante-carro-aro16-18-2.png.asset.json";
+import car16c from "@/assets/selante-carro-aro16-18-3.png.asset.json";
+import car16d from "@/assets/selante-carro-aro16-18-4.png.asset.json";
+import car16e from "@/assets/selante-carro-aro16-18-5.png.asset.json";
+import car16f from "@/assets/selante-carro-aro16-18-6.png.asset.json";
+
 export const Route = createFileRoute("/carro")({
   head: () => ({
     meta: [
@@ -145,23 +152,78 @@ const kits: Record<AroKey, Kit> = {
   },
   "16-18": {
     key: "16-18",
-    titulo: "Kit Selante Zero Furo — Aros 16, 17 e 18",
-    chamada: "Ideal para sedãs e SUVs médios",
+    titulo: "Selante Zero Furo 900 ml Carro - 4un",
+    chamada: "Proteção especializada para aros 16, 17 e 18",
     subtitulo:
-      "Fórmula reforçada para veículos com aros 16, 17 e 18.",
-    price: 109.9,
-    oldPrice: 219.9,
-    images: [p3, p4, p5, p6],
+      "Kit com 4 unidades de 900 mL — dosagem otimizada para SUVs, sedãs médios, crossovers e picapes.",
+    price: 110.5,
+    oldPrice: 300.0,
+    images: [car16f, car16a, car16b, car16c, car16d, car16e],
     descricao: [
-      "Kit ideal para sedãs e SUVs médios com aros de 16 a 18 polegadas.",
-      "Volume otimizado para pneus de maior perfil, com selagem imediata.",
+      "O Selante Zero Furo Carro 900 mL foi desenvolvido sob medida para veículos de médio e grande porte que exigem o máximo em performance e segurança.",
+      "Esta embalagem é ideal para quem utiliza pneus de Aros 16, 17 e 18, oferecendo a dosagem otimizada para garantir uma blindagem interna eficiente contra imprevistos.",
     ],
     destaques: [
       "Indicado para aros 16, 17 e 18",
-      "Sela furos de até 8 mm",
-      "Fórmula reforçada de longa duração",
-      "Compatível com pneus radiais e sem câmara",
+      "Sela furos de até 6 mm na banda de rodagem",
+      "Fórmula à base de água, não tóxica e não inflamável",
+      "Não agride a borracha nem corrói a roda",
     ],
+    sections: [
+      {
+        title: "Proteção especializada para aros 16, 17 e 18",
+        paragraphs: [
+          "Nossa fórmula avançada com fibras sintéticas atua de forma preventiva, selando instantaneamente furos de até 6 mm na banda de rodagem.",
+          "Com o Selante Zero Furo, você protege seu investimento e garante que sua viagem não seja interrompida por pneus murchos ou paradas perigosas em vias públicas.",
+        ],
+      },
+      {
+        title: "Nossa história: tecnologia brasileira a serviço da segurança",
+        paragraphs: [
+          "A Zero Furo nasceu com o propósito de transformar a experiência de dirigir no Brasil. Entendemos que os imprevistos nas vias brasileiras — de buracos a objetos perfurantes — geram mais do que custos: geram riscos à vida e atrasos logísticos.",
+          "Com tecnologia 100% brasileira, desenvolvemos um produto que une química de ponta e consciência ambiental. Hoje, a Zero Furo é referência nacional em blindagem de pneus, atendendo desde o motorista particular até grandes frotas que buscam reduzir custos de manutenção e maximizar a vida útil de seus pneus.",
+        ],
+      },
+      {
+        title: "Principais características e benefícios",
+        bullets: [
+          "Foco em aros 16, 17 e 18: volume ideal para SUVs, sedãs médios, crossovers e picapes que utilizam estas medidas de roda.",
+          "Vedação instantânea: proteção ativa contra furos de até 6 mm na banda de rodagem.",
+          "Segurança máxima: evita paradas perigosas em locais de risco e reduz o risco de acidentes causados por perda súbita de ar.",
+          "Economia real: ajuda a manter a temperatura interna estável, reduzindo o desgaste prematuro e prolongando a vida útil do pneu.",
+          "Tecnologia eco-friendly: fórmula à base de água, ecologicamente correta, não tóxica e não inflamável.",
+        ],
+      },
+      {
+        title: "Por que escolher a Zero Furo?",
+        paragraphs: [
+          "Diferente de kits de reparo temporários, a Zero Furo é uma solução preventiva. Você aplica uma única vez e viaja tranquilo.",
+          "É o investimento mais inteligente para quem busca proteção 24h contra os imprevistos das estradas, garantindo a integridade dos seus pneus de alta performance.",
+        ],
+      },
+    ],
+    specs: [
+      ["Marca", "Zero Furo Blindagem de Pneus"],
+      ["Volume", "900 mL (por pneu)"],
+      ["Indicação", "Aros 16, 17 e 18"],
+      ["Composição", "Selante à base de água com microfibras sintéticas de alta resistência"],
+      ["Aplicação", "Via válvula de ar (sem TPMS) ou interior do pneu (com TPMS)"],
+      ["Garantia", "Proteção preventiva permanente enquanto líquido no pneu"],
+    ],
+    inclui: [
+      "4x Selante Zero Furo 900 mL",
+      "Bico aplicador",
+      "Manual de instrução",
+    ],
+    composicao: [
+      "Borracha Sintética",
+      "Borracha Natural",
+      "Resina",
+      "Regulador de pH",
+      "H₂O",
+    ],
+    dica:
+      "Dica Zero Furo: para garantir a máxima eficiência em aros 16 a 18, utilize a quantidade exata recomendada em nossa tabela de aplicação oficial disponível via QR Code na embalagem.",
   },
   "19-23": {
     key: "19-23",
