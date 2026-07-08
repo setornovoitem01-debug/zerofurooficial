@@ -85,6 +85,12 @@ function Landing() {
   const price = 55.9;
   const oldPrice = 199.9;
 
+  // Pré-carrega toda a galeria — trocar de slide fica instantâneo.
+  const galleryUrls = useMemo(() => images.map((i) => i.url), []);
+  useImagePreload(galleryUrls);
+
+
+
   return (
     <div className="min-h-screen bg-white text-[color:var(--color-ink)] font-sans antialiased overflow-x-hidden">
       {/* Header */}
