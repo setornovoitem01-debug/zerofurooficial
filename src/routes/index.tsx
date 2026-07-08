@@ -174,7 +174,7 @@ function Landing() {
               R$ {oldPrice.toFixed(2).replace(".", ",")}
             </div>
             <div className="flex items-baseline gap-3">
-              <div className="text-4xl md:text-5xl font-light tracking-tight">
+              <div className="text-4xl md:text-5xl font-light tracking-tight text-emerald-600">
                 R$ <span className="font-medium">{price.toFixed(2).replace(".", ",")}</span>
               </div>
               <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
