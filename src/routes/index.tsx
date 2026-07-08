@@ -193,7 +193,7 @@ function Landing() {
           <div className="mt-6">
             <button
               type="button"
-              className="w-full h-12 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[15px] transition shadow-md shadow-emerald-600/20"
+              className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
             >
               Comprar agora
             </button>
