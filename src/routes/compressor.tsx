@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useReveal } from "@/hooks/useReveal";
+import { useImagePreload } from "@/hooks/useImagePreload";
+import { useMemo } from "react";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import p1 from "@/assets/produto-1.png.asset.json";
