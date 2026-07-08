@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Car, Bike, Wrench } from "lucide-react";
+import { ArrowRight, Car, Wrench } from "lucide-react";
 import { useReveal } from "@/hooks/useReveal";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
