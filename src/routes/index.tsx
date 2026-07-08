@@ -55,9 +55,8 @@ const badges = [
 ];
 
 function Landing() {
-  const [qty, setQty] = useState(1);
-
   return (
+
     <div className="min-h-screen bg-white text-black font-sans antialiased">
       {/* Header */}
       <header className="border-b border-black/10 sticky top-0 bg-white/95 backdrop-blur z-40">
