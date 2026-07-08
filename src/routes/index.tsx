@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Car, Wrench } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useReveal } from "@/hooks/useReveal";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import hero from "@/assets/hero-banner.jpg";
+import selanteImg from "@/assets/selante-carro-aro13-15-1.png.asset.json";
+import compressorImg from "@/assets/produto-1.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,13 +52,24 @@ function Reveal({
 
 type Categoria = {
   nome: string;
-  Icon: typeof Car;
+  descricao: string;
+  imagem: string;
   to: string;
 };
 
 const categorias: Categoria[] = [
-  { nome: "Selante Zero Furo Para Seu Carro", Icon: Car, to: "/carro" },
-  { nome: "Compressor de Ar Portátil 3 em 1", Icon: Wrench, to: "/compressor" },
+  {
+    nome: "Selante Zero Furo Para Seu Carro",
+    descricao: "Prevenção contra furos: sela o pneu na hora, sem parar no acostamento.",
+    imagem: selanteImg.url,
+    to: "/carro",
+  },
+  {
+    nome: "Compressor de Ar Portátil 3 em 1",
+    descricao: "Calibra, ilumina e carrega: leve no porta-luvas, resolve em minutos.",
+    imagem: compressorImg.url,
+    to: "/compressor",
+  },
 ];
 
 function Home() {
@@ -107,33 +120,41 @@ function Home() {
           </h2>
         </Reveal>
 
-        <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
-          {categorias.map(({ nome, Icon, to }, i) => (
+        <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10 max-w-3xl mx-auto">
+          {categorias.map(({ nome, descricao, imagem, to }, i) => (
             <Reveal key={nome} delay={i * 120}>
               <Link
                 to={to}
                 preload="viewport"
                 className="group flex flex-col items-center text-center"
               >
-                <div className="h-40 w-40 md:h-48 md:w-48 rounded-full border-[3px] border-[color:var(--color-brand)] grid place-items-center bg-[color:var(--color-brand-soft)] transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:bg-white">
-                  <Icon
-                    className="h-20 w-20 md:h-24 md:w-24 text-[color:var(--color-brand)]"
-                    strokeWidth={1.75}
+                <div className="relative h-44 w-44 md:h-52 md:w-52 rounded-full border-[3px] border-[color:var(--color-brand)] overflow-hidden bg-[color:var(--color-brand-soft)] transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
+                  <img
+                    src={imagem}
+                    alt={nome}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover opacity-40 transition-opacity duration-500 group-hover:opacity-70"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--color-brand-soft)]/60 to-transparent" />
                 </div>
                 <div className="mt-6 flex items-center gap-3">
-                  <span className="text-sm md:text-base font-medium max-w-[200px]">
+                  <span className="text-sm md:text-base font-semibold max-w-[220px]">
                     {nome}
                   </span>
-                  <span className="h-9 w-9 rounded bg-[color:var(--color-brand)] text-white grid place-items-center transition group-hover:bg-[color:var(--color-ink)]">
+                  <span className="h-9 w-9 shrink-0 rounded bg-[color:var(--color-brand)] text-white grid place-items-center transition group-hover:bg-[color:var(--color-ink)]">
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>
+                <p className="mt-2 text-xs md:text-sm text-[color:var(--color-ink-soft)] leading-relaxed max-w-[260px]">
+                  {descricao}
+                </p>
               </Link>
             </Reveal>
           ))}
         </div>
       </section>
+
 
       {/* Footer */}
       <footer className="border-t border-[color:var(--color-line)] bg-white">
