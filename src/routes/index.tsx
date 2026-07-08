@@ -6,7 +6,6 @@ import {
   RefreshCcw,
   Lock,
   Check,
-  Star,
   ChevronRight,
   ChevronLeft,
   Zap,
@@ -15,7 +14,6 @@ import {
   Gauge,
   Volume2,
   Timer,
-  CreditCard,
   BadgeCheck,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -69,7 +67,7 @@ function Reveal({
     <div
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-out ${
+      className={`transition-all duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       } ${className}`}
     >
@@ -82,9 +80,8 @@ function Reveal({
 
 function Landing() {
   const [active, setActive] = useState(0);
-  const price = 249.9;
-  const oldPrice = 499.9;
-  const installment = price / 12;
+  const price = 55.9;
+  const oldPrice = 199.9;
 
   return (
     <div className="min-h-screen bg-white text-[color:var(--color-ink)] font-sans antialiased overflow-x-hidden">
@@ -172,17 +169,6 @@ function Landing() {
             Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED
           </h1>
 
-          <div className="mt-3 flex items-center gap-2 text-sm">
-            <div className="flex text-[color:var(--color-brand)]">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-current" />
-              ))}
-            </div>
-            <span className="font-semibold">4.9</span>
-            <span className="text-[color:var(--color-ink-soft)]">(12.437 avaliações)</span>
-            <span className="text-emerald-600 font-medium ml-1 hidden sm:inline">| +2 mil vendidos</span>
-          </div>
-
           <div className="mt-6">
             <div className="text-sm text-[color:var(--color-ink-soft)] line-through">
               R$ {oldPrice.toFixed(2).replace(".", ",")}
@@ -192,11 +178,8 @@ function Landing() {
                 R$ <span className="font-medium">{price.toFixed(2).replace(".", ",")}</span>
               </div>
               <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
-                50% OFF
+                72% OFF
               </span>
-            </div>
-            <div className="mt-1 text-sm text-[color:var(--color-ink-soft)]">
-              em 12x de <span className="text-[color:var(--color-ink)] font-medium">R$ {installment.toFixed(2).replace(".", ",")}</span> sem juros
             </div>
           </div>
 
@@ -226,9 +209,6 @@ function Landing() {
             <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
               <BadgeCheck className="h-4 w-4 text-[color:var(--color-ink)]" /> Produto original
             </div>
-            <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
-              <CreditCard className="h-4 w-4 text-[color:var(--color-ink)]" /> Até 12x sem juros
-            </div>
           </div>
 
           <ul className="mt-6 border-t border-[color:var(--color-line)] pt-5 space-y-2 text-sm">
@@ -247,7 +227,7 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { icon: Truck, t: "Frete grátis", s: "Para todo o Brasil" },
-            { icon: CreditCard, t: "12x sem juros", s: "Em todos os cartões" },
+            { icon: BadgeCheck, t: "Produto original", s: "Garantia de qualidade" },
             { icon: ShieldCheck, t: "Compra segura", s: "Site 100% protegido" },
             { icon: RefreshCcw, t: "7 dias de garantia", s: "Direito de arrependimento" },
           ].map((b, i) => (
