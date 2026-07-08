@@ -179,10 +179,7 @@ function Landing() {
 
         {/* Buy panel */}
         <div id="comprar" className="lg:sticky lg:top-24 self-start scroll-mt-24">
-          <div className="text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
-            Novo • Mais vendido
-          </div>
-          <h1 className="mt-2 text-2xl md:text-[28px] font-semibold leading-tight tracking-tight">
+          <h1 className="text-2xl md:text-[28px] font-semibold leading-tight tracking-tight">
             Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED
           </h1>
 
