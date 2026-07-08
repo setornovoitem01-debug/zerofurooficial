@@ -179,29 +179,72 @@ function Landing() {
         </div>
       </section>
 
-      {/* Split highlight */}
+      {/* Storytelling / Descrição principal */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
+            A história que ninguém quer viver
+          </span>
+          <h2 className="mt-3 text-3xl md:text-5xl font-black tracking-tight leading-tight">
+            Pneu vazio no meio do nada?{" "}
+            <span className="text-[color:var(--color-brand)]">Resolva em 5 minutos, sozinho.</span>
+          </h2>
+          <p className="mt-6 text-black/70 md:text-lg">
+            Sem ajuda, sem posto, sem solução. A maioria das pessoas só pensa nisso
+            <span className="font-semibold text-black"> depois que acontece uma vez</span>.
+            Quem já passou, nunca mais saiu sem um.
+          </p>
+          <p className="mt-4 text-black/70 md:text-lg">
+            Com o <span className="font-bold">Compressor Portátil Zero Furo</span>, você nunca mais
+            se preocupará com pneu vazio. É a sua bomba pessoal e poderosa para resolver
+            todos os seus problemas de pressão — a qualquer hora, em qualquer lugar.
+          </p>
+        </div>
+      </section>
+
+      {/* Split 1: Portátil e compacto */}
       <section className="bg-neutral-50 py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
           <div className="rounded-3xl overflow-hidden bg-white border border-black/5">
-            <img src={p2.url} alt="Detalhe do produto" className="w-full h-full object-cover" />
+            <img src={p3.url} alt="Compressor portátil compacto" className="w-full h-full object-cover" />
           </div>
           <div>
             <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
-              Tecnologia inteligente
+              Portátil e compacto
             </span>
-            <h2 className="mt-2 text-3xl md:text-5xl font-black leading-tight">
-              Display digital com pressão preset
+            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
+              Design inovador que cabe no porta-luvas
             </h2>
             <p className="mt-4 text-black/70 md:text-lg">
-              Escolha a pressão ideal para carro, moto, bike ou bola. O compressor desliga
-              automaticamente ao atingir o valor programado — sem risco de estourar.
+              Perfeito para levar dentro do carro e evitar frustrações com pneus furados.
+              Além da mangueira para carros e motos, acompanha <span className="font-semibold">mais 3 bicos diferentes</span>
+              {" "}para bolas, balões, boias, colchões infláveis e diversas outras aplicações.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Split 2: Recarregável + LED */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+          <div className="order-2 md:order-1">
+            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
+              Recarregável com LED integrado
+            </span>
+            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
+              Mais de 8 horas de autonomia, sem cabos
+            </h2>
+            <p className="mt-4 text-black/70 md:text-lg">
+              Bateria recarregável de longa duração que oferece total liberdade de uso.
+              O <span className="font-semibold">display digital</span> exibe a pressão em tempo real,
+              garantindo medição precisa e ajuste fácil para cada necessidade.
             </p>
             <ul className="mt-6 space-y-3">
               {[
-                "Unidades PSI, BAR, KPA e KG/CM²",
-                "4 bicos inclusos para diferentes usos",
-                "Bateria de longa duração",
-                "Cabo USB-C para recarga rápida",
+                "Display digital com pressão em tempo real",
+                "LED integrado para emergências no escuro",
+                "Recarga rápida via USB",
+                "Desligamento automático na pressão programada",
               ].map((t) => (
                 <li key={t} className="flex items-center gap-3">
                   <span className="h-6 w-6 rounded-full bg-black text-white grid place-items-center">
@@ -212,85 +255,102 @@ function Landing() {
               ))}
             </ul>
           </div>
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section className="max-w-6xl mx-auto px-4 py-16 md:py-24">
-        <div className="text-center">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight">
-            Quem tem, recomenda
-          </h2>
-        </div>
-        <div className="mt-12 grid md:grid-cols-3 gap-6">
-          {[
-            { n: "Rafael M.", t: "Salvou minha viagem. Furei o pneu no meio da estrada, em 5 minutos estava rodando de novo." },
-            { n: "Camila S.", t: "Uso pra encher a bola do meu filho e como power bank. Vale cada centavo." },
-            { n: "João P.", t: "Compacto, silencioso e muito potente. Comprei um pra cada carro da família." },
-          ].map((r) => (
-            <div key={r.n} className="rounded-3xl border border-black/10 p-6 bg-white">
-              <div className="flex text-[color:var(--color-brand)]">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <p className="mt-4 text-black/80">"{r.t}"</p>
-              <div className="mt-4 font-bold">{r.n}</div>
-              <div className="text-xs text-black/50">Compra verificada</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Buy CTA */}
-      <section id="comprar" className="bg-black text-white py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <span className="inline-block bg-[color:var(--color-brand)] text-white text-xs font-bold tracking-wider uppercase px-3 py-1.5 rounded-full">
-            Oferta por tempo limitado
-          </span>
-          <h2 className="mt-4 text-3xl md:text-5xl font-black leading-tight">
-            Garanta o seu Compressor 3 em 1 com{" "}
-            <span className="text-[color:var(--color-brand)]">50% OFF</span>
-          </h2>
-
-          <div className="mt-10 bg-white text-black rounded-3xl p-6 md:p-10 max-w-md mx-auto text-left">
-            <div className="flex items-center gap-4">
-              <img src={p1.url} alt="Produto" className="h-20 w-20 rounded-2xl object-cover bg-neutral-50" />
-              <div>
-                <div className="font-bold">Compressor 3 em 1</div>
-                <div className="text-sm text-black/60">Power Bank + Lanterna LED</div>
-              </div>
-            </div>
-
-            <div className="mt-6 flex items-center justify-between">
-              <span className="font-semibold">Quantidade</span>
-              <div className="flex items-center rounded-full border border-black/15">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-4 py-2 font-bold">-</button>
-                <span className="px-4 font-bold">{qty}</span>
-                <button onClick={() => setQty(qty + 1)} className="px-4 py-2 font-bold">+</button>
-              </div>
-            </div>
-
-            <div className="mt-6 border-t border-black/10 pt-6">
-              <div className="text-sm text-black/50 line-through">De R$ {(499.9 * qty).toFixed(2).replace(".", ",")}</div>
-              <div className="text-3xl font-black">
-                R$ {(249.9 * qty).toFixed(2).replace(".", ",")}
-              </div>
-              <div className="text-sm text-black/70">
-                ou 12x de R$ {(249.9 * qty / 12).toFixed(2).replace(".", ",")}
-              </div>
-            </div>
-
-            <Button className="mt-6 w-full h-14 rounded-full bg-[color:var(--color-brand)] hover:bg-black text-white font-bold text-base">
-              Comprar agora
-            </Button>
-
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-black/60">
-              <Lock className="h-3.5 w-3.5" /> Pagamento 100% seguro
-            </div>
+          <div className="order-1 md:order-2 rounded-3xl overflow-hidden bg-neutral-50 border border-black/5">
+            <img src={p4.url} alt="Display digital e LED integrado" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
+
+      {/* Benefícios */}
+      <section className="bg-black text-white py-16 md:py-24">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto">
+            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
+              Benefícios
+            </span>
+            <h2 className="mt-2 text-3xl md:text-5xl font-black leading-tight">
+              Por que quem tem, não sai mais sem
+            </h2>
+          </div>
+          <ul className="mt-12 grid md:grid-cols-2 gap-5">
+            {[
+              "Prático e compacto — use em qualquer lugar, a qualquer momento.",
+              "Sempre preparado para imprevistos e emergências, sem preocupação.",
+              "Infla até 2,5x mais rápido que compressores comuns.",
+              "Amplamente utilizável — de pneus de bike a caminhão, suporta até 150 PSI.",
+              "Você nunca mais passará apuros nas estradas.",
+              "LED integrado: mesmo no escuro, ele te ajuda a resolver o problema.",
+            ].map((t) => (
+              <li key={t} className="flex items-start gap-3 rounded-2xl border border-white/10 p-5 bg-white/[0.03]">
+                <span className="h-6 w-6 rounded-full bg-[color:var(--color-brand)] text-white grid place-items-center flex-shrink-0 mt-0.5">
+                  <Check className="h-4 w-4" />
+                </span>
+                <span className="text-white/90">{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Especificações */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-4xl mx-auto px-4 grid md:grid-cols-2 gap-12">
+          <div>
+            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
+              Especificações
+            </span>
+            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
+              Tudo o que você precisa saber
+            </h2>
+            <dl className="mt-6 space-y-3 text-black/80">
+              <div className="flex justify-between border-b border-black/10 pb-3">
+                <dt className="font-semibold">Material</dt>
+                <dd>Polímero de alta resistência</dd>
+              </div>
+              <div className="flex justify-between border-b border-black/10 pb-3">
+                <dt className="font-semibold">Carregamento</dt>
+                <dd>USB</dd>
+              </div>
+              <div className="flex justify-between border-b border-black/10 pb-3">
+                <dt className="font-semibold">Pressão máxima</dt>
+                <dd>150 PSI</dd>
+              </div>
+              <div className="flex justify-between border-b border-black/10 pb-3">
+                <dt className="font-semibold">Autonomia</dt>
+                <dd>+8 horas de uso</dd>
+              </div>
+            </dl>
+          </div>
+          <div>
+            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
+              O pacote inclui
+            </span>
+            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
+              Kit completo, pronto pra usar
+            </h2>
+            <ul className="mt-6 space-y-3">
+              {[
+                "1x Mini Compressor de Ar Digital Portátil Recarregável",
+                "1x Cabo de Carregamento USB",
+                "1x Mangueira de Ar (carros, motos e bicicletas)",
+                "1x Agulha de Bola (vários tipos de bolas)",
+                "1x Bocal para brinquedos infláveis e boias de piscina",
+                "1x Bocal para vários tipos de balões",
+                "1x Manual de Instrução",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-3">
+                  <span className="h-6 w-6 rounded-full bg-black text-white grid place-items-center flex-shrink-0 mt-0.5">
+                    <Check className="h-4 w-4" />
+                  </span>
+                  <span className="text-black/80">{t}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
 
       {/* FAQ */}
       <section className="max-w-3xl mx-auto px-4 py-16 md:py-24">
