@@ -67,35 +67,35 @@ function Landing() {
 
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-4 pt-8 md:pt-14 pb-10 md:pb-16 grid md:grid-cols-2 gap-10 items-center">
-        <div className="order-2 md:order-1">
+      <section className="max-w-6xl mx-auto px-4 pt-8 md:pt-14 pb-10 md:pb-16 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
+        <div className="order-2 md:order-1 text-center md:text-left">
           <span className="inline-block bg-black text-white text-xs font-bold tracking-wider uppercase px-3 py-1.5 rounded-full">
             Novo • 3 em 1
           </span>
-          <h1 className="mt-4 text-4xl md:text-6xl font-black leading-[1.05] tracking-tight">
+          <h1 className="mt-4 text-3xl sm:text-4xl md:text-6xl font-black leading-[1.05] tracking-tight">
             Compressor de Ar Portátil{" "}
             <span className="text-[color:var(--color-brand)]">3 em 1</span>
           </h1>
-          <p className="mt-3 text-lg md:text-xl font-medium text-black/70">
+          <p className="mt-3 text-base sm:text-lg md:text-xl font-medium text-black/70">
             Com Carregador Power Bank e Lanterna LED
           </p>
 
-          <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-brand)] text-white text-sm font-semibold px-4 py-2">
+          <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-brand)] text-white text-xs sm:text-sm font-semibold px-4 py-2">
             Poderoso • Seguro • Duradouro • Silencioso
           </div>
 
-          <div className="mt-6 flex items-center gap-2 text-sm">
+          <div className="mt-6 flex items-center justify-center md:justify-start gap-2 text-sm">
             <div className="flex text-[color:var(--color-brand)]">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-4 w-4 fill-current" />
               ))}
             </div>
             <span className="font-semibold">4.9</span>
-            <span className="text-black/60">• +12.437 clientes satisfeitos</span>
+            <span className="text-black/60">• +12.437 clientes</span>
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div>
+          <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
+            <div className="text-center sm:text-left">
               <div className="text-sm text-black/50 line-through">De R$ 499,90</div>
               <div className="text-4xl md:text-5xl font-black">
                 R$ 249<span className="text-2xl align-top">,90</span>
@@ -108,17 +108,17 @@ function Landing() {
             >
               Quero o meu agora
             </button>
-
           </div>
 
-          <ul className="mt-6 grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+          <ul className="mt-6 grid grid-cols-2 gap-y-2 gap-x-4 text-sm max-w-md mx-auto md:mx-0">
             {["Enche pneu em minutos", "Carrega o celular", "Lanterna LED forte", "Compacto e leve"].map((t) => (
-              <li key={t} className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-[color:var(--color-brand)]" /> {t}
+              <li key={t} className="flex items-center gap-2 justify-center md:justify-start text-left">
+                <Check className="h-4 w-4 text-[color:var(--color-brand)] shrink-0" /> <span>{t}</span>
               </li>
             ))}
           </ul>
         </div>
+
 
         <div className="order-1 md:order-2">
           <Carousel className="w-full">
