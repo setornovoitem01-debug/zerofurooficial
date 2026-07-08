@@ -41,6 +41,14 @@ import car16d from "@/assets/selante-carro-aro16-18-4.png.asset.json";
 import car16e from "@/assets/selante-carro-aro16-18-5.png.asset.json";
 import car16f from "@/assets/selante-carro-aro16-18-6.png.asset.json";
 
+import car19a from "@/assets/selante-carro-aro19-23-1.png.asset.json";
+import car19b from "@/assets/selante-carro-aro19-23-2.png.asset.json";
+import car19c from "@/assets/selante-carro-aro19-23-3.png.asset.json";
+import car19d from "@/assets/selante-carro-aro19-23-4.png.asset.json";
+import car19e from "@/assets/selante-carro-aro19-23-5.png.asset.json";
+import car19f from "@/assets/selante-carro-aro19-23-6.png.asset.json";
+import car19g from "@/assets/selante-carro-aro19-23-7.png.asset.json";
+
 export const Route = createFileRoute("/carro")({
   head: () => ({
     meta: [
@@ -227,23 +235,78 @@ const kits: Record<AroKey, Kit> = {
   },
   "19-23": {
     key: "19-23",
-    titulo: "Kit Selante Zero Furo — Aros 19, 20, 21, 22 e 23",
-    chamada: "Ideal para SUVs, picapes e utilitários",
+    titulo: "Selante Zero Furo 1,2 L Carro - 4un",
+    chamada: "Blindagem premium para SUVs, picapes e utilitários",
     subtitulo:
-      "Máxima proteção para veículos com aros 19 a 23.",
-    price: 139.9,
-    oldPrice: 279.9,
-    images: [p5, p6, p7, p8],
+      "Kit com 4 unidades de 1,2 L — nível máximo de proteção para veículos de grande porte.",
+    price: 129.79,
+    oldPrice: 340.2,
+    images: [car19a, car19b, car19c, car19d, car19e, car19f, car19g],
     descricao: [
-      "Kit premium para SUVs, picapes e utilitários com aros de 19 a 23 polegadas.",
-      "Maior quantidade de selante para pneus de alto perfil e uso intenso.",
+      "O Selante Zero Furo Carro 1,2 L representa o nível máximo de proteção para quem possui veículos que exigem alta performance.",
+      "Com um volume maior, esta embalagem é a escolha definitiva para SUVs, picapes, vans e veículos utilitários, garantindo a quantidade necessária para uma blindagem interna completa e de longa duração.",
     ],
     destaques: [
       "Indicado para aros 19, 20, 21, 22 e 23",
-      "Sela furos de até 10 mm",
-      "Alta performance em estradas e off-road",
-      "Proteção duradoura contra novos furos",
+      "Sela furos de até 6 mm na banda de rodagem",
+      "Fórmula à base de água, não tóxica e não inflamável",
+      "Não danifica a roda nem a estrutura interna do pneu",
     ],
+    sections: [
+      {
+        title: "Blindagem premium para SUVs, picapes e utilitários",
+        paragraphs: [
+          "Nossa fórmula exclusiva, composta por fibras sintéticas de alta tecnologia, cria uma barreira ativa dentro do pneu.",
+          "Ao detectar uma perfuração de até 6 mm na banda de rodagem, o produto veda o buraco instantaneamente através da pressão interna, impedindo a perda de ar e permitindo que você siga viagem com total segurança e controle.",
+        ],
+      },
+      {
+        title: "Nossa história: tecnologia brasileira a serviço da segurança",
+        paragraphs: [
+          "A Zero Furo nasceu com o propósito de transformar a experiência de dirigir no Brasil. Entendemos que os imprevistos nas vias brasileiras — de buracos a objetos perfurantes — geram mais do que custos: geram riscos à vida e atrasos logísticos.",
+          "Com tecnologia 100% brasileira, desenvolvemos um produto que une química de ponta e consciência ambiental. Hoje, a Zero Furo é referência nacional em blindagem de pneus, sendo a solução preferida por motoristas que não abrem mão da segurança e por frotistas que buscam eficiência operacional.",
+        ],
+      },
+      {
+        title: "Principais características e benefícios",
+        bullets: [
+          "Ideal para veículos de grande porte: volume perfeito para pneus maiores de SUVs, 4x4, utilitários de carga, caminhonetes de médio e grande porte e carros esportivos.",
+          "Vedação de alta performance: proteção ativa contra furos de até 6 mm de forma imediata.",
+          "Segurança inabalável: elimina o risco de ter que trocar pneus em acostamentos perigosos ou locais isolados.",
+          "Máxima economia: reduz o aquecimento interno do pneu e mantém a calibragem por mais tempo.",
+          "Fórmula ecológica: à base de água, não tóxica, não inflamável e ecologicamente correta.",
+        ],
+      },
+      {
+        title: "Por que escolher a Zero Furo?",
+        paragraphs: [
+          "A embalagem de 1,2 L da Zero Furo é o melhor custo-benefício para quem busca a blindagem mais robusta do mercado.",
+          "É a garantia de que, independentemente do terreno ou da distância, seu veículo estará protegido contra os imprevistos mais comuns das estradas brasileiras. Invista em prevenção e viaje com a tranquilidade que só a líder em vedação pode oferecer.",
+        ],
+      },
+    ],
+    specs: [
+      ["Marca", "Zero Furo Blindagem de Pneus"],
+      ["Volume", "1,2 L (1200 mL por pneu)"],
+      ["Indicação", "SUVs, 4x4, vans, picapes, utilitários e esportivos"],
+      ["Composição", "Selante à base de água com microfibras sintéticas de alta resistência"],
+      ["Aplicação", "Via válvula de ar ou diretamente no pneu (consulte orientações para TPMS)"],
+      ["Durabilidade", "Proteção preventiva permanente enquanto líquido no pneu"],
+    ],
+    inclui: [
+      "4x Selante Zero Furo 1,2 L",
+      "Bico aplicador",
+      "Manual de instrução",
+    ],
+    composicao: [
+      "Borracha Sintética",
+      "Borracha Natural",
+      "Resina",
+      "Regulador de pH",
+      "H₂O",
+    ],
+    dica:
+      "Dica Zero Furo: para veículos utilitários e SUVs de grande porte, o frasco de 1,2 L garante a cobertura total da banda de rodagem. Escaneie o QR Code no rótulo para acessar nossa tabela de aplicação e conferir a dosagem exata para o seu pneu.",
   },
 };
 
@@ -424,9 +487,6 @@ function CarroPage() {
                   <div className="text-4xl md:text-5xl font-light tracking-tight text-emerald-600">
                     R$ <span className="font-medium">{kit.price.toFixed(2).replace(".", ",")}</span>
                   </div>
-                  <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
-                    50% OFF
-                  </span>
                 </div>
               </div>
 
@@ -514,7 +574,7 @@ function CarroPage() {
             </div>
             <div className="mt-10 text-center">
               <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
-                Comprar agora com 50% OFF
+                Comprar agora
               </a>
             </div>
           </section>

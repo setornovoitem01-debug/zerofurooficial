@@ -267,7 +267,7 @@ function Landing() {
         </div>
         <div className="mt-10 text-center">
           <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
-            Comprar agora com 50% OFF
+            Comprar agora
           </a>
         </div>
       </section>
