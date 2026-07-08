@@ -233,18 +233,12 @@ function Landing() {
             <Timer className="h-4 w-4" /> Entrega em 5 a 12 dias úteis
           </div>
 
-          <div className="mt-6 space-y-2.5">
+          <div className="mt-6">
             <button
               type="button"
               className="w-full h-12 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition"
             >
               Comprar agora
-            </button>
-            <button
-              type="button"
-              className="w-full h-12 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] text-[color:var(--color-ink)] font-semibold text-[15px] transition"
-            >
-              Adicionar ao carrinho
             </button>
           </div>
 
