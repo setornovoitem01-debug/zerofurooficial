@@ -55,6 +55,8 @@ html {
   --font-display: "Poppins", sans-serif;
   --color-brand: #ff6b1a;
   --color-brand-foreground: #ffffff;
+  --color-brand-soft: #fff4ec;
+  --color-brand-tint: #ffe4d1;
   --color-ink: #111214;
   --color-ink-soft: #4b5058;
   --color-line: #eceef1;
