@@ -27,6 +27,13 @@ import p6 from "@/assets/produto-6.png.asset.json";
 import p7 from "@/assets/produto-7.png.asset.json";
 import p8 from "@/assets/produto-8.png.asset.json";
 
+import car1 from "@/assets/selante-carro-aro13-15-1.png.asset.json";
+import car2 from "@/assets/selante-carro-aro13-15-2.png.asset.json";
+import car3 from "@/assets/selante-carro-aro13-15-3.png.asset.json";
+import car4 from "@/assets/selante-carro-aro13-15-4.png.asset.json";
+import car5 from "@/assets/selante-carro-aro13-15-5.png.asset.json";
+import car6 from "@/assets/selante-carro-aro13-15-6.png.asset.json";
+
 export const Route = createFileRoute("/carro")({
   head: () => ({
     meta: [
@@ -53,29 +60,88 @@ type Kit = {
   images: { url: string }[];
   descricao: string[];
   destaques: string[];
+  sections?: { title: string; paragraphs?: string[]; bullets?: string[] }[];
+  specs?: [string, string][];
+  inclui?: string[];
+  composicao?: string[];
+  dica?: string;
 };
 
-// Placeholder data — imagens principais e descrições reais serão enviadas depois.
 const kits: Record<AroKey, Kit> = {
   "13-15": {
     key: "13-15",
-    titulo: "Kit Selante Zero Furo — Aros 13, 14 e 15",
-    chamada: "Ideal para carros compactos",
+    titulo: "Selante Zero Furo 700 ml Carro - 4un",
+    chamada: "Blindagem essencial para aros 13, 14 e 15",
     subtitulo:
-      "Proteção completa contra furos para veículos com aros 13, 14 e 15.",
-    price: 89.9,
-    oldPrice: 179.9,
-    images: [p1, p2, p3, p4],
+      "Kit com 4 unidades de 700 mL — a medida exata para carros de passeio e compactos.",
+    price: 95.0,
+    oldPrice: 259.0,
+    images: [car1, car2, car3, car4, car5, car6],
     descricao: [
-      "Kit desenvolvido para carros compactos com aros de 13 a 15 polegadas.",
-      "Sela furos de até 6 mm em poucos segundos, sem precisar tirar a roda.",
+      "O Selante Zero Furo Carro 700 mL é a medida exata para quem busca proteção e economia para veículos de passeio e compactos.",
+      "Desenvolvido especificamente para pneus de aros 13, 14 e 15, esta embalagem oferece a quantidade ideal para uma blindagem preventiva eficiente, sem desperdícios.",
     ],
     destaques: [
       "Indicado para aros 13, 14 e 15",
-      "Sela furos de até 6 mm",
-      "Aplicação em menos de 5 minutos",
+      "Sela furos de até 6 mm na banda de rodagem",
+      "Fórmula à base de água, não tóxica",
       "Não danifica o pneu nem a roda",
     ],
+    sections: [
+      {
+        title: "Blindagem essencial para aros 13, 14 e 15",
+        paragraphs: [
+          "Atuando de forma instantânea, nossa fórmula com fibras sintéticas sela furos de até 6 mm na banda de rodagem no momento em que ocorrem.",
+          "Com a tecnologia Zero Furo, você elimina a necessidade de trocas perigosas de pneus no acostamento, mantendo a pressão estável e a segurança da sua família em primeiro lugar.",
+        ],
+      },
+      {
+        title: "Tecnologia brasileira a serviço da segurança",
+        paragraphs: [
+          "A Zero Furo nasceu com o propósito de transformar a experiência de dirigir no Brasil. Entendemos que os imprevistos nas vias — de buracos a objetos perfurantes — geram mais do que custos: geram riscos à vida e atrasos no dia a dia.",
+          "Com tecnologia 100% brasileira, unimos química de ponta e consciência ambiental. Hoje, a Zero Furo é referência nacional em blindagem de pneus, do uso urbano cotidiano até frotas comerciais.",
+        ],
+      },
+      {
+        title: "Principais características e benefícios",
+        bullets: [
+          "Sob medida para compactos e sedãs: volume otimizado para o melhor custo-benefício em pneus de Aro 13, 14 e 15.",
+          "Vedação instantânea contra objetos perfurantes de até 6 mm na banda de rodagem.",
+          "Segurança no dia a dia: evita paradas em locais perigosos ou desertos.",
+          "Preservação do pneu: ajuda a manter a temperatura e a pressão correta, prolongando a vida útil da borracha.",
+          "Sustentabilidade: fórmula à base de água, ecologicamente correta e não tóxica.",
+        ],
+      },
+      {
+        title: "Por que escolher a Zero Furo?",
+        paragraphs: [
+          "Não espere o pneu furar para agir. A Zero Furo é uma solução preventiva. Ao contrário de sprays de emergência que servem apenas para socorro, nossa blindagem já está lá antes do problema acontecer.",
+          "É tranquilidade garantida para o motorista urbano e para quem pega a estrada.",
+        ],
+      },
+    ],
+    specs: [
+      ["Marca", "Zero Furo Blindagem de Pneus"],
+      ["Volume", "700 mL (por pneu)"],
+      ["Indicação", "Aros 13, 14 e 15"],
+      ["Composição", "Selante à base de água com microfibras sintéticas"],
+      ["Aplicação", "Via válvula de ar ou interior do pneu"],
+      ["Eficiência", "Proteção preventiva enquanto líquido no pneu"],
+    ],
+    inclui: [
+      "4x Selante Zero Furo 700 mL",
+      "Bico aplicador",
+      "Manual de instrução",
+    ],
+    composicao: [
+      "Borracha Sintética",
+      "Borracha Natural",
+      "Resina",
+      "Regulador de pH",
+      "H₂O",
+    ],
+    dica:
+      "Dica Zero Furo: para carros com pneus de aro 13 a 15, o frasco de 700 mL é o seu melhor aliado em manutenção preventiva. Verifique sempre a dosagem correta para o seu modelo de pneu no QR Code do rótulo.",
   },
   "16-18": {
     key: "16-18",
@@ -405,11 +471,45 @@ function CarroPage() {
                 {kit.descricao.map((p, i) => (
                   <p key={i}>{p}</p>
                 ))}
-                <p className="text-xs italic text-[color:var(--color-ink-soft)]/80">
-                  * Descrição e imagens completas serão atualizadas em breve.
-                </p>
               </div>
             </Reveal>
+
+            {kit.sections && (
+              <div className="mt-14 space-y-12 max-w-3xl mx-auto">
+                {kit.sections.map((s, i) => (
+                  <Reveal key={s.title} delay={i * 80}>
+                    <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
+                      {s.title}
+                    </h3>
+                    {s.paragraphs && (
+                      <div className="mt-4 space-y-3 text-[color:var(--color-ink-soft)] text-[15px] leading-relaxed">
+                        {s.paragraphs.map((p, j) => (
+                          <p key={j}>{p}</p>
+                        ))}
+                      </div>
+                    )}
+                    {s.bullets && (
+                      <ul className="mt-4 space-y-2.5">
+                        {s.bullets.map((b) => (
+                          <li key={b} className="flex items-start gap-2.5 text-[15px] text-[color:var(--color-ink-soft)] leading-relaxed">
+                            <Check className="h-4 w-4 mt-1 text-[color:var(--color-brand)] shrink-0" />
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Reveal>
+                ))}
+              </div>
+            )}
+
+            {kit.dica && (
+              <Reveal delay={200}>
+                <div className="mt-12 max-w-3xl mx-auto rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-line)] px-6 py-5 text-sm text-[color:var(--color-ink-soft)] leading-relaxed">
+                  {kit.dica}
+                </div>
+              </Reveal>
+            )}
           </section>
 
           {/* CTA antes das especificações */}
@@ -417,7 +517,7 @@ function CarroPage() {
             <Reveal>
               <div className="rounded-2xl bg-[color:var(--color-ink)] text-white px-6 py-10 md:px-12 md:py-14 text-center">
                 <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
-                  Leve o seu com <span className="text-emerald-400">50% de desconto</span>
+                  Leve o seu com <span className="text-emerald-400">desconto especial</span>
                 </h3>
                 <p className="mt-3 text-white/70 max-w-xl mx-auto">
                   Estoque limitado. Aproveite o preço promocional enquanto durar.
@@ -436,15 +536,15 @@ function CarroPage() {
             <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-10">
               <Reveal>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-semibold tracking-tight">Especificações</h3>
+                  <h3 className="text-xl md:text-2xl font-semibold tracking-tight">Ficha técnica</h3>
                   <dl className="mt-5 divide-y divide-[color:var(--color-line)] bg-white rounded-xl border border-[color:var(--color-line)]">
-                    {[
+                    {(kit.specs ?? [
                       ["Indicação de aro", `Aros ${kit.key}`],
                       ["Aplicação", "Preventiva e corretiva"],
                       ["Compatibilidade", "Pneus sem câmara"],
                       ["Validade", "24 meses"],
-                    ].map(([k, v]) => (
-                      <div key={k} className="flex justify-between px-4 py-3 text-sm">
+                    ]).map(([k, v]) => (
+                      <div key={k} className="flex justify-between gap-4 px-4 py-3 text-sm">
                         <dt className="text-[color:var(--color-ink-soft)]">{k}</dt>
                         <dd className="font-medium text-right">{v}</dd>
                       </div>
@@ -457,17 +557,31 @@ function CarroPage() {
                 <div>
                   <h3 className="text-xl md:text-2xl font-semibold tracking-tight">O kit inclui</h3>
                   <ul className="mt-5 bg-white rounded-xl border border-[color:var(--color-line)] divide-y divide-[color:var(--color-line)]">
-                    {[
+                    {(kit.inclui ?? [
                       "Selante Zero Furo (quantidade ideal para o aro selecionado)",
                       "Bico aplicador",
                       "Manual de instrução",
-                    ].map((t) => (
+                    ]).map((t) => (
                       <li key={t} className="flex items-center gap-3 px-4 py-3 text-sm">
                         <Check className="h-4 w-4 text-[color:var(--color-brand)] shrink-0" />
                         <span>{t}</span>
                       </li>
                     ))}
                   </ul>
+
+                  {kit.composicao && (
+                    <>
+                      <h3 className="mt-8 text-xl md:text-2xl font-semibold tracking-tight">Composição</h3>
+                      <ul className="mt-5 bg-white rounded-xl border border-[color:var(--color-line)] divide-y divide-[color:var(--color-line)]">
+                        {kit.composicao.map((t) => (
+                          <li key={t} className="flex items-center gap-3 px-4 py-3 text-sm">
+                            <Droplets className="h-4 w-4 text-[color:var(--color-brand)] shrink-0" />
+                            <span>{t}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
               </Reveal>
             </div>
