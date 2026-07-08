@@ -125,9 +125,10 @@ function Landing() {
             <CarouselContent>
               {gallery.map((img, i) => (
                 <CarouselItem key={i}>
-                  <div className="aspect-square rounded-3xl overflow-hidden bg-neutral-50 border border-black/5">
-                    <img src={img.url} alt={`Compressor Zero Furo ${i + 1}`} className="w-full h-full object-cover" />
+                  <div className="aspect-square rounded-3xl overflow-hidden bg-neutral-50 border border-black/5 flex items-center justify-center p-4">
+                    <img src={img.url} alt={`Compressor Zero Furo ${i + 1}`} className="w-full h-full object-contain" />
                   </div>
+
                 </CarouselItem>
               ))}
             </CarouselContent>
