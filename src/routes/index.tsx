@@ -87,18 +87,58 @@ function Landing() {
 
   return (
     <div className="min-h-screen bg-white text-[color:var(--color-ink)] font-sans antialiased overflow-x-hidden">
-      {/* Announcement */}
-      <div className="bg-[color:var(--color-ink)] text-white text-[11px] sm:text-xs py-2 text-center px-4">
-        <Truck className="inline-block h-3.5 w-3.5 mr-1.5 -mt-0.5" />
-        Frete grátis para todo o Brasil • Parcelamento em até 12x sem juros
-      </div>
-
       {/* Header */}
       <header className="border-b border-[color:var(--color-line)] sticky top-0 bg-white/95 backdrop-blur z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-center px-4 py-3.5">
           <img src={logo.url} alt="Zero Furo" className="h-8 sm:h-10" />
         </div>
       </header>
+
+      {/* Hero de apresentação */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-surface)] to-white">
+        <div className="max-w-7xl mx-auto px-4 py-12 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+          <Reveal>
+            <div>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
+                <Zap className="h-3.5 w-3.5" /> Lançamento • 3 em 1
+              </span>
+              <h1 className="mt-5 text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
+                Nunca mais fique <span className="text-[color:var(--color-brand)]">na mão</span> com pneu vazio.
+              </h1>
+              <p className="mt-5 text-lg text-[color:var(--color-ink-soft)] leading-relaxed max-w-xl">
+                Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href="#comprar" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition shadow-lg shadow-[color:var(--color-brand)]/20">
+                  Quero o meu agora
+                </a>
+                <a href="#descricao" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
+                  Ver detalhes
+                </a>
+              </div>
+              <div className="mt-6 flex items-center gap-4 text-sm text-[color:var(--color-ink-soft)]">
+                <div className="flex text-[color:var(--color-brand)]">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-current" />
+                  ))}
+                </div>
+                <span>4.9 • +12.437 clientes satisfeitos</span>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={150}>
+            <div className="relative">
+              <div className="absolute inset-0 bg-[color:var(--color-brand)]/10 blur-3xl rounded-full" />
+              <div className="relative aspect-square rounded-2xl bg-white border border-[color:var(--color-line)] p-8 md:p-12 shadow-xl">
+                <img src={p1.url} alt="Compressor de Ar Portátil 3 em 1 Zero Furo" className="w-full h-full object-contain" />
+                <span className="absolute top-4 left-4 bg-[color:var(--color-brand)] text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                  -50% HOJE
+                </span>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 py-3 text-xs text-[color:var(--color-ink-soft)] flex items-center gap-1.5 overflow-x-auto">
@@ -150,7 +190,7 @@ function Landing() {
         </div>
 
         {/* Buy panel */}
-        <div className="lg:sticky lg:top-24 self-start">
+        <div id="comprar" className="lg:sticky lg:top-24 self-start scroll-mt-24">
           <div className="text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
             Novo • Mais vendido
           </div>
@@ -193,18 +233,12 @@ function Landing() {
             <Timer className="h-4 w-4" /> Entrega em 5 a 12 dias úteis
           </div>
 
-          <div className="mt-6 space-y-2.5">
+          <div className="mt-6">
             <button
               type="button"
               className="w-full h-12 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition"
             >
               Comprar agora
-            </button>
-            <button
-              type="button"
-              className="w-full h-12 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] text-[color:var(--color-ink)] font-semibold text-[15px] transition"
-            >
-              Adicionar ao carrinho
             </button>
           </div>
 
@@ -256,8 +290,36 @@ function Landing() {
         </div>
       </section>
 
+      {/* Galeria em grade */}
+      <section className="max-w-7xl mx-auto px-4 py-14 md:py-20">
+        <Reveal>
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+            <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
+              Veja de perto
+            </div>
+            <h2 className="mt-3 text-2xl md:text-4xl font-semibold tracking-tight">
+              Cada detalhe pensado para você
+            </h2>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+          {images.map((img, i) => (
+            <Reveal key={i} delay={i * 60}>
+              <div className="group aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-4 md:p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <img src={img.url} alt={`Compressor Zero Furo - imagem ${i + 1}`} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition">
+            Comprar agora com 50% OFF
+          </a>
+        </div>
+      </section>
+
       {/* Description */}
-      <section className="max-w-4xl mx-auto px-4 py-14 md:py-20">
+      <section id="descricao" className="max-w-4xl mx-auto px-4 py-14 md:py-20 scroll-mt-24">
         <Reveal>
           <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase text-center">
             Descrição do produto
