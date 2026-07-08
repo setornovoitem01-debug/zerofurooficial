@@ -211,9 +211,6 @@ function Landing() {
             <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
               <BadgeCheck className="h-4 w-4 text-[color:var(--color-ink)]" /> Produto original
             </div>
-            <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
-              <CreditCard className="h-4 w-4 text-[color:var(--color-ink)]" /> Até 12x sem juros
-            </div>
           </div>
 
           <ul className="mt-6 border-t border-[color:var(--color-line)] pt-5 space-y-2 text-sm">
