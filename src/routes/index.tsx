@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Car, Wrench } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useReveal } from "@/hooks/useReveal";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import hero from "@/assets/hero-banner.jpg";
+import selanteImg from "@/assets/selante-carro-aro13-15-1.png.asset.json";
+import compressorImg from "@/assets/produto-1.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
