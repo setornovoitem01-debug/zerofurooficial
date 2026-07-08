@@ -358,7 +358,7 @@ function CarroPage() {
       </header>
 
       {/* Hero + seletor de aro */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-surface)] to-white">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-brand-soft)] via-white to-white">
         <div className="max-w-4xl mx-auto px-4 py-10 md:py-14 text-center">
           <Reveal>
             <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">

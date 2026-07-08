@@ -103,7 +103,7 @@ function Landing() {
       </header>
 
       {/* Hero de apresentação */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-surface)] to-white">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-brand-soft)] via-white to-white">
         <div className="max-w-3xl mx-auto px-4 py-10 md:py-16 text-center">
           <Reveal>
             <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
@@ -310,7 +310,7 @@ function Landing() {
       </section>
 
       {/* Feature grid */}
-      <section className="bg-[color:var(--color-surface)] py-10 md:py-14">
+      <section className="bg-[color:var(--color-brand-soft)] py-10 md:py-14">
         <div className="max-w-6xl mx-auto px-4">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-8 md:mb-10">
