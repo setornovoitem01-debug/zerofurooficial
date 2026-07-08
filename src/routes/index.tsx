@@ -397,6 +397,25 @@ function Landing() {
         </div>
       </section>
 
+      {/* CTA antes das especificações */}
+      <section className="max-w-6xl mx-auto px-4 pb-14 md:pb-20">
+        <Reveal>
+          <div className="rounded-2xl bg-[color:var(--color-ink)] text-white px-6 py-10 md:px-12 md:py-14 text-center">
+            <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
+              Leve o seu com <span className="text-emerald-400">72% de desconto</span>
+            </h3>
+            <p className="mt-3 text-white/70 max-w-xl mx-auto">
+              Estoque limitado. Aproveite o preço promocional enquanto durar.
+            </p>
+            <div className="mt-6">
+              <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[15px] transition shadow-lg shadow-emerald-600/30">
+                Comprar agora por R$ 55,90
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* Specs */}
       <section className="border-t border-[color:var(--color-line)] py-14 md:py-20 bg-[color:var(--color-surface)]">
         <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-10">
