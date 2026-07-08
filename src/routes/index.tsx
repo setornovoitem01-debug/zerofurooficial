@@ -1,27 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
-
+import { useState } from "react";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
-import {
+  ShieldCheck,
+  Truck,
+  RefreshCcw,
+  Lock,
+  Check,
+  Star,
+  ChevronRight,
   Zap,
   Battery,
   Flashlight,
-  ShieldCheck,
-  Timer,
+  Gauge,
   Volume2,
-  Check,
-  Star,
-  Truck,
-  Lock,
-  RefreshCcw,
+  Timer,
+  CreditCard,
+  BadgeCheck,
 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useReveal } from "@/hooks/useReveal";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import p1 from "@/assets/produto-1.png.asset.json";
@@ -37,395 +34,460 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-const gallery = [p1, p2, p3, p4, p5, p6, p7, p8];
+const images = [p1, p2, p3, p4, p5, p6, p7, p8];
+
+const quickFeatures = [
+  { icon: Zap, label: "Compressor potente" },
+  { icon: Battery, label: "Power Bank" },
+  { icon: Flashlight, label: "Lanterna LED" },
+  { icon: ShieldCheck, label: "Desliga automático" },
+];
 
 const features = [
-  { icon: Zap, title: "Compressor Potente", text: "Enche pneus rapidamente com pressão precisa e ajustável." },
-  { icon: Battery, title: "Power Bank", text: "Carrega seu celular em qualquer lugar, mesmo sem tomada." },
-  { icon: Flashlight, title: "Lanterna LED", text: "Iluminação forte para emergências à noite ou na estrada." },
-  { icon: ShieldCheck, title: "Desligamento Automático", text: "Para na pressão programada, sem risco de estourar." },
-  { icon: Timer, title: "Rápido e Prático", text: "Encha um pneu de carro em minutos, sem esforço." },
-  { icon: Volume2, title: "Silencioso", text: "Motor otimizado que trabalha sem incomodar." },
+  { icon: Gauge, title: "Display digital preciso", text: "Leitura em tempo real em PSI, BAR, KPA e KG/CM²." },
+  { icon: Zap, title: "Enche até 2,5x mais rápido", text: "Motor potente que suporta até 150 PSI de pressão." },
+  { icon: Battery, title: "Bateria de longa duração", text: "Mais de 8 horas de autonomia com recarga USB." },
+  { icon: Flashlight, title: "LED integrado", text: "Iluminação forte para emergências e uso noturno." },
+  { icon: Volume2, title: "Operação silenciosa", text: "Motor otimizado que trabalha sem incomodar." },
+  { icon: Timer, title: "Desligamento automático", text: "Para na pressão programada, sem risco de estourar." },
 ];
 
-const badges = [
-  { icon: Truck, title: "Frete grátis", text: "Para todo o Brasil" },
-  { icon: Lock, title: "Compra segura", text: "Site 100% protegido" },
-  { icon: RefreshCcw, title: "7 dias de garantia", text: "Direito de arrependimento" },
-];
+// ---------- helpers ----------
+
+function Reveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const { ref, visible } = useReveal();
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all duration-700 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ---------- page ----------
 
 function Landing() {
-  return (
+  const [active, setActive] = useState(0);
+  const price = 249.9;
+  const oldPrice = 499.9;
+  const installment = price / 12;
 
-    <div className="min-h-screen bg-white text-black font-sans antialiased overflow-x-hidden">
+  return (
+    <div className="min-h-screen bg-white text-[color:var(--color-ink)] font-sans antialiased overflow-x-hidden">
+      {/* Announcement */}
+      <div className="bg-[color:var(--color-ink)] text-white text-[11px] sm:text-xs py-2 text-center px-4">
+        <Truck className="inline-block h-3.5 w-3.5 mr-1.5 -mt-0.5" />
+        Frete grátis para todo o Brasil • Parcelamento em até 12x sem juros
+      </div>
+
       {/* Header */}
-      <header className="border-b border-black/10 sticky top-0 bg-white/95 backdrop-blur z-40">
-        <div className="max-w-6xl mx-auto flex items-center justify-center px-4 py-4">
-          <img src={logo.url} alt="Zero Furo" className="h-10 md:h-12" />
+      <header className="border-b border-[color:var(--color-line)] sticky top-0 bg-white/95 backdrop-blur z-40">
+        <div className="max-w-7xl mx-auto flex items-center justify-center px-4 py-3.5">
+          <img src={logo.url} alt="Zero Furo" className="h-8 sm:h-10" />
         </div>
       </header>
 
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto px-4 py-3 text-xs text-[color:var(--color-ink-soft)] flex items-center gap-1.5 overflow-x-auto">
+        <span>Início</span>
+        <ChevronRight className="h-3 w-3 shrink-0" />
+        <span>Automotivo</span>
+        <ChevronRight className="h-3 w-3 shrink-0" />
+        <span className="text-[color:var(--color-ink)] font-medium truncate">
+          Compressor de Ar Portátil 3 em 1
+        </span>
+      </div>
 
-      {/* Hero */}
-      <section className="max-w-6xl mx-auto px-4 pt-8 md:pt-14 pb-10 md:pb-16 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
-        <div className="order-2 md:order-1 text-center md:text-left">
-          <span className="inline-block bg-black text-white text-xs font-bold tracking-wider uppercase px-3 py-1.5 rounded-full">
-            Novo • 3 em 1
-          </span>
-          <h1 className="mt-4 text-3xl sm:text-4xl md:text-6xl font-black leading-[1.05] tracking-tight">
-            Compressor de Ar Portátil{" "}
-            <span className="text-[color:var(--color-brand)]">3 em 1</span>
-          </h1>
-          <p className="mt-3 text-base sm:text-lg md:text-xl font-medium text-black/70">
-            Com Carregador Power Bank e Lanterna LED
-          </p>
-
-          <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-brand)] text-white text-xs sm:text-sm font-semibold px-4 py-2">
-            Poderoso • Seguro • Duradouro • Silencioso
+      {/* Product area */}
+      <section className="max-w-7xl mx-auto px-4 pb-10 md:pb-16 grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-10">
+        {/* Gallery */}
+        <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-4">
+          {/* Thumbs */}
+          <div className="flex md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-visible md:max-h-[520px] md:pr-1">
+            {images.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                className={`shrink-0 h-16 w-16 md:h-20 md:w-20 rounded-lg border-2 overflow-hidden bg-[color:var(--color-surface)] transition-all ${
+                  active === i
+                    ? "border-[color:var(--color-ink)]"
+                    : "border-[color:var(--color-line)] hover:border-[color:var(--color-ink-soft)]"
+                }`}
+                aria-label={`Ver imagem ${i + 1}`}
+              >
+                <img src={img.url} alt="" className="w-full h-full object-contain p-1" />
+              </button>
+            ))}
           </div>
 
-          <div className="mt-6 flex items-center justify-center md:justify-start gap-2 text-sm">
+          {/* Main image */}
+          <div className="flex-1 relative">
+            <div className="aspect-square rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] overflow-hidden flex items-center justify-center p-6 md:p-10">
+              <img
+                key={active}
+                src={images[active].url}
+                alt="Compressor de Ar Portátil 3 em 1 Zero Furo"
+                className="w-full h-full object-contain animate-in fade-in duration-300"
+              />
+            </div>
+            <span className="absolute top-3 left-3 bg-[color:var(--color-brand)] text-white text-[11px] font-bold px-2.5 py-1 rounded">
+              -50%
+            </span>
+          </div>
+        </div>
+
+        {/* Buy panel */}
+        <div className="lg:sticky lg:top-24 self-start">
+          <div className="text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
+            Novo • Mais vendido
+          </div>
+          <h1 className="mt-2 text-2xl md:text-[28px] font-semibold leading-tight tracking-tight">
+            Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED
+          </h1>
+
+          <div className="mt-3 flex items-center gap-2 text-sm">
             <div className="flex text-[color:var(--color-brand)]">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-4 w-4 fill-current" />
               ))}
             </div>
             <span className="font-semibold">4.9</span>
-            <span className="text-black/60">• +12.437 clientes</span>
+            <span className="text-[color:var(--color-ink-soft)]">(12.437 avaliações)</span>
+            <span className="text-emerald-600 font-medium ml-1 hidden sm:inline">| +2 mil vendidos</span>
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
-            <div className="text-center sm:text-left">
-              <div className="text-sm text-black/50 line-through">De R$ 499,90</div>
-              <div className="text-4xl md:text-5xl font-black">
-                R$ 249<span className="text-2xl align-top">,90</span>
-              </div>
-              <div className="text-sm text-black/70">ou 12x de R$ 24,79 no cartão</div>
+          <div className="mt-6">
+            <div className="text-sm text-[color:var(--color-ink-soft)] line-through">
+              R$ {oldPrice.toFixed(2).replace(".", ",")}
             </div>
+            <div className="flex items-baseline gap-3">
+              <div className="text-4xl md:text-5xl font-light tracking-tight">
+                R$ <span className="font-medium">{price.toFixed(2).replace(".", ",")}</span>
+              </div>
+              <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
+                50% OFF
+              </span>
+            </div>
+            <div className="mt-1 text-sm text-[color:var(--color-ink-soft)]">
+              em 12x de <span className="text-[color:var(--color-ink)] font-medium">R$ {installment.toFixed(2).replace(".", ",")}</span> sem juros
+            </div>
+          </div>
+
+          <div className="mt-6 flex items-center gap-2 text-sm text-emerald-700 font-medium">
+            <Truck className="h-4 w-4" /> Frete grátis para todo o Brasil
+          </div>
+          <div className="mt-1.5 flex items-center gap-2 text-sm text-[color:var(--color-ink-soft)]">
+            <Timer className="h-4 w-4" /> Entrega em 5 a 12 dias úteis
+          </div>
+
+          <div className="mt-6 space-y-2.5">
             <button
               type="button"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-black text-white font-bold px-8 py-4 text-base hover:bg-[color:var(--color-brand)] transition-colors"
+              className="w-full h-12 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition"
             >
-              Quero o meu agora
+              Comprar agora
+            </button>
+            <button
+              type="button"
+              className="w-full h-12 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] text-[color:var(--color-ink)] font-semibold text-[15px] transition"
+            >
+              Adicionar ao carrinho
             </button>
           </div>
 
-          <ul className="mt-6 grid grid-cols-2 gap-y-2 gap-x-4 text-sm max-w-md mx-auto md:mx-0">
-            {["Enche pneu em minutos", "Carrega o celular", "Lanterna LED forte", "Compacto e leve"].map((t) => (
-              <li key={t} className="flex items-center gap-2 justify-center md:justify-start text-left">
-                <Check className="h-4 w-4 text-[color:var(--color-brand)] shrink-0" /> <span>{t}</span>
+          <div className="mt-5 grid grid-cols-2 gap-2 text-xs">
+            <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
+              <Lock className="h-4 w-4 text-[color:var(--color-ink)]" /> Compra 100% segura
+            </div>
+            <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
+              <RefreshCcw className="h-4 w-4 text-[color:var(--color-ink)]" /> 7 dias para troca
+            </div>
+            <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
+              <BadgeCheck className="h-4 w-4 text-[color:var(--color-ink)]" /> Produto original
+            </div>
+            <div className="flex items-center gap-2 text-[color:var(--color-ink-soft)]">
+              <CreditCard className="h-4 w-4 text-[color:var(--color-ink)]" /> Até 12x sem juros
+            </div>
+          </div>
+
+          <ul className="mt-6 border-t border-[color:var(--color-line)] pt-5 space-y-2 text-sm">
+            {quickFeatures.map((f) => (
+              <li key={f.label} className="flex items-center gap-3">
+                <f.icon className="h-4 w-4 text-[color:var(--color-brand)]" />
+                <span>{f.label}</span>
               </li>
             ))}
           </ul>
         </div>
-
-
-        <div className="order-1 md:order-2">
-          <Carousel className="w-full">
-            <CarouselContent>
-              {gallery.map((img, i) => (
-                <CarouselItem key={i}>
-                  <div className="aspect-square rounded-3xl overflow-hidden bg-neutral-50 border border-black/5 flex items-center justify-center p-4">
-                    <img src={img.url} alt={`Compressor Zero Furo ${i + 1}`} className="w-full h-full object-contain" />
-                  </div>
-
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-2 bg-black text-white border-black hover:bg-[color:var(--color-brand)] hover:text-white" />
-            <CarouselNext className="right-2 bg-black text-white border-black hover:bg-[color:var(--color-brand)] hover:text-white" />
-          </Carousel>
-        </div>
       </section>
 
-      {/* Trust badges */}
-      <section className="bg-black text-white py-8">
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {badges.map((b) => (
-            <div key={b.title} className="flex items-center gap-4">
-              <b.icon className="h-8 w-8 text-[color:var(--color-brand)]" />
-              <div>
-                <div className="font-bold">{b.title}</div>
-                <div className="text-sm text-white/70">{b.text}</div>
+      {/* Trust strip */}
+      <section className="border-y border-[color:var(--color-line)] bg-[color:var(--color-surface)]">
+        <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { icon: Truck, t: "Frete grátis", s: "Para todo o Brasil" },
+            { icon: CreditCard, t: "12x sem juros", s: "Em todos os cartões" },
+            { icon: ShieldCheck, t: "Compra segura", s: "Site 100% protegido" },
+            { icon: RefreshCcw, t: "7 dias de garantia", s: "Direito de arrependimento" },
+          ].map((b, i) => (
+            <Reveal key={b.t} delay={i * 80}>
+              <div className="flex items-center gap-3">
+                <b.icon className="h-6 w-6 text-[color:var(--color-ink)] shrink-0" />
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold truncate">{b.t}</div>
+                  <div className="text-xs text-[color:var(--color-ink-soft)] truncate">{b.s}</div>
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Features */}
-      <section className="max-w-6xl mx-auto px-4 py-16 md:py-24">
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight">
-            Muito mais que um compressor
-          </h2>
-          <p className="mt-3 text-black/70 md:text-lg">
-            Um único aparelho que resolve três problemas: pneu vazio, celular sem bateria e escuridão.
-          </p>
-        </div>
-
-        <div className="mt-12 grid md:grid-cols-3 gap-6">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="group rounded-3xl border border-black/10 p-6 hover:border-[color:var(--color-brand)] hover:shadow-lg transition-all"
-            >
-              <div className="h-12 w-12 rounded-2xl bg-black text-white grid place-items-center group-hover:bg-[color:var(--color-brand)] transition-colors">
-                <f.icon className="h-6 w-6" />
-              </div>
-              <h3 className="mt-5 text-xl font-bold">{f.title}</h3>
-              <p className="mt-2 text-black/70">{f.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Storytelling / Descrição principal */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
-            A história que ninguém quer viver
-          </span>
-          <h2 className="mt-3 text-3xl md:text-5xl font-black tracking-tight leading-tight">
+      {/* Description */}
+      <section className="max-w-4xl mx-auto px-4 py-14 md:py-20">
+        <Reveal>
+          <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase text-center">
+            Descrição do produto
+          </div>
+          <h2 className="mt-3 text-2xl md:text-4xl font-semibold tracking-tight text-center leading-tight">
             Pneu vazio no meio do nada?{" "}
-            <span className="text-[color:var(--color-brand)]">Resolva em 5 minutos, sozinho.</span>
+            <span className="text-[color:var(--color-brand)]">Resolva em 5 minutos.</span>
           </h2>
-          <p className="mt-6 text-black/70 md:text-lg">
-            Sem ajuda, sem posto, sem solução. A maioria das pessoas só pensa nisso
-            <span className="font-semibold text-black"> depois que acontece uma vez</span>.
-            Quem já passou, nunca mais saiu sem um.
-          </p>
-          <p className="mt-4 text-black/70 md:text-lg">
-            Com o <span className="font-bold">Compressor Portátil Zero Furo</span>, você nunca mais
-            se preocupará com pneu vazio. É a sua bomba pessoal e poderosa para resolver
-            todos os seus problemas de pressão — a qualquer hora, em qualquer lugar.
-          </p>
-        </div>
-      </section>
-
-      {/* Split 1: Portátil e compacto */}
-      <section className="bg-neutral-50 py-16 md:py-24">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-          <div className="rounded-3xl overflow-hidden bg-white border border-black/5">
-            <img src={p3.url} alt="Compressor portátil compacto" className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
-              Portátil e compacto
-            </span>
-            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
-              Design inovador que cabe no porta-luvas
-            </h2>
-            <p className="mt-4 text-black/70 md:text-lg">
-              Perfeito para levar dentro do carro e evitar frustrações com pneus furados.
-              Além da mangueira para carros e motos, acompanha <span className="font-semibold">mais 3 bicos diferentes</span>
-              {" "}para bolas, balões, boias, colchões infláveis e diversas outras aplicações.
+          <div className="mt-6 space-y-4 text-[color:var(--color-ink-soft)] text-[15px] md:text-base leading-relaxed max-w-2xl mx-auto text-center">
+            <p>
+              Sem ajuda, sem posto, sem solução. A maioria das pessoas só pensa nisso depois que
+              acontece uma vez. Quem já passou, nunca mais saiu sem um.
+            </p>
+            <p>
+              Com o <span className="text-[color:var(--color-ink)] font-medium">Compressor Portátil Zero Furo</span>,
+              você nunca mais se preocupará com pneu vazio. É a sua bomba pessoal e poderosa para
+              resolver todos os seus problemas de pressão.
             </p>
           </div>
-        </div>
+        </Reveal>
       </section>
 
-      {/* Split 2: Recarregável + LED */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1">
-            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
-              Recarregável com LED integrado
-            </span>
-            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
-              Mais de 8 horas de autonomia, sem cabos
-            </h2>
-            <p className="mt-4 text-black/70 md:text-lg">
-              Bateria recarregável de longa duração que oferece total liberdade de uso.
-              O <span className="font-semibold">display digital</span> exibe a pressão em tempo real,
-              garantindo medição precisa e ajuste fácil para cada necessidade.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {[
-                "Display digital com pressão em tempo real",
-                "LED integrado para emergências no escuro",
-                "Recarga rápida via USB",
-                "Desligamento automático na pressão programada",
-              ].map((t) => (
-                <li key={t} className="flex items-center gap-3">
-                  <span className="h-6 w-6 rounded-full bg-black text-white grid place-items-center">
-                    <Check className="h-4 w-4" />
-                  </span>
-                  <span className="font-medium">{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="order-1 md:order-2 rounded-3xl overflow-hidden bg-neutral-50 border border-black/5">
-            <img src={p4.url} alt="Display digital e LED integrado" className="w-full h-full object-cover" />
-          </div>
-        </div>
-      </section>
+      {/* Feature grid */}
+      <section className="bg-[color:var(--color-surface)] py-14 md:py-20">
+        <div className="max-w-6xl mx-auto px-4">
+          <Reveal>
+            <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+              <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
+                Tecnologia que resolve
+              </h2>
+              <p className="mt-3 text-[color:var(--color-ink-soft)]">
+                Um aparelho compacto, três funções essenciais. Estudado para durar e para funcionar
+                em qualquer situação.
+              </p>
+            </div>
+          </Reveal>
 
-      {/* Benefícios */}
-      <section className="bg-black text-white py-16 md:py-24">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto">
-            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
-              Benefícios
-            </span>
-            <h2 className="mt-2 text-3xl md:text-5xl font-black leading-tight">
-              Por que quem tem, não sai mais sem
-            </h2>
-          </div>
-          <ul className="mt-12 grid md:grid-cols-2 gap-5">
-            {[
-              "Prático e compacto — use em qualquer lugar, a qualquer momento.",
-              "Sempre preparado para imprevistos e emergências, sem preocupação.",
-              "Infla até 2,5x mais rápido que compressores comuns.",
-              "Amplamente utilizável — de pneus de bike a caminhão, suporta até 150 PSI.",
-              "Você nunca mais passará apuros nas estradas.",
-              "LED integrado: mesmo no escuro, ele te ajuda a resolver o problema.",
-            ].map((t) => (
-              <li key={t} className="flex items-start gap-3 rounded-2xl border border-white/10 p-5 bg-white/[0.03]">
-                <span className="h-6 w-6 rounded-full bg-[color:var(--color-brand)] text-white grid place-items-center flex-shrink-0 mt-0.5">
-                  <Check className="h-4 w-4" />
-                </span>
-                <span className="text-white/90">{t}</span>
-              </li>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {features.map((f, i) => (
+              <Reveal key={f.title} delay={i * 60}>
+                <div className="h-full rounded-xl bg-white border border-[color:var(--color-line)] p-6 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                  <div className="h-11 w-11 rounded-lg bg-[color:var(--color-ink)] text-white grid place-items-center">
+                    <f.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 text-base font-semibold">{f.title}</h3>
+                  <p className="mt-1.5 text-sm text-[color:var(--color-ink-soft)] leading-relaxed">
+                    {f.text}
+                  </p>
+                </div>
+              </Reveal>
             ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* Especificações */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-4 grid md:grid-cols-2 gap-12">
-          <div>
-            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
-              Especificações
-            </span>
-            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
-              Tudo o que você precisa saber
-            </h2>
-            <dl className="mt-6 space-y-3 text-black/80">
-              <div className="flex justify-between border-b border-black/10 pb-3">
-                <dt className="font-semibold">Material</dt>
-                <dd>Polímero de alta resistência</dd>
-              </div>
-              <div className="flex justify-between border-b border-black/10 pb-3">
-                <dt className="font-semibold">Carregamento</dt>
-                <dd>USB</dd>
-              </div>
-              <div className="flex justify-between border-b border-black/10 pb-3">
-                <dt className="font-semibold">Pressão máxima</dt>
-                <dd>150 PSI</dd>
-              </div>
-              <div className="flex justify-between border-b border-black/10 pb-3">
-                <dt className="font-semibold">Autonomia</dt>
-                <dd>+8 horas de uso</dd>
-              </div>
-            </dl>
-          </div>
-          <div>
-            <span className="text-[color:var(--color-brand)] font-bold uppercase text-sm tracking-wider">
-              O pacote inclui
-            </span>
-            <h2 className="mt-2 text-3xl md:text-4xl font-black leading-tight">
-              Kit completo, pronto pra usar
-            </h2>
-            <ul className="mt-6 space-y-3">
-              {[
-                "1x Mini Compressor de Ar Digital Portátil Recarregável",
-                "1x Cabo de Carregamento USB",
-                "1x Mangueira de Ar (carros, motos e bicicletas)",
-                "1x Agulha de Bola (vários tipos de bolas)",
-                "1x Bocal para brinquedos infláveis e boias de piscina",
-                "1x Bocal para vários tipos de balões",
-                "1x Manual de Instrução",
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-3">
-                  <span className="h-6 w-6 rounded-full bg-black text-white grid place-items-center flex-shrink-0 mt-0.5">
-                    <Check className="h-4 w-4" />
-                  </span>
-                  <span className="text-black/80">{t}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>
 
+      {/* Split blocks */}
+      <section className="max-w-6xl mx-auto px-4 py-14 md:py-20 space-y-16 md:space-y-24">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <Reveal>
+            <div className="aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-8">
+              <img src={p3.url} alt="Detalhe do compressor" className="w-full h-full object-contain" />
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div>
+              <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
+                Portátil e compacto
+              </div>
+              <h3 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
+                Cabe no porta-luvas. Vai com você onde precisar.
+              </h3>
+              <p className="mt-4 text-[color:var(--color-ink-soft)] leading-relaxed">
+                Design inovador, ideal para levar dentro do carro e evitar frustrações com pneus
+                furados. Acompanha 3 bicos extras para bolas, boias, colchões infláveis e mais.
+              </p>
+            </div>
+          </Reveal>
+        </div>
 
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <Reveal className="md:order-2">
+            <div className="aspect-square rounded-xl overflow-hidden bg-[color:var(--color-surface)] border border-[color:var(--color-line)] p-8">
+              <img src={p4.url} alt="Display digital e LED" className="w-full h-full object-contain" />
+            </div>
+          </Reveal>
+          <Reveal delay={120} className="md:order-1">
+            <div>
+              <div className="text-xs font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
+                Recarregável com LED
+              </div>
+              <h3 className="mt-2 text-2xl md:text-3xl font-semibold tracking-tight">
+                +8 horas de autonomia, sem cabos.
+              </h3>
+              <p className="mt-4 text-[color:var(--color-ink-soft)] leading-relaxed">
+                Bateria recarregável de longa duração. Display digital exibe a pressão em tempo real
+                e o LED integrado ajuda até no escuro.
+              </p>
+              <ul className="mt-5 space-y-2.5">
+                {[
+                  "Recarga rápida via USB",
+                  "Desligamento automático na pressão programada",
+                  "Suporta até 150 PSI",
+                  "Compatível com carro, moto, bike e mais",
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-2.5 text-sm">
+                    <Check className="h-4 w-4 mt-0.5 text-[color:var(--color-brand)] shrink-0" />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Specs */}
+      <section className="border-t border-[color:var(--color-line)] py-14 md:py-20 bg-[color:var(--color-surface)]">
+        <div className="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-10">
+          <Reveal>
+            <div>
+              <h3 className="text-xl md:text-2xl font-semibold tracking-tight">Especificações</h3>
+              <dl className="mt-5 divide-y divide-[color:var(--color-line)] bg-white rounded-xl border border-[color:var(--color-line)]">
+                {[
+                  ["Material", "Polímero de alta resistência"],
+                  ["Carregamento", "USB"],
+                  ["Pressão máxima", "150 PSI"],
+                  ["Autonomia", "+8 horas de uso"],
+                  ["Unidades", "PSI, BAR, KPA, KG/CM²"],
+                ].map(([k, v]) => (
+                  <div key={k} className="flex justify-between px-4 py-3 text-sm">
+                    <dt className="text-[color:var(--color-ink-soft)]">{k}</dt>
+                    <dd className="font-medium text-right">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <div>
+              <h3 className="text-xl md:text-2xl font-semibold tracking-tight">O pacote inclui</h3>
+              <ul className="mt-5 bg-white rounded-xl border border-[color:var(--color-line)] divide-y divide-[color:var(--color-line)]">
+                {[
+                  "1x Mini Compressor de Ar Digital Portátil",
+                  "1x Cabo de Carregamento USB",
+                  "1x Mangueira de Ar (carros, motos, bikes)",
+                  "1x Agulha para bolas",
+                  "1x Bocal para infláveis e boias",
+                  "1x Bocal para balões",
+                  "1x Manual de Instrução",
+                ].map((t) => (
+                  <li key={t} className="flex items-center gap-3 px-4 py-3 text-sm">
+                    <Check className="h-4 w-4 text-[color:var(--color-brand)] shrink-0" />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       {/* FAQ */}
-      <section className="max-w-3xl mx-auto px-4 py-16 md:py-24">
-        <h2 className="text-3xl md:text-5xl font-black tracking-tight text-center">
-          Perguntas frequentes
-        </h2>
-        <Accordion type="single" collapsible className="mt-10">
-          {[
-            { q: "Serve para pneus de carro?", a: "Sim. Funciona em pneus de carro, moto, bike, patinete e bolas esportivas." },
-            { q: "Quanto tempo leva para encher um pneu?", a: "Em média de 3 a 5 minutos por pneu de carro, dependendo da pressão inicial." },
-            { q: "Precisa ligar na tomada?", a: "Não. Possui bateria interna recarregável via USB-C. Também pode ser conectado ao acendedor de cigarros." },
-            { q: "Qual é o prazo de entrega?", a: "De 5 a 12 dias úteis para todo o Brasil, com frete grátis." },
-            { q: "Tem garantia?", a: "Sim, 7 dias para arrependimento e 3 meses de garantia contra defeitos de fabricação." },
-          ].map((f, i) => (
-            <AccordionItem key={i} value={`i${i}`} className="border-black/10">
-              <AccordionTrigger className="text-left font-semibold text-base">{f.q}</AccordionTrigger>
-              <AccordionContent className="text-black/70">{f.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      <section className="max-w-3xl mx-auto px-4 py-14 md:py-20">
+        <Reveal>
+          <h2 className="text-2xl md:text-4xl font-semibold tracking-tight text-center">
+            Perguntas frequentes
+          </h2>
+        </Reveal>
+        <Reveal delay={100}>
+          <Accordion type="single" collapsible className="mt-8">
+            {[
+              { q: "Serve para pneus de carro?", a: "Sim. Funciona em pneus de carro, moto, bike, patinete e bolas esportivas." },
+              { q: "Quanto tempo leva para encher um pneu?", a: "Em média de 3 a 5 minutos por pneu de carro, dependendo da pressão inicial." },
+              { q: "Precisa ligar na tomada?", a: "Não. Possui bateria interna recarregável via USB. Também pode ser conectado ao acendedor de cigarros." },
+              { q: "Qual é o prazo de entrega?", a: "De 5 a 12 dias úteis para todo o Brasil, com frete grátis." },
+              { q: "Tem garantia?", a: "Sim, 7 dias para arrependimento e 3 meses de garantia contra defeitos de fabricação." },
+            ].map((f, i) => (
+              <AccordionItem key={i} value={`i${i}`} className="border-[color:var(--color-line)]">
+                <AccordionTrigger className="text-left font-medium text-[15px] hover:no-underline">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-[color:var(--color-ink-soft)] text-[14px] leading-relaxed">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Reveal>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-black/10 bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-14">
+      <footer className="border-t border-[color:var(--color-line)] bg-white">
+        <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
           <div className="mb-10">
-            <img src={logo.url} alt="Zero Furo" className="h-10" />
+            <img src={logo.url} alt="Zero Furo" className="h-9" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
-            <div>
-              <h4 className="text-base font-bold text-black border-b border-black/10 pb-3 mb-4">
-                Atendimento
-              </h4>
-              <ul className="space-y-3 text-sm text-black/70">
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Central de Atendimento</a></li>
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Minha Conta</a></li>
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Troca Fácil</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-base font-bold text-black border-b border-black/10 pb-3 mb-4">
-                Informações úteis
-              </h4>
-              <ul className="space-y-3 text-sm text-black/70">
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Formas de Pagamento</a></li>
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Prazos de Entrega</a></li>
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Trocas e Devoluções</a></li>
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Política de Privacidade</a></li>
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">FAQ</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-base font-bold text-black border-b border-black/10 pb-3 mb-4">
-                Institucional
-              </h4>
-              <ul className="space-y-3 text-sm text-black/70">
-                <li><a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">Quem Somos</a></li>
-              </ul>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-10">
+            {[
+              { title: "Atendimento", items: ["Central de Atendimento", "Minha Conta", "Troca Fácil"] },
+              { title: "Informações úteis", items: ["Formas de Pagamento", "Prazos de Entrega", "Trocas e Devoluções", "Política de Privacidade", "FAQ"] },
+              { title: "Institucional", items: ["Quem Somos"] },
+            ].map((col) => (
+              <div key={col.title}>
+                <h4 className="text-sm font-semibold border-b border-[color:var(--color-line)] pb-3 mb-4">
+                  {col.title}
+                </h4>
+                <ul className="space-y-2.5 text-sm text-[color:var(--color-ink-soft)]">
+                  {col.items.map((it) => (
+                    <li key={it}>
+                      <a href="#" className="hover:text-[color:var(--color-brand)] transition-colors">
+                        {it}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
-          <div className="mt-12 pt-6 border-t border-black/10">
-            <p className="text-xs md:text-sm text-black/60 leading-relaxed">
-              A loja Zero Furo é operada pela Social S.A. CNPJ: 28.511.223/0004-85 —
-              Endereço: Av. Caio Cotrim, 46, Galpão 01, 02 e 03 Setor CLI 2 — Itapevi - SP,
-              CEP: 06696-060 — 2026 Copyright Zero Furo. Todos os direitos reservados.
+          <div className="mt-10 pt-6 border-t border-[color:var(--color-line)]">
+            <p className="text-xs text-[color:var(--color-ink-soft)] leading-relaxed">
+              A loja Zero Furo é operada pela Social S.A. CNPJ: 28.511.223/0004-85 — Endereço:
+              Av. Caio Cotrim, 46, Galpão 01, 02 e 03 Setor CLI 2 — Itapevi - SP, CEP: 06696-060
+              — 2026 Copyright Zero Furo. Todos os direitos reservados.
             </p>
           </div>
         </div>
       </footer>
-
     </div>
   );
 }
