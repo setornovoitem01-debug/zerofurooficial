@@ -408,7 +408,7 @@ function Landing() {
               Estoque limitado. Aproveite o preço promocional enquanto durar.
             </p>
             <div className="mt-6">
-              <a href="#comprar" className="inline-flex items-center justify-center h-12 px-8 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[15px] transition shadow-lg shadow-emerald-600/30">
+              <a href="#comprar" className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                 Comprar agora por R$ 55,90
               </a>
             </div>
