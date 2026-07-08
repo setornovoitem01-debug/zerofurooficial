@@ -23,6 +23,11 @@
   --font-display: "Poppins", sans-serif;
   --color-brand: #ff6b1a;
   --color-brand-foreground: #ffffff;
+  --color-ink: #111214;
+  --color-ink-soft: #4b5058;
+  --color-line: #eceef1;
+  --color-surface: #f7f8fa;
+
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
