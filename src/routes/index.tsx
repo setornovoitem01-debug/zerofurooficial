@@ -120,19 +120,8 @@ function Landing() {
         </div>
       </section>
 
-      {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 py-3 text-xs text-[color:var(--color-ink-soft)] flex items-center gap-1.5 overflow-x-auto">
-        <span>Início</span>
-        <ChevronRight className="h-3 w-3 shrink-0" />
-        <span>Automotivo</span>
-        <ChevronRight className="h-3 w-3 shrink-0" />
-        <span className="text-[color:var(--color-ink)] font-medium truncate">
-          Compressor de Ar Portátil 3 em 1
-        </span>
-      </div>
-
       {/* Product area */}
-      <section className="max-w-7xl mx-auto px-4 pb-10 md:pb-16 grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-10">
+      <section className="max-w-7xl mx-auto px-4 pt-8 md:pt-12 pb-10 md:pb-16 grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-10">
         {/* Gallery */}
         <div className="min-w-0 w-full">
           <div className="relative w-full max-w-lg mx-auto">
