@@ -190,7 +190,7 @@ function Landing() {
         </div>
 
         {/* Buy panel */}
-        <div className="lg:sticky lg:top-24 self-start">
+        <div id="comprar" className="lg:sticky lg:top-24 self-start scroll-mt-24">
           <div className="text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase">
             Novo • Mais vendido
           </div>
