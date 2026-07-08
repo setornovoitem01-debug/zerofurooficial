@@ -133,27 +133,8 @@ function Landing() {
       {/* Product area */}
       <section className="max-w-7xl mx-auto px-4 pb-10 md:pb-16 grid lg:grid-cols-[1.1fr_1fr] gap-6 lg:gap-10">
         {/* Gallery */}
-        <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-4 min-w-0 w-full">
-          {/* Thumbs */}
-          <div className="flex md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-visible md:max-h-[520px] md:pr-1 justify-center md:justify-start scrollbar-thin px-1 -mx-1">
-            {images.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                className={`shrink-0 h-16 w-16 md:h-20 md:w-20 rounded-lg border-2 overflow-hidden bg-[color:var(--color-surface)] transition-all ${
-                  active === i
-                    ? "border-[color:var(--color-ink)]"
-                    : "border-[color:var(--color-line)] hover:border-[color:var(--color-ink-soft)]"
-                }`}
-                aria-label={`Ver imagem ${i + 1}`}
-              >
-                <img src={img.url} alt="" className="w-full h-full object-contain p-1" />
-              </button>
-            ))}
-          </div>
-
-          {/* Main image */}
-          <div className="relative w-full md:flex-1 min-w-0">
+        <div className="min-w-0 w-full">
+          <div className="relative w-full max-w-lg mx-auto">
             <div className="aspect-square rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] overflow-hidden flex items-center justify-center p-6 md:p-10">
               <img
                 key={active}
@@ -162,9 +143,36 @@ function Landing() {
                 className="w-full h-full object-contain animate-in fade-in duration-300"
               />
             </div>
-            <span className="absolute top-3 left-3 bg-[color:var(--color-brand)] text-white text-[11px] font-bold px-2.5 py-1 rounded">
-              -50%
-            </span>
+            <button
+              type="button"
+              onClick={() => setActive((active - 1 + images.length) % images.length)}
+              aria-label="Imagem anterior"
+              className="absolute left-2 md:-left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setActive((active + 1) % images.length)}
+              aria-label="Próxima imagem"
+              className="absolute right-2 md:-right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                aria-label={`Ver imagem ${i + 1}`}
+                className={`h-2 rounded-full transition-all ${
+                  active === i
+                    ? "w-6 bg-[color:var(--color-ink)]"
+                    : "w-2 bg-[color:var(--color-line)] hover:bg-[color:var(--color-ink-soft)]"
+                }`}
+              />
+            ))}
           </div>
         </div>
 
