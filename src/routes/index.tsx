@@ -112,6 +112,7 @@ function Home() {
             <Reveal key={nome} delay={i * 120}>
               <Link
                 to={to}
+                preload="viewport"
                 className="group flex flex-col items-center text-center"
               >
                 <div className="h-40 w-40 md:h-48 md:w-48 rounded-full border-[3px] border-[color:var(--color-brand)] grid place-items-center bg-white transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
