@@ -116,7 +116,7 @@ function Landing() {
         {/* Gallery */}
         <div className="flex flex-col-reverse md:flex-row gap-3 md:gap-4 min-w-0 w-full">
           {/* Thumbs */}
-          <div className="flex md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-visible md:max-h-[520px] md:pr-1">
+          <div className="flex md:flex-col gap-2 md:gap-3 overflow-x-auto md:overflow-visible md:max-h-[520px] md:pr-1 justify-center md:justify-start scrollbar-thin px-1 -mx-1">
             {images.map((img, i) => (
               <button
                 key={i}
