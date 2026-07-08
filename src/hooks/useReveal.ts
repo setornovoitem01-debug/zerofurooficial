@@ -1,23 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+
+// useLayoutEffect on client, useEffect on server — prevents SSR warnings while
+// still running BEFORE paint on the client (kills the visible→hidden→visible flash).
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function useReveal<T extends HTMLElement = HTMLDivElement>(threshold = 0.15) {
   const ref = useRef<T | null>(null);
-  // Start visible: prevents SSR/hydration flash of invisible content.
+  // Start visible so SSR HTML matches and hydration is stable.
   const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // If the element is already in view on mount, leave it visible.
+    // Measure synchronously before paint.
     const rect = el.getBoundingClientRect();
     const inView = rect.top < window.innerHeight && rect.bottom > 0;
-    if (inView) {
-      setVisible(true);
-      return;
-    }
 
-    // Otherwise, hide it and animate in when it scrolls into view.
+    // Above the fold: keep visible, no observer, no wasted render.
+    if (inView) return;
+
+    // Below the fold: hide before the browser paints, then observe.
     setVisible(false);
     const io = new IntersectionObserver(
       ([entry]) => {
