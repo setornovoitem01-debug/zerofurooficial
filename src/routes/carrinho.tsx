@@ -39,6 +39,14 @@ type Address = {
   uf: string;
 };
 
+type ShippingOption = { id: string; label: string; eta: string; price: number };
+
+const SHIPPING_OPTIONS: ShippingOption[] = [
+  { id: "gratis", label: "Frete Grátis — Transportadora", eta: "7 a 10 dias úteis", price: 0 },
+  { id: "sedex", label: "Correios Sedex", eta: "3 a 5 dias úteis", price: 25.68 },
+  { id: "sedex12", label: "Correios Sedex 12", eta: "12 a 24 horas úteis", price: 68.75 },
+];
+
 const brl = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
 
 const onlyDigits = (s: string) => s.replace(/\D+/g, "");
@@ -77,6 +85,9 @@ function CarrinhoPage() {
   const [cepError, setCepError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
+  const [shippingLoading, setShippingLoading] = useState(false);
+  const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
+  const [shippingId, setShippingId] = useState<string | null>(null);
 
   // Buscar CEP via ViaCEP
   useEffect(() => {
