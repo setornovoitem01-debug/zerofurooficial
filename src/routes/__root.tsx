@@ -77,16 +77,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Zero Furo - Compressor de Ar Portátil 3 em 1" },
-      { name: "description", content: "Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED. Poderoso, seguro, duradouro e silencioso." },
-      { property: "og:title", content: "Zero Furo - Compressor de Ar Portátil 3 em 1" },
-      { property: "og:description", content: "Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED. Poderoso, seguro, duradouro e silencioso." },
+      { title: "Zero Furo — Seu caminho mais seguro" },
+      {
+        name: "description",
+        content:
+          "Selante Zero Furo e Compressor de Ar Portátil 3 em 1: proteção e praticidade para nunca mais ficar na mão com pneu furado.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Zero Furo" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Zero Furo - Compressor de Ar Portátil 3 em 1" },
-      { name: "twitter:description", content: "Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED. Poderoso, seguro, duradouro e silencioso." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7313dcc9-e967-4387-baf6-ce051b7dc93a/id-preview-ca37e8d2--e5be1715-f747-4aab-ab97-d33d7f934f92.lovable.app-1783538146684.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7313dcc9-e967-4387-baf6-ce051b7dc93a/id-preview-ca37e8d2--e5be1715-f747-4aab-ab97-d33d7f934f92.lovable.app-1783538146684.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
