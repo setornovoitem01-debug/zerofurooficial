@@ -6,7 +6,6 @@ import {
   RefreshCcw,
   Lock,
   Check,
-  Star,
   ChevronRight,
   ChevronLeft,
   Zap,
@@ -15,7 +14,6 @@ import {
   Gauge,
   Volume2,
   Timer,
-  CreditCard,
   BadgeCheck,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
