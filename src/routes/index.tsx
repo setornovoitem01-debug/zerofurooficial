@@ -96,45 +96,24 @@ function Landing() {
 
       {/* Hero de apresentação */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-surface)] to-white">
-        <div className="max-w-7xl mx-auto px-4 py-12 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+        <div className="max-w-3xl mx-auto px-4 py-14 md:py-24 text-center">
           <Reveal>
-            <div>
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
-                <Zap className="h-3.5 w-3.5" /> Lançamento • 3 em 1
-              </span>
-              <h1 className="mt-5 text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
-                Nunca mais fique <span className="text-[color:var(--color-brand)]">na mão</span> com pneu vazio.
-              </h1>
-              <p className="mt-5 text-lg text-[color:var(--color-ink-soft)] leading-relaxed max-w-xl">
-                Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#comprar" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition shadow-lg shadow-[color:var(--color-brand)]/20">
-                  Quero o meu agora
-                </a>
-                <a href="#descricao" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
-                  Ver detalhes
-                </a>
-              </div>
-              <div className="mt-6 flex items-center gap-4 text-sm text-[color:var(--color-ink-soft)]">
-                <div className="flex text-[color:var(--color-brand)]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" />
-                  ))}
-                </div>
-                <span>4.9 • +12.437 clientes satisfeitos</span>
-              </div>
-            </div>
-          </Reveal>
-          <Reveal delay={150}>
-            <div className="relative">
-              <div className="absolute inset-0 bg-[color:var(--color-brand)]/10 blur-3xl rounded-full" />
-              <div className="relative aspect-square rounded-2xl bg-white border border-[color:var(--color-line)] p-8 md:p-12 shadow-xl">
-                <img src={p1.url} alt="Compressor de Ar Portátil 3 em 1 Zero Furo" className="w-full h-full object-contain" />
-                <span className="absolute top-4 left-4 bg-[color:var(--color-brand)] text-white text-xs font-bold px-3 py-1.5 rounded-full">
-                  -50% HOJE
-                </span>
-              </div>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
+              <Zap className="h-3.5 w-3.5" /> Lançamento • 3 em 1
+            </span>
+            <h1 className="mt-6 text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
+              Nunca mais fique <span className="text-[color:var(--color-brand)]">na mão</span> com pneu vazio.
+            </h1>
+            <p className="mt-5 text-lg text-[color:var(--color-ink-soft)] leading-relaxed max-w-xl mx-auto">
+              Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3 justify-center">
+              <a href="#comprar" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md bg-[color:var(--color-brand)] hover:brightness-95 text-white font-semibold text-[15px] transition shadow-lg shadow-[color:var(--color-brand)]/20">
+                Quero o meu agora
+              </a>
+              <a href="#descricao" className="inline-flex items-center justify-center h-13 px-8 py-4 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
+                Ver detalhes
+              </a>
             </div>
           </Reveal>
         </div>
