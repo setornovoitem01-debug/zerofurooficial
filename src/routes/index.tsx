@@ -171,17 +171,6 @@ function Landing() {
             Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED
           </h1>
 
-          <div className="mt-3 flex items-center gap-2 text-sm">
-            <div className="flex text-[color:var(--color-brand)]">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-current" />
-              ))}
-            </div>
-            <span className="font-semibold">4.9</span>
-            <span className="text-[color:var(--color-ink-soft)]">(12.437 avaliações)</span>
-            <span className="text-emerald-600 font-medium ml-1 hidden sm:inline">| +2 mil vendidos</span>
-          </div>
-
           <div className="mt-6">
             <div className="text-sm text-[color:var(--color-ink-soft)] line-through">
               R$ {oldPrice.toFixed(2).replace(".", ",")}
@@ -191,11 +180,8 @@ function Landing() {
                 R$ <span className="font-medium">{price.toFixed(2).replace(".", ",")}</span>
               </div>
               <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
-                50% OFF
+                72% OFF
               </span>
-            </div>
-            <div className="mt-1 text-sm text-[color:var(--color-ink-soft)]">
-              em 12x de <span className="text-[color:var(--color-ink)] font-medium">R$ {installment.toFixed(2).replace(".", ",")}</span> sem juros
             </div>
           </div>
 
