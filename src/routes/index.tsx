@@ -82,9 +82,8 @@ function Reveal({
 
 function Landing() {
   const [active, setActive] = useState(0);
-  const price = 249.9;
-  const oldPrice = 499.9;
-  const installment = price / 12;
+  const price = 55.9;
+  const oldPrice = 199.9;
 
   return (
     <div className="min-h-screen bg-white text-[color:var(--color-ink)] font-sans antialiased overflow-x-hidden">
