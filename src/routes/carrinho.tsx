@@ -162,10 +162,10 @@ function CarrinhoPage() {
   const pixCode = useMemo(() => {
     if (!cart) return "";
     const ref = Math.random().toString(36).slice(2, 10).toUpperCase();
-    return `00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865406${cart.price
+    return `00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865406${total
       .toFixed(2)
       .padStart(8, "0")}5802BR5913ZERO FURO LTDA6009SAO PAULO62070503${ref}6304ABCD`;
-  }, [cart]);
+  }, [cart, total]);
 
   if (!cart) {
     return (
