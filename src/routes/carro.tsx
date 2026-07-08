@@ -358,7 +358,7 @@ function CarroPage() {
       </header>
 
       {/* Hero + seletor de aro */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-surface)] to-white">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-brand-soft)] via-white to-white">
         <div className="max-w-4xl mx-auto px-4 py-10 md:py-14 text-center">
           <Reveal>
             <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[color:var(--color-brand)] tracking-widest uppercase bg-white border border-[color:var(--color-line)] px-3 py-1.5 rounded-full">
@@ -388,7 +388,7 @@ function CarroPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="h-11 w-11 rounded-lg bg-[color:var(--color-ink)] text-white grid place-items-center">
+                      <div className="h-11 w-11 rounded-lg bg-[color:var(--color-brand)] text-white grid place-items-center shadow-[0_6px_16px_-6px_rgba(255,107,26,0.55)]">
                         <Gauge className="h-5 w-5" />
                       </div>
                       {selected && (
@@ -534,7 +534,7 @@ function CarroPage() {
           </section>
 
           {/* Trust strip */}
-          <section className="border-y border-[color:var(--color-line)] bg-[color:var(--color-surface)]">
+          <section className="border-y border-[color:var(--color-brand)]/20 bg-[color:var(--color-brand-soft)]">
             <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { icon: Truck, t: "Frete grátis", s: "Para todo o Brasil" },
@@ -544,7 +544,7 @@ function CarroPage() {
               ].map((b, i) => (
                 <Reveal key={b.t} delay={i * 80}>
                   <div className="flex items-center gap-3">
-                    <b.icon className="h-6 w-6 text-[color:var(--color-ink)] shrink-0" />
+                    <b.icon className="h-6 w-6 text-[color:var(--color-brand)] shrink-0" />
                     <div className="min-w-0">
                       <div className="text-sm font-semibold truncate">{b.t}</div>
                       <div className="text-xs text-[color:var(--color-ink-soft)] truncate">{b.s}</div>
