@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { setCartItem } from "@/lib/cart";
 import {
   ShieldCheck,
   Truck,
@@ -100,10 +101,23 @@ function Landing() {
   const [active, setActive] = useState(0);
   const price = 55.9;
   const oldPrice = 199.9;
+  const navigate = useNavigate();
 
   // Pré-carrega toda a galeria — trocar de slide fica instantâneo.
   const galleryUrls = useMemo(() => images.map((i) => i.url), []);
   useImagePreload(galleryUrls);
+
+  const handleBuy = () => {
+    setCartItem({
+      id: "compressor-3em1",
+      name: "Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED",
+      image: images[0].url,
+      price,
+      oldPrice,
+    });
+    navigate({ to: "/carrinho" });
+  };
+
 
 
 
