@@ -118,7 +118,10 @@ function CarrinhoPage() {
     setCepLoading(true);
     setCepError(null);
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`ViaCEP HTTP ${r.status}`);
+        return r.json();
+      })
       .then((data) => {
         if (cancelled) return;
         if (data.erro) {
