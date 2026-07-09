@@ -85,7 +85,7 @@ const kits: Record<AroKey, Kit> = {
     chamada: "Blindagem essencial para aros 13, 14 e 15",
     subtitulo:
       "Kit com 4 unidades de 700 mL — a medida exata para carros de passeio e compactos.",
-    price: 95.0,
+    price: PRODUCTS["carro-13-15"].price,
     oldPrice: 259.0,
     images: [car1, car2, car3, car4, car5, car6],
     descricao: [
@@ -160,7 +160,7 @@ const kits: Record<AroKey, Kit> = {
     chamada: "Proteção especializada para aros 16, 17 e 18",
     subtitulo:
       "Kit com 4 unidades de 900 mL — dosagem otimizada para SUVs, sedãs médios, crossovers e picapes.",
-    price: 110.5,
+    price: PRODUCTS["carro-16-18"].price,
     oldPrice: 300.0,
     images: [car16f, car16a, car16b, car16c, car16d, car16e],
     descricao: [
@@ -235,7 +235,7 @@ const kits: Record<AroKey, Kit> = {
     chamada: "Blindagem premium para SUVs, picapes e utilitários",
     subtitulo:
       "Kit com 4 unidades de 1,2 L — nível máximo de proteção para veículos de grande porte.",
-    price: 129.79,
+    price: PRODUCTS["carro-19-23"].price,
     oldPrice: 340.2,
     images: [car19a, car19b, car19c, car19d, car19e, car19f, car19g],
     descricao: [
