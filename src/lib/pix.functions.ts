@@ -44,8 +44,6 @@ const createInputSchema = z.object({
   tracking: trackingSchema,
 });
 
-const SLUG = "zerofuro";
-
 // -------------------------- Yuvex resposta --------------------------
 
 type YuvexPixResponse = {
@@ -71,6 +69,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const apiKey = process.env.YUVEXPAY_API_KEY;
     if (!apiKey) throw new Error("YUVEXPAY_API_KEY não configurada");
+    const slug = "zerofuro";
 
     const product = PRODUCTS[data.productId as ProductId];
     if (!product) throw new Error(`Produto desconhecido: ${data.productId}`);
@@ -91,7 +90,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
     const productId = addOns.length ? `${data.productId}+${addOns.join("+")}` : data.productId;
     const productName = [product.name, ...addOnProducts.map((item) => item.name)].join(" + ");
 
-    const externalId = `${SLUG}-${crypto.randomUUID()}`;
+    const externalId = `${slug}-${crypto.randomUUID()}`;
 
     const yuvexRes = await fetch("https://api.yuvexpay.com/v1/payments", {
       method: "POST",
@@ -115,7 +114,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
           document: data.customer.document,
         },
         metadata: {
-          slug: SLUG,
+          slug,
           productId: data.productId,
           addOns,
           shippingId: data.shippingId,
