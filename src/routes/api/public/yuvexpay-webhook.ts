@@ -10,9 +10,9 @@ export const Route = createFileRoute("/api/public/yuvexpay-webhook")({
     handlers: {
       POST: async ({ request }) => {
         try {
-          const url = new URL(request.url);
+          // Aceita o token do hub APENAS via header — nunca via query string,
+          // que ficaria gravada em logs de servidor, CDN e Referer.
           const token =
-            url.searchParams.get("token") ||
             request.headers.get("x-hub-token") ||
             request.headers.get("x-forward-token") ||
             "";
@@ -140,9 +140,12 @@ export const Route = createFileRoute("/api/public/yuvexpay-webhook")({
 });
 
 function timingSafeEqualStr(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  // Comparação em tempo constante — sem short-circuit por diferença de tamanho.
+  const len = Math.max(a.length, b.length);
+  let diff = a.length ^ b.length;
+  for (let i = 0; i < len; i++) {
+    diff |= (a.charCodeAt(i) || 0) ^ (b.charCodeAt(i) || 0);
+  }
   return diff === 0;
 }
 

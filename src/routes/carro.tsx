@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setCartItem } from "@/lib/cart";
+import { PRODUCTS } from "@/lib/products";
 import {
   ShieldCheck,
   Truck,
@@ -84,7 +85,7 @@ const kits: Record<AroKey, Kit> = {
     chamada: "Blindagem essencial para aros 13, 14 e 15",
     subtitulo:
       "Kit com 4 unidades de 700 mL — a medida exata para carros de passeio e compactos.",
-    price: 95.0,
+    price: PRODUCTS["carro-13-15"].price,
     oldPrice: 259.0,
     images: [car1, car2, car3, car4, car5, car6],
     descricao: [
@@ -159,7 +160,7 @@ const kits: Record<AroKey, Kit> = {
     chamada: "Proteção especializada para aros 16, 17 e 18",
     subtitulo:
       "Kit com 4 unidades de 900 mL — dosagem otimizada para SUVs, sedãs médios, crossovers e picapes.",
-    price: 110.5,
+    price: PRODUCTS["carro-16-18"].price,
     oldPrice: 300.0,
     images: [car16f, car16a, car16b, car16c, car16d, car16e],
     descricao: [
@@ -234,7 +235,7 @@ const kits: Record<AroKey, Kit> = {
     chamada: "Blindagem premium para SUVs, picapes e utilitários",
     subtitulo:
       "Kit com 4 unidades de 1,2 L — nível máximo de proteção para veículos de grande porte.",
-    price: 129.79,
+    price: PRODUCTS["carro-19-23"].price,
     oldPrice: 340.2,
     images: [car19a, car19b, car19c, car19d, car19e, car19f, car19g],
     descricao: [
@@ -352,11 +353,16 @@ function CarroPage() {
 
 
 
+  const scrollTimerRef = useRef<number | null>(null);
+  useEffect(() => () => {
+    if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+  }, []);
+
   const selectAro = (k: AroKey) => {
     setAro(k);
     setActive(0);
-    // Scroll to product area after a tick.
-    setTimeout(() => {
+    if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+    scrollTimerRef.current = window.setTimeout(() => {
       document.getElementById("produto")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 60);
   };

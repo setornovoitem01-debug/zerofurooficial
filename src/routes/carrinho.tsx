@@ -21,7 +21,7 @@ import { clearCart, useCart } from "@/lib/cart";
 import { createPixCharge, getOrderStatus } from "@/lib/pix.functions";
 import { getTracking } from "@/lib/tracking";
 import { firePixelEvent } from "@/lib/pixel-events";
-import { COMPRESSOR_BUMP_ID, PRODUCTS, isSealantKitId } from "@/lib/products";
+import { COMPRESSOR_BUMP_ID, PRODUCTS, SHIPPING_PRICES, isSealantKitId } from "@/lib/products";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
@@ -50,9 +50,9 @@ type Address = {
 type ShippingOption = { id: string; label: string; eta: string; price: number };
 
 const SHIPPING_OPTIONS: ShippingOption[] = [
-  { id: "gratis", label: "Frete Grátis — Transportadora", eta: "7 a 10 dias úteis", price: 0 },
-  { id: "sedex", label: "Correios Sedex", eta: "3 a 5 dias úteis", price: 25.68 },
-  { id: "sedex12", label: "Correios Sedex 12", eta: "12 a 24 horas úteis", price: 68.75 },
+  { id: "gratis", label: "Frete Grátis — Transportadora", eta: "7 a 10 dias úteis", price: SHIPPING_PRICES.gratis },
+  { id: "sedex", label: "Correios Sedex", eta: "3 a 5 dias úteis", price: SHIPPING_PRICES.sedex },
+  { id: "sedex12", label: "Correios Sedex 12", eta: "12 a 24 horas úteis", price: SHIPPING_PRICES.sedex12 },
 ];
 
 const brl = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
@@ -81,7 +81,15 @@ function validEmail(s: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 }
 function validCpf(s: string) {
-  return onlyDigits(s).length === 11;
+  const d = onlyDigits(s);
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  const calc = (mod: number) => {
+    let sum = 0;
+    for (let i = 0; i < mod - 1; i++) sum += Number(d[i]) * (mod - i);
+    const r = (sum * 10) % 11;
+    return r === 10 ? 0 : r;
+  };
+  return calc(10) === Number(d[9]) && calc(11) === Number(d[10]);
 }
 
 function CarrinhoPage() {
@@ -220,10 +228,13 @@ function CarrinhoPage() {
   const fetchStatus = useServerFn(getOrderStatus);
   const purchaseFiredRef = useRef(false);
 
-  const shippingApiId = (shippingId ?? "gratis") as "gratis" | "sedex" | "sedex12";
-
   const handleGeneratePix = async () => {
     if (!cart || chargeLoading || charge) return;
+    if (!shippingId) {
+      setChargeError("Selecione uma opção de frete antes de gerar o PIX.");
+      return;
+    }
+    const shippingApiId = shippingId as "gratis" | "sedex" | "sedex12";
     setChargeError(null);
     setChargeLoading(true);
     try {
