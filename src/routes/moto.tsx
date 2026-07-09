@@ -257,10 +257,11 @@ function Reveal({
 
 function MotoPage() {
   const [motoKey, setMotoKey] = useState<MotoKey | null>(null);
+  const [active, setActive] = useState(0);
   const kit = motoKey ? kits[motoKey] : null;
   const navigate = useNavigate();
 
-  const preloadUrls = useMemo(() => (kit ? [kit.image] : []), [kit]);
+  const preloadUrls = useMemo(() => (kit ? kit.images.map((i) => i.url) : []), [kit]);
   useImagePreload(preloadUrls);
 
   const handleBuy = () => {
@@ -268,7 +269,7 @@ function MotoPage() {
     setCartItem({
       id: kit.productId,
       name: kit.titulo,
-      image: kit.image,
+      image: kit.images[0].url,
       price: kit.price,
       oldPrice: kit.oldPrice,
     });
@@ -277,6 +278,7 @@ function MotoPage() {
 
   const selectKit = (k: MotoKey) => {
     setMotoKey(k);
+    setActive(0);
     setTimeout(() => {
       document.getElementById("produto")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 60);
@@ -366,8 +368,8 @@ function MotoPage() {
               <div className="relative w-full max-w-lg mx-auto">
                 <div className="aspect-square rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] overflow-hidden flex items-center justify-center p-6 md:p-10">
                   <img
-                    key={kit.key}
-                    src={kit.image}
+                    key={`${kit.key}-${active}`}
+                    src={kit.images[active].url}
                     alt={kit.titulo}
                     loading="eager"
                     fetchPriority="high"
@@ -375,7 +377,43 @@ function MotoPage() {
                     className="w-full h-full object-contain animate-in fade-in duration-300"
                   />
                 </div>
+                {kit.images.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => setActive((a) => (a - 1 + kit.images.length) % kit.images.length)}
+                      aria-label="Imagem anterior"
+                      className="absolute left-2 md:-left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActive((a) => (a + 1) % kit.images.length)}
+                      aria-label="Próxima imagem"
+                      className="absolute right-2 md:-right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[color:var(--color-line)] shadow-md grid place-items-center hover:bg-[color:var(--color-surface)] transition"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                  </>
+                )}
               </div>
+              {kit.images.length > 1 && (
+                <div className="mt-4 flex items-center justify-center gap-2">
+                  {kit.images.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActive(i)}
+                      aria-label={`Ver imagem ${i + 1}`}
+                      className={`h-2 rounded-full transition-all ${
+                        active === i
+                          ? "w-6 bg-[color:var(--color-ink)]"
+                          : "w-2 bg-[color:var(--color-line)] hover:bg-[color:var(--color-ink-soft)]"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Painel de compra */}
