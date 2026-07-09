@@ -353,11 +353,16 @@ function CarroPage() {
 
 
 
+  const scrollTimerRef = useRef<number | null>(null);
+  useEffect(() => () => {
+    if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+  }, []);
+
   const selectAro = (k: AroKey) => {
     setAro(k);
     setActive(0);
-    // Scroll to product area after a tick.
-    setTimeout(() => {
+    if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+    scrollTimerRef.current = window.setTimeout(() => {
       document.getElementById("produto")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 60);
   };
