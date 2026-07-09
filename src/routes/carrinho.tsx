@@ -21,7 +21,7 @@ import { clearCart, useCart } from "@/lib/cart";
 import { createPixCharge, getOrderStatus } from "@/lib/pix.functions";
 import { getTracking } from "@/lib/tracking";
 import { firePixelEvent } from "@/lib/pixel-events";
-import { COMPRESSOR_BUMP_ID, PRODUCTS, isSealantKitId } from "@/lib/products";
+import { COMPRESSOR_BUMP_ID, PRODUCTS, SHIPPING_PRICES, isSealantKitId } from "@/lib/products";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
