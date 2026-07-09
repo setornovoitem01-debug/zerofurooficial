@@ -96,18 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" },
     ],
     scripts: [
-      // Meta Pixel (Facebook) — dispara PageView automático e habilita fbq('track', ...).
-      {
-        children: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1586417186407271');fbq('track','PageView');`,
-      },
-      // pixelId do Utmify injetado a partir do secret UTMIFY_PIXEL_ID.
-      // Bugfix: só define se ainda não existir — no cliente process.env é undefined
-      // e re-avaliar head() sobrescreveria o pixelId setado no SSR com string vazia.
-      {
-        children: `(function(){var v=${JSON.stringify(
-          (typeof process !== "undefined" && process.env?.UTMIFY_PIXEL_ID) || "",
-        )};if(v&&!window.pixelId){window.pixelId=v;}})();`,
-      },
+      // Externos podem ficar aqui — TanStack renderiza `src` corretamente.
       {
         src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
         async: true,
@@ -130,11 +119,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const META_PIXEL_ID = "1586417186407271";
+const META_PIXEL_SNIPPET = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${META_PIXEL_ID}');fbq('track','PageView');`;
+
 function RootShell({ children }: { children: ReactNode }) {
+  // Injeta scripts inline no <head> via dangerouslySetInnerHTML.
+  // Bugfix: `scripts.children` do head() estava vazando os últimos caracteres
+  // dos scripts inline como texto no <body>.
+  const utmifyPixelId =
+    (typeof process !== "undefined" && process.env?.UTMIFY_PIXEL_ID) || "";
   return (
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: META_PIXEL_SNIPPET }} />
+        {utmifyPixelId ? (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.pixelId=${JSON.stringify(utmifyPixelId)};`,
+            }}
+          />
+        ) : null}
       </head>
       <body>
         {children}
