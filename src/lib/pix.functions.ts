@@ -242,7 +242,7 @@ export const getOrderStatus = createServerFn({ method: "GET" })
     if (error) throw new Error(error.message);
     if (!row) return { status: "not_found" as const, paidAt: null, amount: 0 };
     return {
-      status: row.status as string,
+      status: String(row.status ?? "").toLowerCase(),
       paidAt: row.paid_at as string | null,
       amount: Number(row.amount),
     };

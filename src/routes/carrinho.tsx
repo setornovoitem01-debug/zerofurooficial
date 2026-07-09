@@ -885,18 +885,14 @@ function StepPagamento({
         )}
       </div>
 
-      {generated && (
+      {generated && paid && (
         <div className="mt-6">
           <button
             type="button"
             onClick={onFinish}
-            className={`w-full h-12 rounded-md font-semibold text-[15px] ${
-              paid
-                ? "cta-green"
-                : "border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)] hover:bg-white transition"
-            }`}
+            className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
           >
-            {paid ? "Pagamento confirmado" : "Finalizar pagamento"}
+            Pagamento confirmado
           </button>
         </div>
       )}

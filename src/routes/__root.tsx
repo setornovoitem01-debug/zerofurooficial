@@ -149,6 +149,7 @@ function initializeMarketingScripts() {
       fbq.queue = [];
       fbq.loaded = true;
       fbq.version = "2.0";
+      fbq.push = fbq;
       w.fbq = fbq;
       w._fbq = fbq;
     }
