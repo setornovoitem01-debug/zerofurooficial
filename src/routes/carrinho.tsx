@@ -13,12 +13,15 @@ import {
   QrCode,
   Loader2,
   AlertCircle,
+  Zap,
 } from "lucide-react";
 import logo from "@/assets/logo-zerofuro.png.asset.json";
+import compressorBumpImg from "@/assets/produto-1.png.asset.json";
 import { clearCart, useCart } from "@/lib/cart";
 import { createPixCharge, getOrderStatus } from "@/lib/pix.functions";
 import { getTracking } from "@/lib/tracking";
 import { firePixelEvent } from "@/lib/pixel-events";
+import { COMPRESSOR_BUMP_ID, PRODUCTS, isSealantKitId } from "@/lib/products";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
@@ -53,6 +56,16 @@ const SHIPPING_OPTIONS: ShippingOption[] = [
 ];
 
 const brl = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
+
+const COMPRESSOR_BUMP = {
+  id: COMPRESSOR_BUMP_ID,
+  name: PRODUCTS[COMPRESSOR_BUMP_ID].name,
+  image: compressorBumpImg.url,
+  price: PRODUCTS[COMPRESSOR_BUMP_ID].price,
+  oldPrice: 199.9,
+};
+
+type OrderAddOn = typeof COMPRESSOR_BUMP;
 
 const onlyDigits = (s: string) => s.replace(/\D+/g, "");
 const maskCpf = (s: string) =>
@@ -93,6 +106,7 @@ function CarrinhoPage() {
   const [shippingLoading, setShippingLoading] = useState(false);
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
   const [shippingId, setShippingId] = useState<string | null>(null);
+  const [compressorBumpSelected, setCompressorBumpSelected] = useState(false);
 
   // Dispara InitiateCheckout uma vez quando o carrinho carrega.
   const initiateFiredRef = useRef(false);
@@ -178,7 +192,16 @@ function CarrinhoPage() {
     [shippingOptions, shippingId],
   );
   const shippingPrice = shipping?.price ?? 0;
-  const total = cart ? cart.price + shippingPrice : 0;
+  const showCompressorBump = cart ? isSealantKitId(cart.id) : false;
+  useEffect(() => {
+    if (!showCompressorBump) setCompressorBumpSelected(false);
+  }, [showCompressorBump]);
+  const selectedAddOns = useMemo<OrderAddOn[]>(
+    () => (showCompressorBump && compressorBumpSelected ? [COMPRESSOR_BUMP] : []),
+    [showCompressorBump, compressorBumpSelected],
+  );
+  const addOnsTotal = selectedAddOns.reduce((sum, item) => sum + item.price, 0);
+  const total = cart ? cart.price + addOnsTotal + shippingPrice : 0;
 
   // ---------- PIX (YuvexPay via server function) ----------
   type PixCharge = {
@@ -208,6 +231,7 @@ function CarrinhoPage() {
         data: {
           productId: cart.id,
           shippingId: shippingApiId,
+          addOns: selectedAddOns.map((item) => item.id),
           customer: {
             name: identity.nome.trim(),
             email: identity.email.trim(),
@@ -230,8 +254,8 @@ function CarrinhoPage() {
       firePixelEvent("AddPaymentInfo", {
         value: result.amount,
         currency: "BRL",
-        content_ids: [cart.id],
-        content_name: cart.name,
+        content_ids: [cart.id, ...selectedAddOns.map((item) => item.id)],
+        content_name: [cart.name, ...selectedAddOns.map((item) => item.name)].join(" + "),
         order_id: result.externalId,
       });
     } catch (err) {
@@ -267,8 +291,8 @@ function CarrinhoPage() {
             firePixelEvent("Purchase", {
               value: r.amount || charge.amount,
               currency: "BRL",
-              content_ids: [cart.id],
-              content_name: cart.name,
+              content_ids: [cart.id, ...selectedAddOns.map((item) => item.id)],
+              content_name: [cart.name, ...selectedAddOns.map((item) => item.name)].join(" + "),
               order_id: charge.externalId,
             });
           }
@@ -282,7 +306,7 @@ function CarrinhoPage() {
       cancelled = true;
       if (interval !== null) window.clearInterval(interval);
     };
-  }, [charge, paid, fetchStatus, cart]);
+  }, [charge, paid, fetchStatus, cart, selectedAddOns]);
 
 
   if (!cart) {
@@ -399,6 +423,9 @@ function CarrinhoPage() {
                 charge={charge}
                 qrUrl={qrUrl}
                 total={total}
+                showCompressorBump={showCompressorBump}
+                compressorBumpSelected={compressorBumpSelected}
+                onCompressorBumpChange={setCompressorBumpSelected}
                 copied={copied}
                 paid={paid}
                 loading={chargeLoading}
@@ -414,7 +441,7 @@ function CarrinhoPage() {
             )}
           </div>
 
-          <ResumoPedido item={cart} shipping={shipping} total={total} />
+          <ResumoPedido item={cart} addOns={selectedAddOns} shipping={shipping} total={total} />
         </div>
       </div>
     </div>
@@ -722,6 +749,9 @@ function StepPagamento({
   charge,
   qrUrl,
   total,
+  showCompressorBump,
+  compressorBumpSelected,
+  onCompressorBumpChange,
   copied,
   paid,
   loading,
@@ -741,6 +771,9 @@ function StepPagamento({
   } | null;
   qrUrl: string;
   total: number;
+  showCompressorBump: boolean;
+  compressorBumpSelected: boolean;
+  onCompressorBumpChange: (selected: boolean) => void;
   copied: boolean;
   paid: boolean;
   loading: boolean;
@@ -764,6 +797,14 @@ function StepPagamento({
             ? "Aponte a câmera para o QR Code ou copie o código PIX no seu banco."
             : "Gere o seu QR Code para concluir o pagamento com aprovação imediata."}
       </p>
+
+      {showCompressorBump && (!generated || compressorBumpSelected) && (
+        <OrderBump
+          selected={compressorBumpSelected}
+          disabled={generated || loading}
+          onChange={onCompressorBumpChange}
+        />
+      )}
 
       <div className="mt-6 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] p-5 md:p-6">
         <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--color-brand)]">
@@ -889,6 +930,58 @@ function StepPagamento({
 
 // ---------- shared ----------
 
+function OrderBump({
+  selected,
+  disabled,
+  onChange,
+}: {
+  selected: boolean;
+  disabled: boolean;
+  onChange: (selected: boolean) => void;
+}) {
+  return (
+    <label
+      className={`mt-6 block rounded-xl border p-4 transition ${
+        selected
+          ? "border-emerald-600 bg-emerald-50/70 ring-2 ring-emerald-600/15"
+          : "border-[color:var(--color-line)] bg-white hover:border-[color:var(--color-brand)]"
+      } ${disabled ? "cursor-not-allowed opacity-85" : "cursor-pointer"}`}
+    >
+      <div className="flex gap-3">
+        <input
+          type="checkbox"
+          checked={selected}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.checked)}
+          className="mt-1 h-4 w-4 shrink-0 accent-emerald-600"
+        />
+        <div className="h-20 w-20 shrink-0 rounded-lg border border-[color:var(--color-line)] bg-[color:var(--color-surface)] p-2 grid place-items-center overflow-hidden">
+          <img src={COMPRESSOR_BUMP.image} alt="Compressor de ar portátil" className="max-h-full max-w-full object-contain" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--color-brand-soft)] px-2 py-1 text-[11px] font-semibold text-[color:var(--color-brand)]">
+            <Zap className="h-3 w-3" /> Oferta junto ao kit
+          </div>
+          <div className="mt-2 text-sm font-semibold leading-snug">
+            Adicionar compressor de ar portátil 3 em 1
+          </div>
+          <div className="mt-1 text-xs text-[color:var(--color-ink-soft)]">
+            Calibre pneus, use como lanterna e power bank.
+          </div>
+          <div className="mt-2 flex flex-wrap items-baseline gap-2">
+            <span className="text-xs text-[color:var(--color-ink-soft)] line-through">
+              {brl(COMPRESSOR_BUMP.oldPrice)}
+            </span>
+            <span className="text-base font-semibold text-emerald-700">
+              + {brl(COMPRESSOR_BUMP.price)}
+            </span>
+          </div>
+        </div>
+      </div>
+    </label>
+  );
+}
+
 function Field({
   label,
   error,
@@ -964,13 +1057,22 @@ function TrustFooter() {
 
 function ResumoPedido({
   item,
+  addOns,
   shipping,
   total,
 }: {
   item: { name: string; image: string; price: number; oldPrice?: number };
+  addOns: OrderAddOn[];
   shipping: ShippingOption | null;
   total: number;
 }) {
+  const productsSubtotal = item.price + addOns.reduce((sum, addOn) => sum + addOn.price, 0);
+  const savings =
+    (item.oldPrice && item.oldPrice > item.price ? item.oldPrice - item.price : 0) +
+    addOns.reduce(
+      (sum, addOn) => sum + (addOn.oldPrice && addOn.oldPrice > addOn.price ? addOn.oldPrice - addOn.price : 0),
+      0,
+    );
   return (
     <aside className="bg-white rounded-xl border border-[color:var(--color-line)] p-5 h-fit lg:sticky lg:top-24">
       <h3 className="text-sm font-semibold uppercase tracking-wider text-[color:var(--color-ink-soft)]">
@@ -986,10 +1088,22 @@ function ResumoPedido({
         </div>
       </div>
 
+      {addOns.map((addOn) => (
+        <div key={addOn.id} className="mt-3 flex gap-3 rounded-lg border border-emerald-200 bg-emerald-50/50 p-3">
+          <div className="h-14 w-14 shrink-0 rounded-md border border-[color:var(--color-line)] bg-white p-1.5 grid place-items-center overflow-hidden">
+            <img src={addOn.image} alt={addOn.name} className="max-h-full max-w-full object-contain" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-xs font-semibold leading-snug line-clamp-2">{addOn.name}</div>
+            <div className="mt-1 text-xs text-emerald-700 font-medium">Order bump: {brl(addOn.price)}</div>
+          </div>
+        </div>
+      ))}
+
       <dl className="mt-5 space-y-2 text-sm">
         <div className="flex justify-between">
           <dt className="text-[color:var(--color-ink-soft)]">Subtotal</dt>
-          <dd>{brl(item.price)}</dd>
+          <dd>{brl(productsSubtotal)}</dd>
         </div>
         <div className="flex justify-between">
           <dt className="text-[color:var(--color-ink-soft)]">
@@ -1008,11 +1122,11 @@ function ResumoPedido({
               : brl(shipping.price)}
           </dd>
         </div>
-        {item.oldPrice && item.oldPrice > item.price && (
+        {savings > 0 && (
           <div className="flex justify-between text-xs text-[color:var(--color-ink-soft)]">
             <dt>Você economiza</dt>
             <dd className="text-emerald-700 font-semibold">
-              {brl(item.oldPrice - item.price)}
+              {brl(savings)}
             </dd>
           </div>
         )}

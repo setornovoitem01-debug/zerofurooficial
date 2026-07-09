@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestIP, getRequestHeader } from "@tanstack/react-start/server";
 import { z } from "zod";
+import { PRODUCTS, SHIPPING_PRICES, isSealantKitId, type ProductId } from "./products";
 
 // -------------------------- Schemas --------------------------
 
@@ -37,31 +38,11 @@ const trackingSchema = z
 const createInputSchema = z.object({
   productId: z.string().min(1),
   shippingId: z.enum(["gratis", "sedex", "sedex12"]),
+  addOns: z.array(z.enum(["compressor-3em1"])).optional().default([]),
   customer: customerSchema,
   shipping: shippingSchema,
   tracking: trackingSchema,
 });
-
-// -------- Tabela de preços travada no servidor (nunca confie no cliente) --------
-
-type ProductRow = { name: string; price: number };
-const PRODUCTS: Record<string, ProductRow> = {
-  "carro-13-15": { name: "Kit Selante Zero Furo — Aro 13 a 15", price: 95.0 },
-  "carro-16-18": { name: "Kit Selante Zero Furo — Aro 16 a 18", price: 110.5 },
-  "carro-19-23": { name: "Kit Selante Zero Furo — Aro 19 a 23", price: 129.79 },
-  "compressor-3em1": {
-    name: "Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED",
-    price: 55.9,
-  },
-};
-
-const SHIPPING_PRICES: Record<"gratis" | "sedex" | "sedex12", number> = {
-  gratis: 0,
-  sedex: 25.68,
-  sedex12: 68.75,
-};
-
-const SLUG = "zerofuro";
 
 // -------------------------- Yuvex resposta --------------------------
 
@@ -88,15 +69,28 @@ export const createPixCharge = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const apiKey = process.env.YUVEXPAY_API_KEY;
     if (!apiKey) throw new Error("YUVEXPAY_API_KEY não configurada");
+    const slug = "zerofuro";
 
-    const product = PRODUCTS[data.productId];
+    const product = PRODUCTS[data.productId as ProductId];
     if (!product) throw new Error(`Produto desconhecido: ${data.productId}`);
 
-    const shippingPrice = SHIPPING_PRICES[data.shippingId];
-    const amount = Math.round((product.price + shippingPrice) * 100) / 100;
-    const amountCents = Math.round(amount * 100);
+    const addOns = Array.from(new Set(data.addOns));
+    if (addOns.length > 0 && !isSealantKitId(data.productId)) {
+      throw new Error("Order bump disponível apenas para kits de selante");
+    }
+    const addOnProducts = addOns.map((id) => ({ id, ...PRODUCTS[id] }));
 
-    const externalId = `${SLUG}-${crypto.randomUUID()}`;
+    const shippingPrice = SHIPPING_PRICES[data.shippingId];
+    const productsAmount = addOnProducts.reduce(
+      (sum, item) => sum + Number(item.price),
+      Number(product.price),
+    );
+    const amount = Math.round((productsAmount + shippingPrice) * 100) / 100;
+    const amountCents = Math.round(amount * 100);
+    const productId = addOns.length ? `${data.productId}+${addOns.join("+")}` : data.productId;
+    const productName = [product.name, ...addOnProducts.map((item) => item.name)].join(" + ");
+
+    const externalId = `${slug}-${crypto.randomUUID()}`;
 
     const yuvexRes = await fetch("https://api.yuvexpay.com/v1/payments", {
       method: "POST",
@@ -110,7 +104,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
         currency: "BRL",
         methods: ["PIX"],
         mode: "headless",
-        description: `Pedido Zero Furo — ${product.name}`,
+        description: `Pedido Zero Furo — ${productName}`,
         externalId,
         expiresInMinutes: 30,
         customer: {
@@ -120,8 +114,9 @@ export const createPixCharge = createServerFn({ method: "POST" })
           document: data.customer.document,
         },
         metadata: {
-          slug: SLUG,
+          slug,
           productId: data.productId,
+          addOns,
           shippingId: data.shippingId,
         },
       }),
@@ -157,9 +152,9 @@ export const createPixCharge = createServerFn({ method: "POST" })
       yuvex_tx_id: payment.txId,
       status: "pending",
       amount,
-      product_id: data.productId,
-      product_name: product.name,
-      units: 1,
+      product_id: productId,
+      product_name: productName,
+      units: 1 + addOnProducts.length,
       shipping_id: data.shippingId,
       shipping_price: shippingPrice,
       pix_copy_paste: method.pixCopyPaste,
@@ -189,7 +184,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
           phone: data.customer.phone,
           ip: customerIp,
         },
-        product: { id: data.productId, name: product.name, quantity: 1 },
+        product: { id: productId, name: productName, quantity: 1 + addOnProducts.length },
         tracking,
       });
     } catch (err) {
