@@ -6,6 +6,7 @@ import logo from "@/assets/logo-zerofuro.png.asset.json";
 import hero from "@/assets/hero-banner.jpg";
 import selanteImg from "@/assets/selante-carro-aro13-15-1.png.asset.json";
 import compressorImg from "@/assets/produto-1.png.asset.json";
+import motoImg from "@/assets/selante-moto.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -63,6 +64,12 @@ const categorias: Categoria[] = [
     descricao: "Prevenção contra furos: sela o pneu na hora, sem parar no acostamento.",
     imagem: selanteImg.url,
     to: "/carro",
+  },
+  {
+    nome: "Selante Zero Furo Para Sua Moto",
+    descricao: "Proteção sob medida para pneus de moto: segurança em cada curva.",
+    imagem: motoImg,
+    to: "/moto",
   },
   {
     nome: "Compressor de Ar Portátil 3 em 1",
