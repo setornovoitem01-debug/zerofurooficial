@@ -2,7 +2,7 @@ export const PRODUCTS = {
   "carro-13-15": { name: "Kit Selante Zero Furo — Aro 13 a 15", price: 95.0 },
   "carro-16-18": { name: "Kit Selante Zero Furo — Aro 16 a 18", price: 110.5 },
   "carro-19-23": { name: "Kit Selante Zero Furo — Aro 19 a 23", price: 129.79 },
-  "moto-125": { name: "Kit Selante Zero Furo Moto — até 125cc", price: 79.0 },
+  "moto-125": { name: "Kit Selante Zero Furo Moto — até 125cc", price: 39.9 },
   "moto-150-300": { name: "Kit Selante Zero Furo Moto — 150 a 300cc", price: 95.0 },
   "moto-350": { name: "Kit Selante Zero Furo Moto — 350cc ou mais", price: 115.0 },
   "compressor-3em1": {
