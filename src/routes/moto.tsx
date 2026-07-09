@@ -7,6 +7,8 @@ import {
   RefreshCcw,
   Lock,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Timer,
   BadgeCheck,
   Bike,
@@ -18,7 +20,12 @@ import { useReveal } from "@/hooks/useReveal";
 import { useImagePreload } from "@/hooks/useImagePreload";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
-import moto125 from "@/assets/selante-moto-125.jpg";
+import moto125_1 from "@/assets/selante-moto-125-1.png.asset.json";
+import moto125_2 from "@/assets/selante-moto-125-2.png.asset.json";
+import moto125_3 from "@/assets/selante-moto-125-3.png.asset.json";
+import moto125_4 from "@/assets/selante-moto-125-4.png.asset.json";
+import moto125_5 from "@/assets/selante-moto-125-5.png.asset.json";
+import moto125_6 from "@/assets/selante-moto-125-6.png.asset.json";
 import moto150 from "@/assets/selante-moto-150-300.jpg";
 import moto350 from "@/assets/selante-moto-350.jpg";
 import { PRODUCTS } from "@/lib/products";
@@ -53,7 +60,7 @@ type Kit = {
   subtitulo: string;
   price: number;
   oldPrice: number;
-  image: string;
+  images: { url: string }[];
   descricao: string[];
   destaques: string[];
   sections: { title: string; paragraphs?: string[]; bullets?: string[] }[];
@@ -67,52 +74,61 @@ const kits: Record<MotoKey, Kit> = {
   "125": {
     key: "125",
     productId: "moto-125",
-    titulo: "Selante Zero Furo Moto 250 ml - 2un",
-    chamada: "Para motos até 125 cilindradas",
+    titulo: "Kit 2 Unidades. Selante Zero Furo 400 ml Moto",
+    chamada: "Blindagem de alta performance para motos até 125cc",
     subtitulo:
-      "Kit com 2 unidades de 250 mL — dosagem exata para motos de baixa cilindrada, ideais para o uso urbano.",
+      "Kit com 2 unidades de 400 mL — dosagem ideal para motos urbanas e entregadores.",
     price: PRODUCTS["moto-125"].price,
     oldPrice: 189.0,
-    image: moto125,
+    images: [moto125_1, moto125_2, moto125_3, moto125_4, moto125_5, moto125_6],
     descricao: [
-      "O Selante Zero Furo Moto 250 mL foi desenvolvido sob medida para motos de até 125cc — perfeito para quem enfrenta o trânsito da cidade todos os dias.",
-      "Com a dosagem ideal para pneus de baixa cilindrada, o produto blinda o pneu por dentro e evita paradas indesejadas em pontos perigosos da via.",
+      "O Selante Zero Furo Moto 400 mL é o parceiro indispensável de quem vive sobre duas rodas e não pode perder tempo. Projetado especificamente para as necessidades de motociclistas urbanos e entregadores, este selante oferece uma blindagem interna ativa que veda furos instantaneamente de dentro para fora.",
+      "Diferente de soluções de emergência, o Zero Furo atua de forma preventiva. No momento em que um objeto perfura o pneu, a pressão interna força o selante contra o orifício, criando uma vedação permanente em segundos. Isso evita a perda de controle da moto e garante que você não fique parado em locais perigosos ou perca o prazo de suas entregas.",
     ],
     destaques: [
       "Indicado para motos até 125cc",
-      "Sela furos de até 4 mm na banda de rodagem",
-      "Fórmula à base de água, não tóxica",
-      "Não danifica o pneu nem a roda",
+      "Vedação instantânea contra furos de até 3 mm na banda de rodagem",
+      "Fórmula à base de água, não tóxica e não corrosiva",
+      "Não danifica a roda nem a estrutura do pneu",
     ],
     sections: [
       {
-        title: "Proteção para o dia a dia urbano",
+        title: "Nossa história: tecnologia brasileira a serviço da segurança",
         paragraphs: [
-          "Nossa fórmula com fibras sintéticas sela instantaneamente furos de até 4 mm na banda de rodagem, mantendo a pressão do pneu estável mesmo em vias esburacadas.",
-          "Com o Zero Furo Moto, você evita ter que empurrar a moto até o borracheiro mais próximo e mantém sua rotina em movimento.",
+          "A Zero Furo nasceu com o propósito de transformar a experiência de dirigir no Brasil. Entendemos que os imprevistos nas vias — de buracos a objetos perfurantes — geram riscos reais à vida, especialmente para os motociclistas.",
+          "Com tecnologia 100% brasileira, desenvolvemos uma fórmula que une química de ponta e consciência ambiental. Hoje, a Zero Furo é referência nacional em blindagem de pneus, oferecendo aos motociclistas a tranquilidade necessária para enfrentar o dia a dia com a garantia de que nada vai parar sua jornada.",
         ],
       },
       {
         title: "Principais características e benefícios",
         bullets: [
-          "Sob medida para motos urbanas de baixa cilindrada.",
-          "Vedação instantânea contra objetos perfurantes.",
-          "Reduz o risco de acidentes causados por perda súbita de ar.",
-          "Fórmula ecológica, à base de água e não inflamável.",
+          "Segurança em duas rodas: evita a perda súbita de pressão, reduzindo drasticamente o risco de quedas causadas por pneus murchos.",
+          "Vedação instantânea: proteção eficiente contra furos na banda de rodagem causados por objetos perfurantes comuns do asfalto.",
+          "Versatilidade total: eficaz em pneus sem câmara de ar (90% de proteção em furos de até 3 mm na banda de rodagem; nos ombros e laterais dos pneus não contém produto).",
+          "Durabilidade: age durante toda a vida útil do pneu (enquanto houver produto líquido no interior).",
+          "Tecnologia eco-friendly: fórmula à base de água, ecologicamente correta e não corrosiva. Não danifica a roda nem a estrutura do pneu.",
+        ],
+      },
+      {
+        title: "Por que escolher a Zero Furo?",
+        paragraphs: [
+          "Para quem anda de moto, tempo e segurança são preciosos. A Zero Furo elimina o pesadelo de ter que empurrar a moto ou procurar um borracheiro aberto no meio da noite.",
+          "É proteção invisível e constante: você aplica uma única vez e a blindagem trabalha por você a cada quilômetro.",
         ],
       },
     ],
     specs: [
       ["Marca", "Zero Furo Blindagem de Pneus"],
-      ["Volume", "250 mL (por pneu)"],
-      ["Indicação", "Motos até 125cc"],
-      ["Composição", "Selante à base de água com microfibras sintéticas"],
-      ["Aplicação", "Via válvula de ar ou interior do pneu"],
+      ["Volume", "400 mL"],
+      ["Indicação", "Ideal para motocicletas de até 125 cilindradas"],
+      ["Composição", "Selante à base de água com microfibras sintéticas de alta resistência"],
+      ["Aplicação", "Simples e rápida via válvula de ar"],
+      ["Compatibilidade", "Pneus sem câmara de ar"],
     ],
-    inclui: ["2x Selante Zero Furo Moto 250 mL", "Bico aplicador", "Manual de instrução"],
+    inclui: ["2x Selante Zero Furo Moto 400 mL", "Bico aplicador", "Manual de instrução"],
     composicao: ["Borracha Sintética", "Borracha Natural", "Resina", "Regulador de pH", "H₂O"],
     dica:
-      "Dica Zero Furo: para motos urbanas, aplique o selante preventivamente antes de longas jornadas na cidade. Um único frasco por pneu já garante proteção completa.",
+      "Dica Zero Furo: este sachê de 400 mL foi dimensionado para oferecer a cobertura perfeita para pneus de motos de até 125 cilindradas. Para garantir a máxima eficiência, utilize a dosagem completa conforme orientado em nossa tabela de aplicação oficial (disponível via QR Code).",
   },
   "150-300": {
     key: "150-300",
@@ -123,7 +139,7 @@ const kits: Record<MotoKey, Kit> = {
       "Kit com 2 unidades de 350 mL — dosagem ideal para motos de média cilindrada usadas no dia a dia e em estradas.",
     price: PRODUCTS["moto-150-300"].price,
     oldPrice: 229.0,
-    image: moto150,
+    images: [{ url: moto150 }],
     descricao: [
       "O Selante Zero Furo Moto 350 mL foi pensado para motos de 150 a 300cc — a faixa de motos mais versáteis do país, usadas tanto no trânsito quanto na estrada.",
       "A dosagem foi otimizada para garantir uma blindagem eficiente em pneus de porte médio, sem desperdício.",
@@ -173,7 +189,7 @@ const kits: Record<MotoKey, Kit> = {
       "Kit com 2 unidades de 500 mL — máxima proteção para big trails, esportivas e motos de alta cilindrada.",
     price: PRODUCTS["moto-350"].price,
     oldPrice: 279.0,
-    image: moto350,
+    images: [{ url: moto350 }],
     descricao: [
       "O Selante Zero Furo Moto 500 mL é a escolha definitiva para motos de 350cc ou mais — big trails, esportivas e naked de alta performance.",
       "A dosagem elevada garante blindagem completa em pneus maiores, mantendo a segurança em altas velocidades e em longas viagens.",
