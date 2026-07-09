@@ -230,7 +230,7 @@ function Landing() {
                 R$ <span className="font-medium">{price.toFixed(2).replace(".", ",")}</span>
               </div>
               <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1 rounded">
-                72% OFF
+                {discountPct}% OFF
               </span>
             </div>
           </div>
@@ -455,7 +455,7 @@ function Landing() {
         <Reveal>
           <div className="rounded-2xl bg-[color:var(--color-ink)] text-white px-6 py-10 md:px-12 md:py-14 text-center">
             <h3 className="text-2xl md:text-3xl font-semibold tracking-tight">
-              Leve o seu com <span className="text-emerald-400">72% de desconto</span>
+              Leve o seu com <span className="text-emerald-400">{discountPct}% de desconto</span>
             </h3>
             <p className="mt-3 text-white/70 max-w-xl mx-auto">
               Estoque limitado. Aproveite o preço promocional enquanto durar.
