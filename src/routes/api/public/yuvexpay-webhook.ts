@@ -61,7 +61,8 @@ export const Route = createFileRoute("/api/public/yuvexpay-webhook")({
             status === "CONFIRMED";
           const isExpired = event === "PAYMENT_EXPIRED" || status === "EXPIRED";
           const isRefunded = event === "PAYMENT_REFUNDED" || status === "REFUNDED";
-          const isCancelled = status === "CANCELLED";
+          const isCancelled = event === "PAYMENT_CANCELLED" || status === "CANCELLED";
+
 
           if (isPaid) {
             update.status = "paid";
