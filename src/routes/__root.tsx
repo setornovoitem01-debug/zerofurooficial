@@ -124,10 +124,11 @@ const META_PIXEL_SNIPPET = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=fun
 
 function RootShell({ children }: { children: ReactNode }) {
   // Injeta scripts inline no <head> via dangerouslySetInnerHTML.
-  // Bugfix: `scripts.children` do head() estava vazando os últimos caracteres
-  // dos scripts inline como texto no <body>.
-  const utmifyPixelId =
-    (typeof process !== "undefined" && process.env?.UTMIFY_PIXEL_ID) || "";
+  // Bugfix: `process.env.UTMIFY_PIXEL_ID` não é acessível no bundle do cliente
+  // (Vite só expõe VITE_*). Ler dele resultava em string vazia sempre — o
+  // script nunca era emitido. Usar `import.meta.env.VITE_UTMIFY_PIXEL_ID`
+  // funciona igualmente em SSR e no cliente, sem risco de hidratação divergente.
+  const utmifyPixelId = (import.meta.env.VITE_UTMIFY_PIXEL_ID as string | undefined) || "";
   return (
     <html lang="pt-BR">
       <head>
@@ -141,6 +142,7 @@ function RootShell({ children }: { children: ReactNode }) {
           />
         ) : null}
       </head>
+
       <body>
         {children}
         <Scripts />
