@@ -65,7 +65,7 @@ type YuvexPixResponse = {
 // -------------------------- createPixCharge --------------------------
 
 export const createPixCharge = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => createInputSchema.parse(data))
+  .validator((data: unknown) => createInputSchema.parse(data))
   .handler(async ({ data }) => {
     const apiKey = process.env.YUVEXPAY_API_KEY;
     if (!apiKey) throw new Error("YUVEXPAY_API_KEY não configurada");
@@ -128,9 +128,34 @@ export const createPixCharge = createServerFn({ method: "POST" })
       throw new Error(`Falha ao gerar Pix (${yuvexRes.status})`);
     }
 
-    const body = (await yuvexRes.json()) as YuvexPixResponse;
-    const payment = body.payment;
-    const method = payment.methodData;
+    const body = (await yuvexRes.json()) as Partial<YuvexPixResponse> & {
+      data?: Partial<YuvexPixResponse["payment"]>;
+      id?: string;
+      txId?: string;
+      amount?: number;
+      status?: string;
+      expiresAt?: string;
+      methodData?: YuvexPixResponse["payment"]["methodData"];
+      pixCopyPaste?: string;
+      qrCodeBase64?: string | null;
+      qrCodeUrl?: string | null;
+    };
+    const payment = body.payment ?? body.data ?? body;
+    if (!payment.id) {
+      console.error("[yuvexpay create] resposta sem id", JSON.stringify(body).slice(0, 800));
+      throw new Error("Falha ao gerar PIX: resposta inválida");
+    }
+    const method = payment.methodData ?? {
+      type: "PIX" as const,
+      pixCopyPaste: body.pixCopyPaste ?? "",
+      qrCodeBase64: body.qrCodeBase64 ?? null,
+      qrCodeUrl: body.qrCodeUrl ?? null,
+    };
+    if (!method.pixCopyPaste) {
+      console.error("[yuvexpay create] resposta sem PIX copia-e-cola", JSON.stringify(body).slice(0, 800));
+      throw new Error("Falha ao gerar PIX: código ausente");
+    }
+    const paymentExpiresAt = payment.expiresAt ?? new Date(Date.now() + 30 * 60 * 1000).toISOString();
 
     let customerIp: string | null = null;
     try {
@@ -149,7 +174,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
     const { error: insertErr } = await supabaseAdmin.from("orders").insert({
       external_id: externalId,
       yuvex_payment_id: payment.id,
-      yuvex_tx_id: payment.txId,
+      yuvex_tx_id: payment.txId ?? null,
       status: "pending",
       amount,
       product_id: productId,
@@ -162,7 +187,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
       customer: { ...data.customer, ip: customerIp },
       shipping_address: data.shipping,
       utm: tracking,
-      expires_at: payment.expiresAt,
+      expires_at: paymentExpiresAt,
     });
     if (insertErr) {
       console.error("[orders insert]", insertErr);
@@ -197,14 +222,14 @@ export const createPixCharge = createServerFn({ method: "POST" })
       pixCopyPaste: method.pixCopyPaste,
       qrCodeBase64: method.qrCodeBase64,
       qrCodeUrl: method.qrCodeUrl,
-      expiresAt: payment.expiresAt,
+      expiresAt: paymentExpiresAt,
     };
   });
 
 // -------------------------- getOrderStatus --------------------------
 
 export const getOrderStatus = createServerFn({ method: "GET" })
-  .inputValidator((data: unknown) =>
+  .validator((data: unknown) =>
     z.object({ externalId: z.string() }).parse(data),
   )
   .handler(async ({ data }) => {
