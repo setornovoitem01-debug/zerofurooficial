@@ -4,9 +4,9 @@ import { useReveal } from "@/hooks/useReveal";
 
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import hero from "@/assets/hero-banner.jpg";
-import selanteImg from "@/assets/selante-carro-aro13-15-1.png.asset.json";
+import selanteImg from "@/assets/categoria-carro.png.asset.json";
 import compressorImg from "@/assets/produto-1.png.asset.json";
-import motoImg from "@/assets/selante-moto.jpg";
+import motoImg from "@/assets/categoria-moto.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
