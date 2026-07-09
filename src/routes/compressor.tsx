@@ -107,15 +107,9 @@ function Landing() {
   const galleryUrls = useMemo(() => images.map((i) => i.url), []);
   useImagePreload(galleryUrls);
 
+  // CTA: leva o usuário até a grade principal na home, onde ocorre a compra real.
   const handleBuy = () => {
-    setCartItem({
-      id: "compressor-3em1",
-      name: "Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED",
-      image: images[0].url,
-      price,
-      oldPrice,
-    });
-    navigate({ to: "/carrinho" });
+    navigate({ to: "/", hash: "categorias" });
   };
 
 
