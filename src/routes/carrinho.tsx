@@ -242,10 +242,18 @@ function CarrinhoPage() {
   };
 
   // Poll de status: consulta a cada 4s enquanto houver pedido pendente.
+  // Bugfix: para o polling quando o PIX expira, evitando requisições eternas.
   useEffect(() => {
     if (!charge || paid) return;
+    const expiresAtMs = charge.expiresAt ? new Date(charge.expiresAt).getTime() : 0;
+    if (expiresAtMs && Date.now() >= expiresAtMs) return;
     let cancelled = false;
+    let interval: number | null = null;
     const tick = async () => {
+      if (expiresAtMs && Date.now() >= expiresAtMs) {
+        if (interval !== null) window.clearInterval(interval);
+        return;
+      }
       try {
         const r = await fetchStatus({ data: { externalId: charge.externalId } });
         if (cancelled) return;
@@ -266,10 +274,10 @@ function CarrinhoPage() {
         console.error("getOrderStatus failed", e);
       }
     };
-    const interval = window.setInterval(tick, 4000);
+    interval = window.setInterval(tick, 4000);
     return () => {
       cancelled = true;
-      window.clearInterval(interval);
+      if (interval !== null) window.clearInterval(interval);
     };
   }, [charge, paid, fetchStatus, cart]);
 
