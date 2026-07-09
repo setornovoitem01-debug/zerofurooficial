@@ -96,10 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" },
     ],
     scripts: [
-      // Meta Pixel (Facebook) — dispara PageView automático e habilita fbq('track', ...).
-      {
-        children: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1586417186407271');fbq('track','PageView');`,
-      },
+      // Externos podem ficar aqui — TanStack renderiza `src` corretamente.
       {
         src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
         async: true,
@@ -122,16 +119,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const META_PIXEL_ID = "1586417186407271";
+const META_PIXEL_SNIPPET = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${META_PIXEL_ID}');fbq('track','PageView');`;
+
 function RootShell({ children }: { children: ReactNode }) {
-  // Injeta window.pixelId ANTES do script do Utmify carregar. Renderizamos
-  // via dangerouslySetInnerHTML dentro do <head> — usar `scripts.children`
-  // do TanStack Start estava vazando o conteúdo como texto no <body>.
+  // Injeta scripts inline no <head> via dangerouslySetInnerHTML.
+  // Bugfix: `scripts.children` do head() estava vazando os últimos caracteres
+  // dos scripts inline como texto no <body>.
   const utmifyPixelId =
     (typeof process !== "undefined" && process.env?.UTMIFY_PIXEL_ID) || "";
   return (
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: META_PIXEL_SNIPPET }} />
         {utmifyPixelId ? (
           <script
             dangerouslySetInnerHTML={{
