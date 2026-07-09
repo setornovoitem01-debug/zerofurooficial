@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Check,
   ChevronLeft,
@@ -11,9 +12,13 @@ import {
   User,
   QrCode,
   Loader2,
+  AlertCircle,
 } from "lucide-react";
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import { clearCart, useCart } from "@/lib/cart";
+import { createPixCharge, getOrderStatus } from "@/lib/pix.functions";
+import { getTracking } from "@/lib/tracking";
+import { firePixelEvent } from "@/lib/pixel-events";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
