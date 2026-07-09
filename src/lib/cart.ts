@@ -31,7 +31,15 @@ function read(): CartItem | null {
   cachedRaw = raw;
   cacheInitialized = true;
   try {
-    cachedItem = raw ? (JSON.parse(raw) as CartItem) : null;
+    const parsed = raw ? JSON.parse(raw) : null;
+    cachedItem =
+      parsed &&
+      typeof parsed.id === "string" &&
+      typeof parsed.name === "string" &&
+      typeof parsed.image === "string" &&
+      typeof parsed.price === "number"
+        ? (parsed as CartItem)
+        : null;
   } catch {
     cachedItem = null;
   }
