@@ -26,7 +26,12 @@ import moto125_3 from "@/assets/selante-moto-125-3.png.asset.json";
 import moto125_4 from "@/assets/selante-moto-125-4.png.asset.json";
 import moto125_5 from "@/assets/selante-moto-125-5.png.asset.json";
 import moto125_6 from "@/assets/selante-moto-125-6.png.asset.json";
-import moto150 from "@/assets/selante-moto-150-300.jpg";
+import moto150_1 from "@/assets/selante-moto-150-300-1.png.asset.json";
+import moto150_2 from "@/assets/selante-moto-150-300-2.png.asset.json";
+import moto150_3 from "@/assets/selante-moto-150-300-3.png.asset.json";
+import moto150_4 from "@/assets/selante-moto-150-300-4.png.asset.json";
+import moto150_5 from "@/assets/selante-moto-150-300-5.png.asset.json";
+import moto150_6 from "@/assets/selante-moto-150-300-6.png.asset.json";
 import moto350 from "@/assets/selante-moto-350.jpg";
 import { PRODUCTS } from "@/lib/products";
 
