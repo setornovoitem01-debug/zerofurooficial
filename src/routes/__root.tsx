@@ -123,10 +123,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Injeta window.pixelId ANTES do script do Utmify carregar. Renderizamos
+  // via dangerouslySetInnerHTML dentro do <head> — usar `scripts.children`
+  // do TanStack Start estava vazando o conteúdo como texto no <body>.
+  const utmifyPixelId =
+    (typeof process !== "undefined" && process.env?.UTMIFY_PIXEL_ID) || "";
   return (
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        {utmifyPixelId ? (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.pixelId=${JSON.stringify(utmifyPixelId)};`,
+            }}
+          />
+        ) : null}
       </head>
       <body>
         {children}
