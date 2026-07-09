@@ -795,7 +795,7 @@ function StepPagamento({
           ? "Pagamento confirmado! Estamos preparando seu pedido."
           : generated
             ? "Aponte a câmera para o QR Code ou copie o código PIX no seu banco."
-            : "Gere o seu QR Code para concluir o pagamento com aprovação imediata."}
+            : "Confira o valor final e conclua para abrir o pagamento PIX."}
       </p>
 
       {showCompressorBump && (!generated || compressorBumpSelected) && (
@@ -807,35 +807,25 @@ function StepPagamento({
       )}
 
       <div className="mt-6 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] p-5 md:p-6">
-        <div className="text-xs font-semibold uppercase tracking-widest text-[color:var(--color-brand)]">
-          Total a pagar
+        <div className="rounded-xl border border-emerald-200 bg-white px-4 py-4 text-center shadow-sm">
+          <div className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--color-brand)]">
+            Valor final do pedido
+          </div>
+          <div className="mt-1 text-4xl font-semibold tracking-tight text-emerald-700">{brl(total)}</div>
+          <div className="mt-1 text-xs text-[color:var(--color-ink-soft)]">
+            PIX com confirmação automática
+          </div>
         </div>
-        <div className="mt-1 text-3xl font-semibold text-emerald-700">{brl(total)}</div>
 
         {!generated ? (
-          <div className="mt-6 flex flex-col items-center text-center gap-3">
-            <div className="h-40 w-40 rounded-lg border border-dashed border-[color:var(--color-line)] bg-white grid place-items-center text-[color:var(--color-ink-soft)]">
-              {loading ? (
-                <Loader2 className="h-10 w-10 animate-spin text-[color:var(--color-brand)]" />
-              ) : (
-                <QrCode className="h-10 w-10 opacity-50" />
-              )}
-            </div>
+          <div className="mt-5 flex flex-col items-center text-center gap-3">
             <button
               type="button"
               onClick={onGenerate}
               disabled={loading}
-              className="cta-green inline-flex items-center justify-center gap-2 h-12 px-8 rounded-md font-semibold text-[15px] disabled:opacity-60"
+              className="cta-green inline-flex w-full max-w-xs items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px] disabled:opacity-60"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Gerando PIX...
-                </>
-              ) : (
-                <>
-                  <QrCode className="h-4 w-4" /> Gerar QR Code PIX
-                </>
-              )}
+              {loading ? "Finalizando..." : "Finalizar pagamento"}
             </button>
             {error && (
               <div className="flex items-center gap-2 text-sm text-red-600">
