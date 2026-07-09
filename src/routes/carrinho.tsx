@@ -164,13 +164,102 @@ function CarrinhoPage() {
   const shippingPrice = shipping?.price ?? 0;
   const total = cart ? cart.price + shippingPrice : 0;
 
-  const pixCode = useMemo(() => {
-    if (!cart) return "";
-    const ref = Math.random().toString(36).slice(2, 10).toUpperCase();
-    return `00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865406${total
-      .toFixed(2)
-      .padStart(8, "0")}5802BR5913ZERO FURO LTDA6009SAO PAULO62070503${ref}6304ABCD`;
-  }, [cart, total]);
+  // ---------- PIX (YuvexPay via server function) ----------
+  type PixCharge = {
+    externalId: string;
+    amount: number;
+    pixCopyPaste: string;
+    qrCodeBase64: string | null;
+    qrCodeUrl?: string | null;
+    expiresAt: string;
+  };
+  const [charge, setCharge] = useState<PixCharge | null>(null);
+  const [chargeLoading, setChargeLoading] = useState(false);
+  const [chargeError, setChargeError] = useState<string | null>(null);
+  const [paid, setPaid] = useState(false);
+  const createCharge = useServerFn(createPixCharge);
+  const fetchStatus = useServerFn(getOrderStatus);
+  const purchaseFiredRef = useRef(false);
+
+  const shippingApiId = (shippingId ?? "gratis") as "gratis" | "sedex" | "sedex12";
+
+  const handleGeneratePix = async () => {
+    if (!cart || chargeLoading || charge) return;
+    setChargeError(null);
+    setChargeLoading(true);
+    try {
+      const result = await createCharge({
+        data: {
+          productId: cart.id,
+          shippingId: shippingApiId,
+          customer: {
+            name: identity.nome.trim(),
+            email: identity.email.trim(),
+            phone: onlyDigits(identity.telefone),
+            document: onlyDigits(identity.cpf),
+          },
+          shipping: {
+            cep: onlyDigits(address.cep),
+            address: address.rua,
+            number: address.numero,
+            complement: address.complemento,
+            neighborhood: address.bairro,
+            city: address.cidade,
+            state: address.uf,
+          },
+          tracking: getTracking(),
+        },
+      });
+      setCharge(result);
+      firePixelEvent("AddPaymentInfo", {
+        value: result.amount,
+        currency: "BRL",
+        content_ids: [cart.id],
+        content_name: cart.name,
+        order_id: result.externalId,
+      });
+    } catch (err) {
+      console.error("createPixCharge failed", err);
+      setChargeError(
+        err instanceof Error ? err.message : "Não foi possível gerar o PIX. Tente novamente.",
+      );
+    } finally {
+      setChargeLoading(false);
+    }
+  };
+
+  // Poll de status: consulta a cada 4s enquanto houver pedido pendente.
+  useEffect(() => {
+    if (!charge || paid) return;
+    let cancelled = false;
+    const tick = async () => {
+      try {
+        const r = await fetchStatus({ data: { externalId: charge.externalId } });
+        if (cancelled) return;
+        if (r.status === "paid") {
+          setPaid(true);
+          if (!purchaseFiredRef.current && cart) {
+            purchaseFiredRef.current = true;
+            firePixelEvent("Purchase", {
+              value: r.amount || charge.amount,
+              currency: "BRL",
+              content_ids: [cart.id],
+              content_name: cart.name,
+              order_id: charge.externalId,
+            });
+          }
+        }
+      } catch (e) {
+        console.error("getOrderStatus failed", e);
+      }
+    };
+    const interval = window.setInterval(tick, 4000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
+  }, [charge, paid, fetchStatus, cart]);
+
 
   if (!cart) {
     return (
