@@ -85,6 +85,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Zero Furo" },
+      { property: "og:title", content: "Zero Furo — Seu caminho mais seguro" },
+      {
+        property: "og:description",
+        content:
+          "Selante Zero Furo e Compressor de Ar Portátil 3 em 1: proteção e praticidade para nunca mais ficar na mão com pneu furado.",
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -143,6 +149,7 @@ function initializeMarketingScripts() {
       fbq.queue = [];
       fbq.loaded = true;
       fbq.version = "2.0";
+      fbq.push = fbq;
       w.fbq = fbq;
       w._fbq = fbq;
     }
@@ -169,12 +176,12 @@ function initializeMarketingScripts() {
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR">
-      <head>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head suppressHydrationWarning>
         <HeadContent />
       </head>
 
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <Scripts />
       </body>
