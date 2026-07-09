@@ -229,14 +229,12 @@ function CarrinhoPage() {
   const purchaseFiredRef = useRef(false);
 
   const handleGeneratePix = async () => {
+    if (!cart || chargeLoading || charge) return;
     if (!shippingId) {
       setChargeError("Selecione uma opção de frete antes de gerar o PIX.");
       return;
     }
     const shippingApiId = shippingId as "gratis" | "sedex" | "sedex12";
-
-  const handleGeneratePix = async () => {
-    if (!cart || chargeLoading || charge) return;
     setChargeError(null);
     setChargeLoading(true);
     try {
