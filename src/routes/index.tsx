@@ -68,7 +68,7 @@ const categorias: Categoria[] = [
   {
     nome: "Selante Zero Furo Para Sua Moto",
     descricao: "Proteção sob medida para pneus de moto: segurança em cada curva.",
-    imagem: motoImg,
+    imagem: motoImg.url,
     to: "/moto",
   },
   {
