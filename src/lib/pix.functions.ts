@@ -116,7 +116,7 @@ export const createPixCharge = createServerFn({ method: "POST" })
         metadata: {
           slug,
           productId: data.productId,
-          addOns,
+          addOns: addOns.join(","),
           shippingId: data.shippingId,
         },
       }),

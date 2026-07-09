@@ -17,7 +17,7 @@ export const Route = createFileRoute("/api/public/yuvexpay-webhook")({
             request.headers.get("x-forward-token") ||
             "";
           const expected = process.env.HUB_FORWARD_TOKEN || "";
-          if (!expected || token !== expected) {
+          if (!expected || !token || !timingSafeEqualStr(token, expected)) {
             console.error("[yuvexpay-webhook] token do hub inválido ou ausente");
             return ok();
           }
@@ -138,6 +138,13 @@ export const Route = createFileRoute("/api/public/yuvexpay-webhook")({
     },
   },
 });
+
+function timingSafeEqualStr(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
 
 function ok() {
   return new Response(JSON.stringify({ received: true }), {
