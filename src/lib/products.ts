@@ -2,6 +2,9 @@ export const PRODUCTS = {
   "carro-13-15": { name: "Kit Selante Zero Furo — Aro 13 a 15", price: 95.0 },
   "carro-16-18": { name: "Kit Selante Zero Furo — Aro 16 a 18", price: 110.5 },
   "carro-19-23": { name: "Kit Selante Zero Furo — Aro 19 a 23", price: 129.79 },
+  "moto-125": { name: "Kit Selante Zero Furo Moto — até 125cc", price: 79.0 },
+  "moto-150-300": { name: "Kit Selante Zero Furo Moto — 150 a 300cc", price: 95.0 },
+  "moto-350": { name: "Kit Selante Zero Furo Moto — 350cc ou mais", price: 115.0 },
   "compressor-3em1": {
     name: "Compressor de Ar Portátil 3 em 1 com Carregador Power Bank e Lanterna LED",
     price: 55.9,
@@ -20,6 +23,15 @@ export const SHIPPING_PRICES = {
 
 export type ShippingId = keyof typeof SHIPPING_PRICES;
 
-export function isSealantKitId(id: string): id is Extract<ProductId, `carro-${string}`> {
-  return id === "carro-13-15" || id === "carro-16-18" || id === "carro-19-23";
+export function isSealantKitId(
+  id: string,
+): id is Extract<ProductId, `carro-${string}` | `moto-${string}`> {
+  return (
+    id === "carro-13-15" ||
+    id === "carro-16-18" ||
+    id === "carro-19-23" ||
+    id === "moto-125" ||
+    id === "moto-150-300" ||
+    id === "moto-350"
+  );
 }
