@@ -10,9 +10,9 @@ export const Route = createFileRoute("/api/public/yuvexpay-webhook")({
     handlers: {
       POST: async ({ request }) => {
         try {
-          const url = new URL(request.url);
+          // Aceita o token do hub APENAS via header — nunca via query string,
+          // que ficaria gravada em logs de servidor, CDN e Referer.
           const token =
-            url.searchParams.get("token") ||
             request.headers.get("x-hub-token") ||
             request.headers.get("x-forward-token") ||
             "";
