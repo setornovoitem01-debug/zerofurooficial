@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MotoRouteImport } from './routes/moto'
 import { Route as CompressorRouteImport } from './routes/compressor'
 import { Route as CarroRouteImport } from './routes/carro'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicYuvexpayWebhookRouteImport } from './routes/api/public/yuvexpay-webhook'
 
+const MotoRoute = MotoRouteImport.update({
+  id: '/moto',
+  path: '/moto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompressorRoute = CompressorRouteImport.update({
   id: '/compressor',
   path: '/compressor',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/carrinho': typeof CarrinhoRoute
   '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
+  '/moto': typeof MotoRoute
   '/api/public/yuvexpay-webhook': typeof ApiPublicYuvexpayWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/carrinho': typeof CarrinhoRoute
   '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
+  '/moto': typeof MotoRoute
   '/api/public/yuvexpay-webhook': typeof ApiPublicYuvexpayWebhookRoute
 }
 export interface FileRoutesById {
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/carrinho': typeof CarrinhoRoute
   '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
+  '/moto': typeof MotoRoute
   '/api/public/yuvexpay-webhook': typeof ApiPublicYuvexpayWebhookRoute
 }
 export interface FileRouteTypes {
@@ -71,6 +80,7 @@ export interface FileRouteTypes {
     | '/carrinho'
     | '/carro'
     | '/compressor'
+    | '/moto'
     | '/api/public/yuvexpay-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/carrinho'
     | '/carro'
     | '/compressor'
+    | '/moto'
     | '/api/public/yuvexpay-webhook'
   id:
     | '__root__'
@@ -85,6 +96,7 @@ export interface FileRouteTypes {
     | '/carrinho'
     | '/carro'
     | '/compressor'
+    | '/moto'
     | '/api/public/yuvexpay-webhook'
   fileRoutesById: FileRoutesById
 }
@@ -93,11 +105,19 @@ export interface RootRouteChildren {
   CarrinhoRoute: typeof CarrinhoRoute
   CarroRoute: typeof CarroRoute
   CompressorRoute: typeof CompressorRoute
+  MotoRoute: typeof MotoRoute
   ApiPublicYuvexpayWebhookRoute: typeof ApiPublicYuvexpayWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/moto': {
+      id: '/moto'
+      path: '/moto'
+      fullPath: '/moto'
+      preLoaderRoute: typeof MotoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compressor': {
       id: '/compressor'
       path: '/compressor'
@@ -141,18 +161,9 @@ const rootRouteChildren: RootRouteChildren = {
   CarrinhoRoute: CarrinhoRoute,
   CarroRoute: CarroRoute,
   CompressorRoute: CompressorRoute,
+  MotoRoute: MotoRoute,
   ApiPublicYuvexpayWebhookRoute: ApiPublicYuvexpayWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
