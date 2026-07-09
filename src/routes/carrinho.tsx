@@ -695,23 +695,38 @@ function StepEndereco({
 // ---------- step 3 ----------
 
 function StepPagamento({
-  pixCode,
+  charge,
   qrUrl,
   total,
   copied,
+  paid,
+  loading,
+  error,
+  onGenerate,
   onCopy,
   onBack,
   onFinish,
 }: {
-  pixCode: string;
+  charge: {
+    externalId: string;
+    amount: number;
+    pixCopyPaste: string;
+    qrCodeBase64: string | null;
+    qrCodeUrl?: string | null;
+    expiresAt: string;
+  } | null;
   qrUrl: string;
   total: number;
   copied: boolean;
+  paid: boolean;
+  loading: boolean;
+  error: string | null;
+  onGenerate: () => void;
   onCopy: () => void;
   onBack: () => void;
   onFinish: () => void;
 }) {
-  const [generated, setGenerated] = useState(false);
+  const generated = !!charge;
   return (
     <div>
       <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-semibold">
@@ -719,9 +734,11 @@ function StepPagamento({
       </div>
       <h2 className="mt-3 text-xl md:text-2xl font-semibold tracking-tight">Pagamento via PIX</h2>
       <p className="mt-1 text-sm text-[color:var(--color-ink-soft)]">
-        {generated
-          ? "Aponte a câmera para o QR Code ou copie o código PIX no seu banco."
-          : "Gere o seu QR Code para concluir o pagamento com aprovação imediata."}
+        {paid
+          ? "Pagamento confirmado! Estamos preparando seu pedido."
+          : generated
+            ? "Aponte a câmera para o QR Code ou copie o código PIX no seu banco."
+            : "Gere o seu QR Code para concluir o pagamento com aprovação imediata."}
       </p>
 
       <div className="mt-6 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] p-5 md:p-6">
@@ -733,15 +750,33 @@ function StepPagamento({
         {!generated ? (
           <div className="mt-6 flex flex-col items-center text-center gap-3">
             <div className="h-40 w-40 rounded-lg border border-dashed border-[color:var(--color-line)] bg-white grid place-items-center text-[color:var(--color-ink-soft)]">
-              <QrCode className="h-10 w-10 opacity-50" />
+              {loading ? (
+                <Loader2 className="h-10 w-10 animate-spin text-[color:var(--color-brand)]" />
+              ) : (
+                <QrCode className="h-10 w-10 opacity-50" />
+              )}
             </div>
             <button
               type="button"
-              onClick={() => setGenerated(true)}
-              className="cta-green inline-flex items-center justify-center gap-2 h-12 px-8 rounded-md font-semibold text-[15px]"
+              onClick={onGenerate}
+              disabled={loading}
+              className="cta-green inline-flex items-center justify-center gap-2 h-12 px-8 rounded-md font-semibold text-[15px] disabled:opacity-60"
             >
-              <QrCode className="h-4 w-4" /> Gerar QR Code PIX
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Gerando PIX...
+                </>
+              ) : (
+                <>
+                  <QrCode className="h-4 w-4" /> Gerar QR Code PIX
+                </>
+              )}
             </button>
+            {error && (
+              <div className="flex items-center gap-2 text-sm text-red-600">
+                <AlertCircle className="h-4 w-4" /> {error}
+              </div>
+            )}
             <p className="text-xs text-[color:var(--color-ink-soft)]">
               Após gerar, você pode escanear ou copiar o código copia-e-cola.
             </p>
@@ -750,7 +785,13 @@ function StepPagamento({
           <>
             <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] items-center">
               <div className="bg-white p-3 rounded-lg border border-[color:var(--color-line)] mx-auto">
-                <img src={qrUrl} alt="QR Code PIX" width={200} height={200} className="block" />
+                {qrUrl ? (
+                  <img src={qrUrl} alt="QR Code PIX" width={200} height={200} className="block" />
+                ) : (
+                  <div className="h-[200px] w-[200px] grid place-items-center">
+                    <Loader2 className="h-8 w-8 animate-spin text-[color:var(--color-ink-soft)]" />
+                  </div>
+                )}
               </div>
               <ol className="space-y-1.5 text-sm text-[color:var(--color-ink-soft)]">
                 <li>1. Abra o app do seu banco e escolha pagar com PIX.</li>
@@ -766,7 +807,7 @@ function StepPagamento({
               <div className="mt-1.5 flex gap-2">
                 <input
                   readOnly
-                  value={pixCode}
+                  value={charge!.pixCopyPaste}
                   className="flex-1 h-11 px-3 rounded-md border border-[color:var(--color-line)] bg-white text-xs font-mono truncate"
                 />
                 <button
@@ -779,6 +820,12 @@ function StepPagamento({
                 </button>
               </div>
             </div>
+
+            {!paid && (
+              <div className="mt-4 flex items-center gap-2 text-sm text-[color:var(--color-ink-soft)]">
+                <Loader2 className="h-4 w-4 animate-spin" /> Aguardando confirmação do pagamento...
+              </div>
+            )}
           </>
         )}
       </div>
@@ -788,22 +835,28 @@ function StepPagamento({
           <button
             type="button"
             onClick={onFinish}
-            className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
+            className={`w-full h-12 rounded-md font-semibold text-[15px] ${
+              paid
+                ? "cta-green"
+                : "border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)] hover:bg-white transition"
+            }`}
           >
-            Já paguei — finalizar pedido
+            {paid ? "Pagamento confirmado — finalizar" : "Já paguei — finalizar pedido"}
           </button>
         </div>
       )}
 
-      <div className="mt-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="inline-flex items-center gap-1.5 text-sm text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition"
-        >
-          <ChevronLeft className="h-4 w-4" /> Voltar
-        </button>
-      </div>
+      {!generated && (
+        <div className="mt-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-1.5 text-sm text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition"
+          >
+            <ChevronLeft className="h-4 w-4" /> Voltar
+          </button>
+        </div>
+      )}
 
       <TrustFooter />
     </div>
