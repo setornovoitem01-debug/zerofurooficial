@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          amount: number
+          created_at: string
+          customer: Json
+          expires_at: string | null
+          external_id: string
+          id: string
+          paid_at: string | null
+          pix_copy_paste: string | null
+          pix_qr_code_base64: string | null
+          product_id: string
+          product_name: string
+          shipping_address: Json
+          shipping_id: string
+          shipping_price: number
+          status: string
+          units: number
+          updated_at: string
+          utm: Json
+          yuvex_payment_id: string | null
+          yuvex_tx_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          customer?: Json
+          expires_at?: string | null
+          external_id: string
+          id?: string
+          paid_at?: string | null
+          pix_copy_paste?: string | null
+          pix_qr_code_base64?: string | null
+          product_id: string
+          product_name: string
+          shipping_address?: Json
+          shipping_id: string
+          shipping_price?: number
+          status?: string
+          units?: number
+          updated_at?: string
+          utm?: Json
+          yuvex_payment_id?: string | null
+          yuvex_tx_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          customer?: Json
+          expires_at?: string | null
+          external_id?: string
+          id?: string
+          paid_at?: string | null
+          pix_copy_paste?: string | null
+          pix_qr_code_base64?: string | null
+          product_id?: string
+          product_name?: string
+          shipping_address?: Json
+          shipping_id?: string
+          shipping_price?: number
+          status?: string
+          units?: number
+          updated_at?: string
+          utm?: Json
+          yuvex_payment_id?: string | null
+          yuvex_tx_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
