@@ -101,10 +101,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1586417186407271');fbq('track','PageView');`,
       },
       // pixelId do Utmify injetado a partir do secret UTMIFY_PIXEL_ID.
+      // Bugfix: só define se ainda não existir — no cliente process.env é undefined
+      // e re-avaliar head() sobrescreveria o pixelId setado no SSR com string vazia.
       {
-        children: `window.pixelId = ${JSON.stringify(
+        children: `(function(){var v=${JSON.stringify(
           (typeof process !== "undefined" && process.env?.UTMIFY_PIXEL_ID) || "",
-        )};`,
+        )};if(v&&!window.pixelId){window.pixelId=v;}})();`,
       },
       {
         src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
