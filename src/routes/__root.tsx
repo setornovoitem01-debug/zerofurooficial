@@ -95,22 +95,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Only the weights actually used across the app — cuts font payload by ~50%.
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" },
     ],
-    scripts: [
-      // Externos podem ficar aqui — TanStack renderiza `src` corretamente.
-      {
-        src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
-        async: true,
-        defer: true,
-      },
-      {
-        src: "https://cdn.utmify.com.br/scripts/utms/latest.js",
-        async: true,
-        defer: true,
-        "data-utmify-prevent-xcod-sck": "",
-        "data-utmify-prevent-subids": "",
-      },
-    ],
-
   }),
 
   shellComponent: RootShell,
@@ -120,27 +104,74 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 const META_PIXEL_ID = "1586417186407271";
-const META_PIXEL_SNIPPET = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${META_PIXEL_ID}');fbq('track','PageView');`;
+
+type MarketingWindow = Window & {
+  fbq?: ((...args: unknown[]) => void) & {
+    callMethod?: (...args: unknown[]) => void;
+    queue?: unknown[];
+    loaded?: boolean;
+    version?: string;
+    push?: (...args: unknown[]) => void;
+  };
+  _fbq?: unknown;
+  pixelId?: string;
+  __zeroFuroMetaReady?: boolean;
+  __zeroFuroUtmifyReady?: boolean;
+};
+
+function appendExternalScript(id: string, src: string, attrs: Record<string, string> = {}) {
+  if (document.getElementById(id)) return;
+  const script = document.createElement("script");
+  script.id = id;
+  script.src = src;
+  script.async = true;
+  script.defer = true;
+  Object.entries(attrs).forEach(([key, value]) => script.setAttribute(key, value));
+  document.head.appendChild(script);
+}
+
+function initializeMarketingScripts() {
+  if (typeof window === "undefined") return;
+  const w = window as MarketingWindow;
+
+  if (!w.__zeroFuroMetaReady) {
+    if (!w.fbq) {
+      const fbq = function (...args: unknown[]) {
+        if (fbq.callMethod) fbq.callMethod(...args);
+        else fbq.queue?.push(args);
+      } as NonNullable<MarketingWindow["fbq"]>;
+      fbq.queue = [];
+      fbq.loaded = true;
+      fbq.version = "2.0";
+      w.fbq = fbq;
+      w._fbq = fbq;
+    }
+    appendExternalScript(
+      "zerofuro-meta-pixel",
+      "https://connect.facebook.net/en_US/fbevents.js",
+    );
+    w.fbq("init", META_PIXEL_ID);
+    w.fbq("track", "PageView");
+    w.__zeroFuroMetaReady = true;
+  }
+
+  if (!w.__zeroFuroUtmifyReady) {
+    const utmifyPixelId = (import.meta.env.VITE_UTMIFY_PIXEL_ID as string | undefined) || "";
+    if (utmifyPixelId && !w.pixelId) w.pixelId = utmifyPixelId;
+    appendExternalScript("zerofuro-utmify-pixel", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    appendExternalScript("zerofuro-utmify-utms", "https://cdn.utmify.com.br/scripts/utms/latest.js", {
+      "data-utmify-prevent-xcod-sck": "",
+      "data-utmify-prevent-subids": "",
+    });
+    w.__zeroFuroUtmifyReady = true;
+  }
+}
 
 function RootShell({ children }: { children: ReactNode }) {
-  // Injeta scripts inline no <head> via dangerouslySetInnerHTML.
-  // Bugfix: `process.env.UTMIFY_PIXEL_ID` não é acessível no bundle do cliente
-  // (Vite só expõe VITE_*). Ler dele resultava em string vazia sempre — o
-  // script nunca era emitido. Usar `import.meta.env.VITE_UTMIFY_PIXEL_ID`
-  // funciona igualmente em SSR e no cliente, sem risco de hidratação divergente.
-  const utmifyPixelId = (import.meta.env.VITE_UTMIFY_PIXEL_ID as string | undefined) || "";
   return (
     <html lang="pt-BR">
       <head>
         <HeadContent />
-        <script dangerouslySetInnerHTML={{ __html: META_PIXEL_SNIPPET }} />
-        {utmifyPixelId ? (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `window.pixelId=${JSON.stringify(utmifyPixelId)};`,
-            }}
-          />
-        ) : null}
       </head>
 
       <body>
@@ -155,6 +186,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   useEffect(() => {
+    initializeMarketingScripts();
     // Captura utm_source, utm_campaign, src, sck... na primeira visita.
     import("../lib/tracking").then((m) => m.captureTracking()).catch(() => {});
   }, []);

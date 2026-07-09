@@ -1,4 +1,7 @@
 @import "tailwindcss" source(none);
+@import "tw-animate-css";
+
+@source "../src";
 
 html {
   scroll-behavior: smooth;
@@ -30,9 +33,6 @@ html {
   .cta-green:hover,
   .cta-green:focus-visible { animation: none; transform: none; }
 }
-
-@source "../src";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
