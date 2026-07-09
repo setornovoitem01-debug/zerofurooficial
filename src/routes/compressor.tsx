@@ -103,6 +103,7 @@ function Landing() {
   const [active, setActive] = useState(0);
   const price = PRODUCTS["compressor-3em1"].price;
   const oldPrice = 199.9;
+  const discountPct = Math.round((1 - price / oldPrice) * 100);
   const navigate = useNavigate();
 
   // Pré-carrega toda a galeria — trocar de slide fica instantâneo.
