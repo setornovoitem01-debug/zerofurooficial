@@ -1,5 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { setCartItem } from "@/lib/cart";
+import { PRODUCTS } from "@/lib/products";
 
 import {
   ShieldCheck,
@@ -99,7 +101,7 @@ function Reveal({
 
 function Landing() {
   const [active, setActive] = useState(0);
-  const price = 55.9;
+  const price = PRODUCTS["compressor-3em1"].price;
   const oldPrice = 199.9;
   const navigate = useNavigate();
 
@@ -107,9 +109,21 @@ function Landing() {
   const galleryUrls = useMemo(() => images.map((i) => i.url), []);
   useImagePreload(galleryUrls);
 
-  // CTA: leva o usuário até a grade principal na home, onde ocorre a compra real.
-  const handleBuy = () => {
-    navigate({ to: "/", hash: "categorias" });
+  // CTAs internos apenas levam o usuário ao bloco principal de compra.
+  const handleCta = () => {
+    document.getElementById("comprar")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Único botão do compressor que realmente inicia checkout: grade/bloco principal.
+  const handlePrimaryBuy = () => {
+    setCartItem({
+      id: "compressor-3em1",
+      name: PRODUCTS["compressor-3em1"].name,
+      image: p1.url,
+      price,
+      oldPrice,
+    });
+    navigate({ to: "/carrinho" });
   };
 
 
@@ -140,7 +154,7 @@ function Landing() {
               Compressor de Ar Portátil Zero Furo: enche em minutos, carrega seu celular e ilumina o caminho. Tudo num único aparelho que cabe no porta-luvas.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 justify-center">
-                <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+                <button type="button" onClick={handleCta} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                   Quero o meu agora
                 </button>
                 <a href="#descricao" className="inline-flex items-center justify-center h-12 px-8 rounded-md border border-[color:var(--color-ink)] hover:bg-[color:var(--color-surface)] font-semibold text-[15px] transition">
@@ -230,7 +244,7 @@ function Landing() {
           <div className="mt-6">
             <button
               type="button"
-              onClick={handleBuy}
+              onClick={handlePrimaryBuy}
               className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
             >
               Comprar agora
@@ -304,7 +318,7 @@ function Landing() {
           ))}
         </div>
         <div className="mt-10 text-center">
-          <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+          <button type="button" onClick={handleCta} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
             Comprar agora
           </button>
         </div>
@@ -367,7 +381,7 @@ function Landing() {
 
           <Reveal delay={200}>
             <div className="mt-12 text-center">
-              <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+              <button type="button" onClick={handleCta} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                 Quero garantir o meu
               </button>
             </div>
@@ -446,7 +460,7 @@ function Landing() {
               Estoque limitado. Aproveite o preço promocional enquanto durar.
             </p>
             <div className="mt-6">
-              <button type="button" onClick={handleBuy} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
+              <button type="button" onClick={handleCta} className="cta-green inline-flex items-center justify-center h-12 px-8 rounded-md font-semibold text-[15px]">
                 Comprar agora por R$ 55,90
               </button>
             </div>
