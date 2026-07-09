@@ -127,7 +127,7 @@ function Home() {
           </h2>
         </Reveal>
 
-        <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10 max-w-3xl mx-auto">
+        <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 max-w-5xl mx-auto">
           {categorias.map(({ nome, descricao, imagem, to }, i) => (
             <Reveal key={nome} delay={i * 120}>
               <Link
