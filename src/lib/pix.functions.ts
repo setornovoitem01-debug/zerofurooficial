@@ -82,7 +82,10 @@ export const createPixCharge = createServerFn({ method: "POST" })
     const addOnProducts = addOns.map((id) => ({ id, ...PRODUCTS[id] }));
 
     const shippingPrice = SHIPPING_PRICES[data.shippingId];
-    const productsAmount = addOnProducts.reduce((sum, item) => sum + item.price, product.price);
+    const productsAmount = addOnProducts.reduce(
+      (sum, item) => sum + Number(item.price),
+      Number(product.price),
+    );
     const amount = Math.round((productsAmount + shippingPrice) * 100) / 100;
     const amountCents = Math.round(amount * 100);
     const productId = addOns.length ? `${data.productId}+${addOns.join("+")}` : data.productId;
