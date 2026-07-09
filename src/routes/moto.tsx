@@ -79,7 +79,7 @@ const kits: Record<MotoKey, Kit> = {
     subtitulo:
       "Kit com 2 unidades de 400 mL — dosagem ideal para motos urbanas e entregadores.",
     price: PRODUCTS["moto-125"].price,
-    oldPrice: 189.0,
+    oldPrice: 90.9,
     images: [moto125_1, moto125_2, moto125_3, moto125_4, moto125_5, moto125_6],
     descricao: [
       "O Selante Zero Furo Moto 400 mL é o parceiro indispensável de quem vive sobre duas rodas e não pode perder tempo. Projetado especificamente para as necessidades de motociclistas urbanos e entregadores, este selante oferece uma blindagem interna ativa que veda furos instantaneamente de dentro para fora.",
