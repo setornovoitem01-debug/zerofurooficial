@@ -317,8 +317,9 @@ function CarrinhoPage() {
   };
 
   const copyPix = async () => {
+    if (!charge) return;
     try {
-      await navigator.clipboard.writeText(pixCode);
+      await navigator.clipboard.writeText(charge.pixCopyPaste);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -326,9 +327,14 @@ function CarrinhoPage() {
     }
   };
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=0&data=${encodeURIComponent(
-    pixCode,
-  )}`;
+  const qrUrl = charge
+    ? charge.qrCodeBase64
+      ? `data:image/png;base64,${charge.qrCodeBase64}`
+      : charge.qrCodeUrl ||
+        `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=0&data=${encodeURIComponent(
+          charge.pixCopyPaste,
+        )}`
+    : "";
 
   return (
     <div className="min-h-screen bg-[color:var(--color-surface)] text-[color:var(--color-ink)] font-sans antialiased">
@@ -366,10 +372,14 @@ function CarrinhoPage() {
             )}
             {step === 3 && (
               <StepPagamento
-                pixCode={pixCode}
+                charge={charge}
                 qrUrl={qrUrl}
                 total={total}
                 copied={copied}
+                paid={paid}
+                loading={chargeLoading}
+                error={chargeError}
+                onGenerate={handleGeneratePix}
                 onCopy={copyPix}
                 onBack={() => setStep(2)}
                 onFinish={() => {
