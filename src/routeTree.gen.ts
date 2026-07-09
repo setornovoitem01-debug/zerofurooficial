@@ -13,6 +13,7 @@ import { Route as CompressorRouteImport } from './routes/compressor'
 import { Route as CarroRouteImport } from './routes/carro'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicYuvexpayWebhookRouteImport } from './routes/api/public/yuvexpay-webhook'
 
 const CompressorRoute = CompressorRouteImport.update({
   id: '/compressor',
@@ -34,18 +35,26 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicYuvexpayWebhookRoute =
+  ApiPublicYuvexpayWebhookRouteImport.update({
+    id: '/api/public/yuvexpay-webhook',
+    path: '/api/public/yuvexpay-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/carrinho': typeof CarrinhoRoute
   '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
+  '/api/public/yuvexpay-webhook': typeof ApiPublicYuvexpayWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/carrinho': typeof CarrinhoRoute
   '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
+  '/api/public/yuvexpay-webhook': typeof ApiPublicYuvexpayWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +62,30 @@ export interface FileRoutesById {
   '/carrinho': typeof CarrinhoRoute
   '/carro': typeof CarroRoute
   '/compressor': typeof CompressorRoute
+  '/api/public/yuvexpay-webhook': typeof ApiPublicYuvexpayWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/carrinho' | '/carro' | '/compressor'
+  fullPaths:
+    | '/'
+    | '/carrinho'
+    | '/carro'
+    | '/compressor'
+    | '/api/public/yuvexpay-webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/carrinho' | '/carro' | '/compressor'
-  id: '__root__' | '/' | '/carrinho' | '/carro' | '/compressor'
+  to:
+    | '/'
+    | '/carrinho'
+    | '/carro'
+    | '/compressor'
+    | '/api/public/yuvexpay-webhook'
+  id:
+    | '__root__'
+    | '/'
+    | '/carrinho'
+    | '/carro'
+    | '/compressor'
+    | '/api/public/yuvexpay-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +93,7 @@ export interface RootRouteChildren {
   CarrinhoRoute: typeof CarrinhoRoute
   CarroRoute: typeof CarroRoute
   CompressorRoute: typeof CompressorRoute
+  ApiPublicYuvexpayWebhookRoute: typeof ApiPublicYuvexpayWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/yuvexpay-webhook': {
+      id: '/api/public/yuvexpay-webhook'
+      path: '/api/public/yuvexpay-webhook'
+      fullPath: '/api/public/yuvexpay-webhook'
+      preLoaderRoute: typeof ApiPublicYuvexpayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +141,7 @@ const rootRouteChildren: RootRouteChildren = {
   CarrinhoRoute: CarrinhoRoute,
   CarroRoute: CarroRoute,
   CompressorRoute: CompressorRoute,
+  ApiPublicYuvexpayWebhookRoute: ApiPublicYuvexpayWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

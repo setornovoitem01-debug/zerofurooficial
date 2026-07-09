@@ -95,6 +95,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Only the weights actually used across the app — cuts font payload by ~50%.
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" },
     ],
+    scripts: [
+      // pixelId do Utmify injetado a partir do secret UTMIFY_PIXEL_ID.
+      {
+        children: `window.pixelId = ${JSON.stringify(
+          (typeof process !== "undefined" && process.env?.UTMIFY_PIXEL_ID) || "",
+        )};`,
+      },
+      {
+        src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
+        async: true,
+        defer: true,
+      },
+      {
+        src: "https://cdn.utmify.com.br/scripts/utms/latest.js",
+        async: true,
+        defer: true,
+        "data-utmify-prevent-xcod-sck": "",
+        "data-utmify-prevent-subids": "",
+      },
+    ],
   }),
 
   shellComponent: RootShell,
@@ -119,6 +139,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    // Captura utm_source, utm_campaign, src, sck... na primeira visita.
+    import("../lib/tracking").then((m) => m.captureTracking()).catch(() => {});
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

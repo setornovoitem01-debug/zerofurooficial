@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Check,
   ChevronLeft,
@@ -11,9 +12,13 @@ import {
   User,
   QrCode,
   Loader2,
+  AlertCircle,
 } from "lucide-react";
 import logo from "@/assets/logo-zerofuro.png.asset.json";
 import { clearCart, useCart } from "@/lib/cart";
+import { createPixCharge, getOrderStatus } from "@/lib/pix.functions";
+import { getTracking } from "@/lib/tracking";
+import { firePixelEvent } from "@/lib/pixel-events";
 
 export const Route = createFileRoute("/carrinho")({
   head: () => ({
@@ -89,6 +94,19 @@ function CarrinhoPage() {
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
   const [shippingId, setShippingId] = useState<string | null>(null);
 
+  // Dispara InitiateCheckout uma vez quando o carrinho carrega.
+  const initiateFiredRef = useRef(false);
+  useEffect(() => {
+    if (!cart || initiateFiredRef.current) return;
+    initiateFiredRef.current = true;
+    firePixelEvent("InitiateCheckout", {
+      value: cart.price,
+      currency: "BRL",
+      content_ids: [cart.id],
+      content_name: cart.name,
+    });
+  }, [cart]);
+
   // Buscar CEP via ViaCEP
   useEffect(() => {
     const cep = onlyDigits(address.cep);
@@ -159,13 +177,102 @@ function CarrinhoPage() {
   const shippingPrice = shipping?.price ?? 0;
   const total = cart ? cart.price + shippingPrice : 0;
 
-  const pixCode = useMemo(() => {
-    if (!cart) return "";
-    const ref = Math.random().toString(36).slice(2, 10).toUpperCase();
-    return `00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865406${total
-      .toFixed(2)
-      .padStart(8, "0")}5802BR5913ZERO FURO LTDA6009SAO PAULO62070503${ref}6304ABCD`;
-  }, [cart, total]);
+  // ---------- PIX (YuvexPay via server function) ----------
+  type PixCharge = {
+    externalId: string;
+    amount: number;
+    pixCopyPaste: string;
+    qrCodeBase64: string | null;
+    qrCodeUrl?: string | null;
+    expiresAt: string;
+  };
+  const [charge, setCharge] = useState<PixCharge | null>(null);
+  const [chargeLoading, setChargeLoading] = useState(false);
+  const [chargeError, setChargeError] = useState<string | null>(null);
+  const [paid, setPaid] = useState(false);
+  const createCharge = useServerFn(createPixCharge);
+  const fetchStatus = useServerFn(getOrderStatus);
+  const purchaseFiredRef = useRef(false);
+
+  const shippingApiId = (shippingId ?? "gratis") as "gratis" | "sedex" | "sedex12";
+
+  const handleGeneratePix = async () => {
+    if (!cart || chargeLoading || charge) return;
+    setChargeError(null);
+    setChargeLoading(true);
+    try {
+      const result = await createCharge({
+        data: {
+          productId: cart.id,
+          shippingId: shippingApiId,
+          customer: {
+            name: identity.nome.trim(),
+            email: identity.email.trim(),
+            phone: onlyDigits(identity.telefone),
+            document: onlyDigits(identity.cpf),
+          },
+          shipping: {
+            cep: onlyDigits(address.cep),
+            address: address.rua,
+            number: address.numero,
+            complement: address.complemento,
+            neighborhood: address.bairro,
+            city: address.cidade,
+            state: address.uf,
+          },
+          tracking: getTracking(),
+        },
+      });
+      setCharge(result);
+      firePixelEvent("AddPaymentInfo", {
+        value: result.amount,
+        currency: "BRL",
+        content_ids: [cart.id],
+        content_name: cart.name,
+        order_id: result.externalId,
+      });
+    } catch (err) {
+      console.error("createPixCharge failed", err);
+      setChargeError(
+        err instanceof Error ? err.message : "Não foi possível gerar o PIX. Tente novamente.",
+      );
+    } finally {
+      setChargeLoading(false);
+    }
+  };
+
+  // Poll de status: consulta a cada 4s enquanto houver pedido pendente.
+  useEffect(() => {
+    if (!charge || paid) return;
+    let cancelled = false;
+    const tick = async () => {
+      try {
+        const r = await fetchStatus({ data: { externalId: charge.externalId } });
+        if (cancelled) return;
+        if (r.status === "paid") {
+          setPaid(true);
+          if (!purchaseFiredRef.current && cart) {
+            purchaseFiredRef.current = true;
+            firePixelEvent("Purchase", {
+              value: r.amount || charge.amount,
+              currency: "BRL",
+              content_ids: [cart.id],
+              content_name: cart.name,
+              order_id: charge.externalId,
+            });
+          }
+        }
+      } catch (e) {
+        console.error("getOrderStatus failed", e);
+      }
+    };
+    const interval = window.setInterval(tick, 4000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
+  }, [charge, paid, fetchStatus, cart]);
+
 
   if (!cart) {
     return (
@@ -223,8 +330,9 @@ function CarrinhoPage() {
   };
 
   const copyPix = async () => {
+    if (!charge) return;
     try {
-      await navigator.clipboard.writeText(pixCode);
+      await navigator.clipboard.writeText(charge.pixCopyPaste);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -232,9 +340,14 @@ function CarrinhoPage() {
     }
   };
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=0&data=${encodeURIComponent(
-    pixCode,
-  )}`;
+  const qrUrl = charge
+    ? charge.qrCodeBase64
+      ? `data:image/png;base64,${charge.qrCodeBase64}`
+      : charge.qrCodeUrl ||
+        `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=0&data=${encodeURIComponent(
+          charge.pixCopyPaste,
+        )}`
+    : "";
 
   return (
     <div className="min-h-screen bg-[color:var(--color-surface)] text-[color:var(--color-ink)] font-sans antialiased">
@@ -272,10 +385,14 @@ function CarrinhoPage() {
             )}
             {step === 3 && (
               <StepPagamento
-                pixCode={pixCode}
+                charge={charge}
                 qrUrl={qrUrl}
                 total={total}
                 copied={copied}
+                paid={paid}
+                loading={chargeLoading}
+                error={chargeError}
+                onGenerate={handleGeneratePix}
                 onCopy={copyPix}
                 onBack={() => setStep(2)}
                 onFinish={() => {
@@ -591,23 +708,38 @@ function StepEndereco({
 // ---------- step 3 ----------
 
 function StepPagamento({
-  pixCode,
+  charge,
   qrUrl,
   total,
   copied,
+  paid,
+  loading,
+  error,
+  onGenerate,
   onCopy,
   onBack,
   onFinish,
 }: {
-  pixCode: string;
+  charge: {
+    externalId: string;
+    amount: number;
+    pixCopyPaste: string;
+    qrCodeBase64: string | null;
+    qrCodeUrl?: string | null;
+    expiresAt: string;
+  } | null;
   qrUrl: string;
   total: number;
   copied: boolean;
+  paid: boolean;
+  loading: boolean;
+  error: string | null;
+  onGenerate: () => void;
   onCopy: () => void;
   onBack: () => void;
   onFinish: () => void;
 }) {
-  const [generated, setGenerated] = useState(false);
+  const generated = !!charge;
   return (
     <div>
       <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-semibold">
@@ -615,9 +747,11 @@ function StepPagamento({
       </div>
       <h2 className="mt-3 text-xl md:text-2xl font-semibold tracking-tight">Pagamento via PIX</h2>
       <p className="mt-1 text-sm text-[color:var(--color-ink-soft)]">
-        {generated
-          ? "Aponte a câmera para o QR Code ou copie o código PIX no seu banco."
-          : "Gere o seu QR Code para concluir o pagamento com aprovação imediata."}
+        {paid
+          ? "Pagamento confirmado! Estamos preparando seu pedido."
+          : generated
+            ? "Aponte a câmera para o QR Code ou copie o código PIX no seu banco."
+            : "Gere o seu QR Code para concluir o pagamento com aprovação imediata."}
       </p>
 
       <div className="mt-6 rounded-xl border border-[color:var(--color-line)] bg-[color:var(--color-surface)] p-5 md:p-6">
@@ -629,15 +763,33 @@ function StepPagamento({
         {!generated ? (
           <div className="mt-6 flex flex-col items-center text-center gap-3">
             <div className="h-40 w-40 rounded-lg border border-dashed border-[color:var(--color-line)] bg-white grid place-items-center text-[color:var(--color-ink-soft)]">
-              <QrCode className="h-10 w-10 opacity-50" />
+              {loading ? (
+                <Loader2 className="h-10 w-10 animate-spin text-[color:var(--color-brand)]" />
+              ) : (
+                <QrCode className="h-10 w-10 opacity-50" />
+              )}
             </div>
             <button
               type="button"
-              onClick={() => setGenerated(true)}
-              className="cta-green inline-flex items-center justify-center gap-2 h-12 px-8 rounded-md font-semibold text-[15px]"
+              onClick={onGenerate}
+              disabled={loading}
+              className="cta-green inline-flex items-center justify-center gap-2 h-12 px-8 rounded-md font-semibold text-[15px] disabled:opacity-60"
             >
-              <QrCode className="h-4 w-4" /> Gerar QR Code PIX
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Gerando PIX...
+                </>
+              ) : (
+                <>
+                  <QrCode className="h-4 w-4" /> Gerar QR Code PIX
+                </>
+              )}
             </button>
+            {error && (
+              <div className="flex items-center gap-2 text-sm text-red-600">
+                <AlertCircle className="h-4 w-4" /> {error}
+              </div>
+            )}
             <p className="text-xs text-[color:var(--color-ink-soft)]">
               Após gerar, você pode escanear ou copiar o código copia-e-cola.
             </p>
@@ -646,7 +798,13 @@ function StepPagamento({
           <>
             <div className="mt-6 grid gap-6 md:grid-cols-[auto_1fr] items-center">
               <div className="bg-white p-3 rounded-lg border border-[color:var(--color-line)] mx-auto">
-                <img src={qrUrl} alt="QR Code PIX" width={200} height={200} className="block" />
+                {qrUrl ? (
+                  <img src={qrUrl} alt="QR Code PIX" width={200} height={200} className="block" />
+                ) : (
+                  <div className="h-[200px] w-[200px] grid place-items-center">
+                    <Loader2 className="h-8 w-8 animate-spin text-[color:var(--color-ink-soft)]" />
+                  </div>
+                )}
               </div>
               <ol className="space-y-1.5 text-sm text-[color:var(--color-ink-soft)]">
                 <li>1. Abra o app do seu banco e escolha pagar com PIX.</li>
@@ -662,7 +820,7 @@ function StepPagamento({
               <div className="mt-1.5 flex gap-2">
                 <input
                   readOnly
-                  value={pixCode}
+                  value={charge!.pixCopyPaste}
                   className="flex-1 h-11 px-3 rounded-md border border-[color:var(--color-line)] bg-white text-xs font-mono truncate"
                 />
                 <button
@@ -675,6 +833,12 @@ function StepPagamento({
                 </button>
               </div>
             </div>
+
+            {!paid && (
+              <div className="mt-4 flex items-center gap-2 text-sm text-[color:var(--color-ink-soft)]">
+                <Loader2 className="h-4 w-4 animate-spin" /> Aguardando confirmação do pagamento...
+              </div>
+            )}
           </>
         )}
       </div>
@@ -684,22 +848,28 @@ function StepPagamento({
           <button
             type="button"
             onClick={onFinish}
-            className="cta-green w-full h-12 rounded-md font-semibold text-[15px]"
+            className={`w-full h-12 rounded-md font-semibold text-[15px] ${
+              paid
+                ? "cta-green"
+                : "border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)] hover:bg-white transition"
+            }`}
           >
-            Já paguei — finalizar pedido
+            {paid ? "Pagamento confirmado — finalizar" : "Já paguei — finalizar pedido"}
           </button>
         </div>
       )}
 
-      <div className="mt-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="inline-flex items-center gap-1.5 text-sm text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition"
-        >
-          <ChevronLeft className="h-4 w-4" /> Voltar
-        </button>
-      </div>
+      {!generated && (
+        <div className="mt-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-1.5 text-sm text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition"
+          >
+            <ChevronLeft className="h-4 w-4" /> Voltar
+          </button>
+        </div>
+      )}
 
       <TrustFooter />
     </div>
