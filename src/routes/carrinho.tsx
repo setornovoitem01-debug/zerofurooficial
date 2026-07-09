@@ -896,7 +896,7 @@ function StepPagamento({
                 : "border border-[color:var(--color-line)] text-[color:var(--color-ink-soft)] hover:bg-white transition"
             }`}
           >
-            {paid ? "Pagamento confirmado — finalizar" : "Já paguei — finalizar pedido"}
+            {paid ? "Pagamento confirmado" : "Finalizar pagamento"}
           </button>
         </div>
       )}
