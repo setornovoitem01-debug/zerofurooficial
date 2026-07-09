@@ -94,6 +94,19 @@ function CarrinhoPage() {
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
   const [shippingId, setShippingId] = useState<string | null>(null);
 
+  // Dispara InitiateCheckout uma vez quando o carrinho carrega.
+  const initiateFiredRef = useRef(false);
+  useEffect(() => {
+    if (!cart || initiateFiredRef.current) return;
+    initiateFiredRef.current = true;
+    firePixelEvent("InitiateCheckout", {
+      value: cart.price,
+      currency: "BRL",
+      content_ids: [cart.id],
+      content_name: cart.name,
+    });
+  }, [cart]);
+
   // Buscar CEP via ViaCEP
   useEffect(() => {
     const cep = onlyDigits(address.cep);
